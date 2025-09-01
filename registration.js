@@ -25,20 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     } catch (e) {
         console.error('❌ Firebase initialization error:', e.message);
-        // Hide all register buttons if Firebase fails to load
         document.querySelectorAll('.event-register, .register-btn').forEach(btn => btn.style.display = 'none');
-        return; // Stop the script if Firebase isn't configured
+        return;
     }
 
-    // --- DOM Element Selection ---
+    // --- DOM Element Selection (Fixed to match your HTML structure) ---
     const modalOverlay = document.getElementById('registration-modal-overlay');
     const modal = document.getElementById('registration-modal');
     const closeBtn = document.querySelector('.modal-close-btn');
     const registerButtons = document.querySelectorAll('.event-register');
+    
+    // Fixed: Using your actual HTML structure
     const descriptionView = document.getElementById('description-view');
-    const registrationFormView = document.getElementById('registration-form-view'); // Fixed: separate form view
-    const registrationForm = document.querySelector('#registration-form-view form'); // Fixed: select actual form element
+    const registrationFormView = document.getElementById('registration-form'); // Fixed: matches your HTML
+    const registrationForm = document.getElementById('registration-form'); // Fixed: direct form selection
     const confirmationView = document.getElementById('confirmation-view');
+    
     const continueToFormBtn = document.getElementById('continue-to-form-btn');
     const eventNameDisplay = document.getElementById('event-name-display');
     const eventNameDisplayDesc = document.getElementById('event-name-display-desc');
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     let currentEventData = { name: '', amount: 6000 };
-    let isProcessing = false; // Add flag to prevent double submissions
+    let isProcessing = false;
 
     // --- Utility Functions ---
     function generateRegistrationId() {
@@ -88,6 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         logDebug('Populating departments dropdown');
+        // Clear existing options first
+        departmentSelect.innerHTML = '<option value="">Select your department</option>';
+        
         departments.forEach(dept => {
             departmentSelect.appendChild(new Option(dept, dept));
         });
@@ -103,9 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (eventNameDisplay) eventNameDisplay.textContent = eventName;
         if (eventNameDisplayDesc) eventNameDisplayDesc.textContent = eventName;
         
-        // Reset modal state
-        if (descriptionView) descriptionView.style.display = 'block';
-        if (registrationFormView) registrationFormView.style.display = 'none';
+        // Reset modal state - show description first
+        showDescriptionView();
+        
+        // Clear confirmation and reset form
         if (confirmationView) confirmationView.innerHTML = '';
         if (registrationForm) registrationForm.reset();
         
@@ -114,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOverlay.classList.add('is-visible');
             document.body.style.overflow = 'hidden';
         }
+        
+        logDebug('Modal opened successfully');
     }
 
     function closeModal() {
@@ -122,7 +130,52 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOverlay.classList.remove('is-visible');
             document.body.style.overflow = '';
         }
-        isProcessing = false; // Reset processing flag
+        isProcessing = false;
+    }
+
+    function showDescriptionView() {
+        logDebug('Showing description view');
+        if (descriptionView) {
+            descriptionView.style.display = 'block';
+            logDebug('Description view shown');
+        } else {
+            logDebug('❌ Description view element not found');
+        }
+        
+        if (registrationFormView) {
+            registrationFormView.style.display = 'none';
+            logDebug('Registration form hidden');
+        } else {
+            logDebug('❌ Registration form view element not found');
+        }
+        
+        if (confirmationView) {
+            confirmationView.style.display = 'none';
+        }
+    }
+
+    function showRegistrationForm() {
+        logDebug('Showing registration form');
+        if (descriptionView) {
+            descriptionView.style.display = 'none';
+            logDebug('Description view hidden');
+        }
+        
+        if (registrationFormView) {
+            registrationFormView.style.display = 'block';
+            logDebug('Registration form shown');
+        } else {
+            logDebug('❌ Registration form view element not found');
+            showError('Registration form not found. Please check HTML structure.');
+            return;
+        }
+        
+        if (confirmationView) {
+            confirmationView.style.display = 'none';
+        }
+        
+        // Populate departments when showing form
+        populateDepartments();
     }
 
     // --- Registration Form Handling ---
@@ -134,27 +187,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        isProcessing = true; // Set processing flag
+        isProcessing = true;
         logDebug('Starting registration submission');
 
-        const submitBtn = registrationForm.querySelector('button[type="submit"]');
+        const submitBtn = registrationForm.querySelector('button[type="submit"]') || 
+                          registrationForm.querySelector('.submit-btn');
+        
         if (!submitBtn) {
-            showError('Submit button not found');
+            showError('Submit button not found in form');
             isProcessing = false;
             return;
         }
 
-        // Update button state
         const originalButtonText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Saving Registration...';
 
         try {
-            // Collect form data
             const formData = new FormData(registrationForm);
             const registrationData = Object.fromEntries(formData.entries());
             
-            // Add metadata
             registrationData.eventName = currentEventData.name;
             registrationData.registrationId = generateRegistrationId();
             registrationData.timestamp = new Date().toISOString();
@@ -163,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             logDebug('Registration data prepared:', registrationData);
 
-            // Validate required fields
             const requiredFields = ['fullName', 'email', 'phone', 'department'];
             const missingFields = requiredFields.filter(field => !registrationData[field]);
             
@@ -171,21 +222,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
             }
 
-            // Save to Firebase
             logDebug('Saving to Firebase...');
             const docRef = await db.collection('registrations').add(registrationData);
             
             logDebug('Registration saved successfully with ID:', docRef.id);
             showSuccess(`Registration saved with ID: ${docRef.id}`);
 
-            // Initiate payment
             await initiatePayment(docRef.id, registrationData);
 
         } catch (error) {
             logDebug('Registration submission failed:', error);
             showError(`Could not save registration: ${error.message}`);
             
-            // Reset button state on error
             submitBtn.disabled = false;
             submitBtn.textContent = originalButtonText;
             isProcessing = false;
@@ -244,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 reject(response.error);
             });
 
-            // Reset button state before opening payment
-            const submitBtn = registrationForm.querySelector('button[type="submit"]');
+            const submitBtn = registrationForm.querySelector('button[type="submit"]') || 
+                              registrationForm.querySelector('.submit-btn');
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Proceed to Payment';
@@ -307,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmationView.style.display = 'block';
         }
 
-        // Auto-close modal after 5 seconds
         setTimeout(() => {
             closeModal();
         }, 5000);
@@ -321,29 +368,41 @@ document.addEventListener('DOMContentLoaded', () => {
         registerButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                const eventName = button.getAttribute('data-event-name') || 'Unknown Event';
+                const eventName = button.getAttribute('data-event-name') || 
+                                button.closest('.cosmic-event-card')?.querySelector('h4')?.textContent || 
+                                'Unknown Event';
                 const eventFee = parseInt(button.getAttribute('data-event-fee')) || 60;
+                logDebug('Register button clicked:', { eventName, eventFee });
                 openModal(eventName, eventFee);
             });
         });
 
         // Continue to form button
         if (continueToFormBtn) {
-            continueToFormBtn.addEventListener('click', () => {
-                logDebug('Continuing to registration form');
-                if (descriptionView) descriptionView.style.display = 'none';
-                if (registrationFormView) registrationFormView.style.display = 'block';
+            continueToFormBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                logDebug('Continue to form button clicked');
+                showRegistrationForm();
             });
+            logDebug('Continue to form button listener attached');
+        } else {
+            logDebug('❌ Continue to form button not found');
         }
 
         // Form submission
         if (registrationForm) {
             registrationForm.addEventListener('submit', handleRegistrationSubmit);
+            logDebug('Form submission listener attached');
+        } else {
+            logDebug('❌ Registration form not found');
         }
 
         // Close modal button
         if (closeBtn) {
             closeBtn.addEventListener('click', closeModal);
+            logDebug('Close button listener attached');
+        } else {
+            logDebug('❌ Close button not found');
         }
 
         // Close modal on overlay click
@@ -353,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     closeModal();
                 }
             });
+            logDebug('Modal overlay listener attached');
         }
 
         // Escape key to close modal
@@ -367,10 +427,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function initialize() {
         logDebug('Initializing registration system');
         
-        // Populate departments
-        populateDepartments();
+        // Check if required elements exist
+        logDebug('Checking required DOM elements:');
+        logDebug('- modalOverlay:', !!modalOverlay);
+        logDebug('- descriptionView:', !!descriptionView);
+        logDebug('- registrationFormView:', !!registrationFormView);
+        logDebug('- registrationForm:', !!registrationForm);
+        logDebug('- continueToFormBtn:', !!continueToFormBtn);
+        logDebug('- registerButtons count:', registerButtons.length);
         
-        // Setup event listeners
         initializeEventListeners();
         
         logDebug('Registration system initialized successfully');
@@ -379,14 +444,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start the system
     initialize();
 
-    // Export functions for debugging (optional)
+    // Export functions for debugging
     window.cosmogRegistration = {
         debug: {
             currentEventData,
             isProcessing,
             openModal,
             closeModal,
-            logDebug
+            showDescriptionView,
+            showRegistrationForm,
+            logDebug,
+            elements: {
+                modalOverlay,
+                descriptionView,
+                registrationFormView,
+                registrationForm,
+                continueToFormBtn
+            }
         }
     };
 });
