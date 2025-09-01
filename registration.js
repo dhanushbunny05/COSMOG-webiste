@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
     // TODO: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
+   const firebaseConfig = {
+  apiKey: "AIzaSyAah84lK5EK5MrMU4ZyADkifGZvewXIWYA",
+  authDomain: "cosmogtest.firebaseapp.com",
+  databaseURL: "https://cosmogtest-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "cosmogtest",
+  storageBucket: "cosmogtest.firebasestorage.app",
+  messagingSenderId: "893484280877",
+  appId: "1:893484280877:web:37cfb26cc2fa8ea3155ca4",
+  measurementId: "G-1BZTRNPX3X"
+};
 
     // TODO: ADD YOUR RAZORPAY KEY ID HERE
     const RAZORPAY_KEY_ID = 'YOUR_RAZORPAY_KEY_ID';
