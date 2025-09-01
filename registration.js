@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
     // TODO: ADD YOUR RAZORPAY KEY ID HERE
-    const RAZORPAY_KEY_ID = 'YOUR_RAZORPAY_KEY_ID';
+    const RAZORPAY_KEY_ID = 'rzp_live_R9r2qnsNEVDi7p';
 
     // --- Initialize Firebase ---
     let db;
