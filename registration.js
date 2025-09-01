@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logDebug('Opening modal for event:', { eventName, fee });
         
         currentEventData.name = eventName;
-        currentEventData.amount = fee ; // Convert to paise
+        currentEventData.amount = fee *100; // Convert to paise
         
         if (eventNameDisplay) eventNameDisplay.textContent = eventName;
         if (eventNameDisplayDesc) eventNameDisplayDesc.textContent = eventName;
