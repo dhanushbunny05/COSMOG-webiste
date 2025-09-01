@@ -225,7 +225,6 @@
         }
     };
     
-    // Other components (cardEffects, buttonEffects, etc.) are well-written and do not require critical corrections.
     const cardEffects = {
         init: function() {
             return utils.safeExecute(() => {
@@ -312,6 +311,8 @@
             }, 'Registration Buttons');
         }
     };
+
+    // ⚡ Updated smoothScrolling component to prevent querySelector errors
     const smoothScrolling = {
         init: function() {
             return utils.safeExecute(() => {
@@ -320,6 +321,10 @@
                 const handleClick = function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
+
+                    // Skip empty hash links (#) to prevent invalid selectors
+                    if (!targetId || targetId === '#' || targetId.length <= 1) return;
+
                     const target = utils.query(targetId);
                     if (target) {
                         const navbarHeight = utils.query('.navbar')?.offsetHeight || 64;
@@ -337,6 +342,7 @@
             }, 'Smooth Scrolling');
         }
     };
+
     const scrollProgress = {
         init: function() {
             return utils.safeExecute(() => {
@@ -359,6 +365,7 @@
             }, 'Scroll Progress');
         }
     };
+
     const loadingAnimation = {
         init: function() {
             return utils.safeExecute(() => {
@@ -379,7 +386,6 @@
             }, 'Loading Animation');
         }
     };
-
 
     function initializeCosmog() {
         console.log('🚀 Initializing COSMOG 2025...');
