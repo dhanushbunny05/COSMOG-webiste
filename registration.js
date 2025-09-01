@@ -1,12 +1,14 @@
 // 1.11 PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
 // You can find this in your Firebase Project Settings > General tab
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAah84lK5EK5MrMU4ZyADkifGZvewXIWYA",
+  authDomain: "cosmogtest.firebaseapp.com",
+  databaseURL: "https://cosmogtest-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "cosmogtest",
+  storageBucket: "cosmogtest.firebasestorage.app",
+  messagingSenderId: "893484280877",
+  appId: "1:893484280877:web:37cfb26cc2fa8ea3155ca4",
+  measurementId: "G-1BZTRNPX3X"
 };
 
 // 2. Initialize Firebase and Firestore
