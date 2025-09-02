@@ -142,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
             registrationData.timestamp = new Date().toISOString();
             registrationData.paymentStatus = 'pending';
             registrationData.paymentId = null;
+            // ✅ Adds the amount paid to the database record
+            registrationData.amountPaid = 100; // Storing the test amount (100 paise = ₹1)
 
             const docRef = await db.collection('registrations').add(registrationData);
             await initiatePayment(docRef.id, registrationData);
@@ -254,19 +256,29 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        continueToFormBtn.addEventListener('click', () => {
-             populateDepartments();
-             showView('form');
-        });
+        if (continueToFormBtn) {
+            continueToFormBtn.addEventListener('click', () => {
+                populateDepartments();
+                showView('form');
+            });
+        }
 
-        registrationForm.addEventListener('submit', handleRegistrationSubmit);
-        closeBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
+        if(registrationForm) {
+            registrationForm.addEventListener('submit', handleRegistrationSubmit);
+        }
+
+        if(closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        if(modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+        }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modalOverlay.classList.contains('is-visible')) {
+            if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('is-visible')) {
                 closeModal();
             }
         });
