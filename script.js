@@ -1,4 +1,5 @@
-// COSMOG 2025 - Enhanced JavaScript with Security & Performance Fixes
+// COSMOG 2025 - Enhanced JavaScript with Navigation Fix and Mobile Popup
+
 (function() {
     'use strict';
 
@@ -76,7 +77,7 @@
                 const mobileMenuBtn = utils.query('.mobile-menu-btn');
                 const mobileNav = utils.query('.mobile-nav');
                 if (!mobileMenuBtn || !mobileNav) return null;
-                
+
                 const mobileNavLinks = utils.queryAll('.mobile-nav .nav-link');
                 const mobileMenuIcon = utils.query('i', mobileMenuBtn);
 
@@ -100,7 +101,7 @@
                         mobileMenuBtn.focus();
                     }
                 };
-                
+
                 mobileMenuBtn.addEventListener('click', toggleMenu);
                 mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
                 document.addEventListener('keydown', handleEscape);
@@ -110,6 +111,7 @@
                     mobileNavLinks.forEach(link => link.removeEventListener('click', closeMenu));
                     document.removeEventListener('keydown', handleEscape);
                 };
+
                 return { cleanup };
             }, 'Mobile Navigation');
         }
@@ -135,8 +137,8 @@
                     progressContainer.appendChild(progressBarEl);
                     carousel.appendChild(progressContainer);
                 }
-                const progressBar = utils.query('.carousel-progress-bar', progressContainer);
 
+                const progressBar = utils.query('.carousel-progress-bar', progressContainer);
                 let currentSlideIndex = 0;
                 let animationFrameId = null;
                 let startTime = Date.now();
@@ -144,14 +146,14 @@
                 const updateSlidePosition = () => {
                     const trackContainer = utils.query('.carousel-track-container');
                     if (!trackContainer || slides.length === 0) return;
-                    
+
                     const containerWidth = trackContainer.offsetWidth;
                     const slideWidth = slides[0].offsetWidth;
                     const slideGap = parseFloat(getComputedStyle(track).gap) || 0;
-                    
                     const offset = (slideWidth + slideGap) * currentSlideIndex;
                     const centerOffset = (containerWidth - slideWidth) / 2;
                     const translateX = centerOffset - offset;
+
                     track.style.transform = `translateX(${translateX}px)`;
 
                     slides.forEach((slide, index) => {
@@ -175,7 +177,7 @@
                 const startAutoPlay = () => {
                     if (animationFrameId) cancelAnimationFrame(animationFrameId);
                     startTime = Date.now();
-                    
+
                     const animateProgress = () => {
                         const elapsedTime = Date.now() - startTime;
                         const progress = (elapsedTime / CONFIG.carousel.autoPlayDuration) * 100;
@@ -183,10 +185,12 @@
                         if (progress >= 100) {
                             moveToSlide(currentSlideIndex + 1);
                         } else {
-                           if (progressBar) progressBar.style.width = `${progress}%`;
+                            if (progressBar) progressBar.style.width = `${progress}%`;
                         }
+
                         animationFrameId = requestAnimationFrame(animateProgress);
                     };
+
                     animationFrameId = requestAnimationFrame(animateProgress);
                 };
 
@@ -200,6 +204,7 @@
 
                 if (nextButton) nextButton.addEventListener('click', handleNext);
                 if (prevButton) prevButton.addEventListener('click', handlePrev);
+
                 carousel.addEventListener('mouseenter', stopAutoPlay);
                 carousel.addEventListener('mouseleave', startAutoPlay);
 
@@ -220,17 +225,20 @@
                     window.removeEventListener('resize', handleResize);
                     handleResize.cleanup();
                 };
+
                 return { cleanup };
             }, 'Cosmic Carousel');
         }
     };
-    
+
     const cardEffects = {
         init: function() {
             return utils.safeExecute(() => {
                 const cards = utils.queryAll('[data-tilt]');
                 if (cards.length === 0) return null;
+
                 const handlers = new Map();
+
                 cards.forEach(card => {
                     const handleMouseMove = utils.throttle((e) => {
                         const rect = card.getBoundingClientRect();
@@ -240,15 +248,20 @@
                         const centerY = rect.height / 2;
                         const rotateX = (y - centerY) / 8;
                         const rotateY = (centerX - x) / 8;
+
                         card.style.transform = `translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg) perspective(1000px)`;
                     }, 16);
+
                     const handleMouseLeave = () => {
                         card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
                     };
+
                     card.addEventListener('mousemove', handleMouseMove);
                     card.addEventListener('mouseleave', handleMouseLeave);
+
                     handlers.set(card, { handleMouseMove, handleMouseLeave });
                 });
+
                 const cleanup = () => {
                     handlers.forEach((cardHandlers, card) => {
                         card.removeEventListener('mousemove', cardHandlers.handleMouseMove);
@@ -256,15 +269,18 @@
                         cardHandlers.handleMouseMove.cleanup();
                     });
                 };
+
                 return { cleanup };
             }, '3D Card Effects');
         }
     };
+
     const buttonEffects = {
         init: function() {
             return utils.safeExecute(() => {
                 const buttons = utils.queryAll('.cosmic-event-btn');
                 if (buttons.length === 0) return null;
+
                 const handleClick = (e) => {
                     const button = e.currentTarget;
                     const ripple = document.createElement('div');
@@ -272,72 +288,63 @@
                     const size = Math.max(rect.width, rect.height);
                     const x = e.clientX - rect.left - size / 2;
                     const y = e.clientY - rect.top - size / 2;
+
                     ripple.className = 'ripple-effect';
                     ripple.style.cssText = `position: absolute; top: ${y}px; left: ${x}px; width: ${size}px; height: ${size}px; background: rgba(255, 255, 255, 0.6); border-radius: 50%; transform: scale(0); animation: ripple-animation ${CONFIG.animations.rippleDelay}ms ease-out; pointer-events: none; z-index: 1;`;
+
                     button.style.position = 'relative';
                     button.appendChild(ripple);
+
                     setTimeout(() => ripple.remove(), CONFIG.animations.rippleDelay);
                 };
+
                 buttons.forEach(button => button.addEventListener('click', handleClick));
+
                 if (!document.getElementById('ripple-styles')) {
                     const style = document.createElement('style');
                     style.id = 'ripple-styles';
                     style.textContent = `@keyframes ripple-animation { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }`;
                     document.head.appendChild(style);
                 }
+
                 const cleanup = () => {
                     buttons.forEach(button => button.removeEventListener('click', handleClick));
                     document.getElementById('ripple-styles')?.remove();
                 };
+
                 return { cleanup };
             }, 'Button Effects');
         }
     };
-    const registrationButtons = {
-        init: function() {
-            return utils.safeExecute(() => {
-                const buttons = utils.queryAll('.register-btn, .cosmic-event-btn, .btn-primary, .view-all-events-btn');
-                if (buttons.length === 0) return null;
-                const handleRegistration = function(e) {
-                    e.preventDefault();
-                    if (this.disabled) return;
-                    alert('Registration and event details will be available soon! Stay tuned for COSMOG 2025!');
-                };
-                buttons.forEach(button => button.addEventListener('click', handleRegistration));
-                const cleanup = () => {
-                    buttons.forEach(button => button.removeEventListener('click', handleRegistration));
-                };
-                return { cleanup };
-            }, 'Registration Buttons');
-        }
-    };
 
-    // ⚡ Updated smoothScrolling component to prevent querySelector errors
     const smoothScrolling = {
         init: function() {
             return utils.safeExecute(() => {
                 const anchorLinks = utils.queryAll('a[href^="#"]');
                 if (anchorLinks.length === 0) return null;
+
                 const handleClick = function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
-
-                    // Skip empty hash links (#) to prevent invalid selectors
-                    if (!targetId || targetId === '#' || targetId.length <= 1) return;
-
                     const target = utils.query(targetId);
+
                     if (target) {
                         const navbarHeight = utils.query('.navbar')?.offsetHeight || 64;
                         const targetPosition = target.offsetTop - navbarHeight;
+
                         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                         target.focus({ preventScroll: true });
+
                         if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
                     }
                 };
+
                 anchorLinks.forEach(link => link.addEventListener('click', handleClick));
+
                 const cleanup = () => {
                     anchorLinks.forEach(link => link.removeEventListener('click', handleClick));
                 };
+
                 return { cleanup };
             }, 'Smooth Scrolling');
         }
@@ -349,18 +356,23 @@
                 const progressBar = document.createElement('div');
                 progressBar.className = 'scroll-progress';
                 progressBar.setAttribute('aria-hidden', 'true');
-                progressBar.style.cssText = `position: fixed; top: 64px; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--cosmic-cyan), var(--cosmic-purple), var(--cosmic-pink)); z-index: 1000; transition: width 0.25s ease;`;
+                progressBar.style.cssText = `position: fixed; top: 0px; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--cosmic-cyan), var(--cosmic-purple), var(--cosmic-pink)); z-index: 1000; transition: width 0.25s ease;`;
+
                 document.body.appendChild(progressBar);
+
                 const updateProgress = utils.throttle(() => {
                     const scrollPercent = (window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100;
                     progressBar.style.width = `${Math.min(scrollPercent, 100)}%`;
                 }, CONFIG.performance.scrollUpdateDelay);
+
                 window.addEventListener('scroll', updateProgress, { passive: true });
+
                 const cleanup = () => {
                     window.removeEventListener('scroll', updateProgress);
                     updateProgress.cleanup();
                     progressBar.remove();
                 };
+
                 return { cleanup };
             }, 'Scroll Progress');
         }
@@ -370,35 +382,83 @@
         init: function() {
             return utils.safeExecute(() => {
                 const handleLoad = () => document.body.classList.add('loaded');
+
                 if (document.readyState === 'complete') {
                     handleLoad();
                 } else {
                     window.addEventListener('load', handleLoad, { once: true });
                 }
+
                 if (!document.getElementById('loading-styles')) {
                     const style = document.createElement('style');
                     style.id = 'loading-styles';
                     style.textContent = `body.loaded { animation: fadeIn 0.5s ease-in; } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }`;
                     document.head.appendChild(style);
                 }
+
                 const cleanup = () => document.getElementById('loading-styles')?.remove();
+
                 return { cleanup };
             }, 'Loading Animation');
         }
     };
 
+    // NEW: Mobile Alert Popup Component
+    const mobileAlert = {
+        init: function() {
+            return utils.safeExecute(() => {
+                const popup = utils.query('#mobile-alert-popup');
+                const closeButton = utils.query('#close-mobile-alert');
+                const isMobile = window.innerWidth <= 768;
+                const alertDismissed = sessionStorage.getItem('mobileAlertDismissed');
+
+                if (!popup || !closeButton) return null;
+
+                const showPopup = () => {
+                    if (isMobile && !alertDismissed) {
+                        // Delay showing the popup slightly
+                        setTimeout(() => {
+                            popup.classList.add('show');
+                        }, 1500); // 1.5-second delay
+                    }
+                };
+
+                const closePopup = () => {
+                    popup.classList.remove('show');
+                    sessionStorage.setItem('mobileAlertDismissed', 'true');
+                };
+                
+                closeButton.addEventListener('click', closePopup);
+
+                // Initial check to show the popup
+                showPopup();
+                
+                const cleanup = () => {
+                    closeButton.removeEventListener('click', closePopup);
+                };
+                
+                return { cleanup };
+
+            }, 'Mobile Alert Popup');
+        }
+    };
+
     function initializeCosmog() {
         console.log('🚀 Initializing COSMOG 2025...');
+
         const components = [
             mobileNavigation, cosmicCarousel, cardEffects, buttonEffects,
-            registrationButtons, smoothScrolling, scrollProgress, loadingAnimation
+            smoothScrolling, scrollProgress, loadingAnimation,
+            mobileAlert // ADDED the new component here
         ];
+
         components.forEach(component => {
             const instance = component.init();
             if (instance && instance.cleanup) {
                 componentRegistry.set(component, instance.cleanup);
             }
         });
+
         console.log('✨ COSMOG 2025 initialized successfully!');
     }
 
