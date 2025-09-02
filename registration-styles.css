@@ -264,3 +264,34 @@
 .form-group#section-group {
     display: none;
 }
+
+/* --- NEW STYLES FOR BUTTONS --- */
+.event-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.event-learn-more {
+    flex-grow: 1;
+    background: transparent;
+    border: 1px solid var(--cosmic-purple);
+    color: var(--cosmic-purple);
+    font-weight: 700;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.event-learn-more:hover {
+    background-color: rgba(138, 43, 226, 0.2);
+    color: var(--cosmic-cyan);
+    border-color: var(--cosmic-cyan);
+}
+
+.event-register {
+    flex-grow: 1;
+    text-align: center;
+}
