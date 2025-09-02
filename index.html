@@ -9,35 +9,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- AOS CSS (if using AOS) -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<!-- Your custom animation styles -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="cosmic-animations.css">
 
 
 
 </head>
 <body>
-    <!-- Preloader -->
-<div id="preloader">
+    <div id="preloader">
   <video autoplay muted playsinline id="loader-video">
     <source src="loading.mp4" type="video/mp4">
   </video>
 </div>
 
-     <!-- Skip Navigation Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-content">
-                <!-- Logo -->
                 <a href="#" class="logo">
                     <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></img></div>
                 </a>
 
-                <!-- Desktop Navigation -->
                 <div class="desktop-nav">
                     <a href="index.html" class="nav-link active">
                         <i class="fas fa-home"></i>
@@ -57,7 +50,6 @@
                     </a>
                 </div>
 
-                <!-- Navigation Actions -->
                 <div class="nav-actions">
                     <a href="events.html" class="register-btn">Register Now</a>
                     <button class="mobile-menu-btn" aria-expanded="false" aria-label="Toggle mobile menu">
@@ -66,7 +58,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Navigation -->
             <div class="mobile-nav">
                 <a href="#home" class="nav-link">
                     <i class="fas fa-home"></i>
@@ -89,9 +80,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main id="main-content">
-        <!-- Hero Section (Always Visible) -->
         <section id="home" class="hero">
             <div class="hero-bg">
                 <div class="bg-orb orb-1"></div>
@@ -99,27 +88,29 @@
                 <div class="bg-orb orb-3"></div>
             </div>
             
-            <div class="hero-content">
+          <div class="hero-content">
                 <div class="event-badge">
-                    <span>Department of Computer Science & Design</span>
+                    <span><i class="fas fa-calendar-alt"></i> September 17-18, 2025</span>
                 </div>
-                
                 <h1 class="hero-title">COSMOG 2K25</h1>
-                
                 <p class="hero-subtitle">Unleash The Star In You!</p>
                 
                 <div class="event-details">
                     <div class="detail-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>September 15-16, 2025</span>
+                        <i class="fas fa-calendar-day"></i>
+                        <span>2 Days</span>
                     </div>
                     <div class="detail-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>St. Martin's Engineering College</span>
+                        <i class="fas fa-trophy"></i>
+                        <span>7+ Events</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-users"></i>
-                        <span>CSG Department</span>
+                        <span>300+ Participants</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gift"></i>
+                        <span>Amazing Cash Prizes & Gifts</span>
                     </div>
                 </div>
                     <a href="#cosmic-events" class="btn-secondary">
@@ -134,7 +125,6 @@
             </div>
         </section>
 
-        <!-- About Section (Always Visible) -->
         <section class="about-section">
                 <div class="about-content">
                     <h2 class="about-title">About COSMOG</h2>
@@ -159,7 +149,6 @@
                         </p>
                    </section>
 
-        <!-- Events Section (Always Visible) -->
         <section id="cosmic-events" class="cosmic-events-section">
                 <div class="cosmic-events-header">
                     <h2 class="cosmic-events-title">What's Happening</h2>
@@ -177,7 +166,6 @@
 
                         <div class="carousel-track-container">
                             <div class="carousel-track">
-                                <!-- Event Card 1 -->
                                 <article class="cosmic-event-card featured" data-tilt>
                                     <div class="featured-badge">
                                         <i class="fas fa-star"></i>
@@ -215,14 +203,13 @@
                                         </div>
                                     </div>
                                     
-                                    <button class="cosmic-event-btn featured-btn">
+                                    <a  href="events.html" class="cosmic-event-btn featured-btn">
                                         <span>Register</span>
                                         <i class="fas fa-rocket"></i>
                                         <div class="btn-sparkle"></div>
-                                    </button>
+                                    </a>
                                 </article>
 
-                                <!-- Event Card 2 -->
                                 <article class="cosmic-event-card" data-tilt>
                                     <div class="card-shine"></div>
                                     
@@ -256,14 +243,13 @@
                                         </div>
                                     </div>
                                     
-                                    <button class="cosmic-event-btn">
+                                    <a href="events.html" class="cosmic-event-btn">
                                         <span>Register</span>
                                         <i class="fas fa-rocket"></i>
                                         <div class="btn-sparkle"></div>
-                                    </button>
+                                    </a>
                                 </article>
 
-                                <!-- Event Card 3 -->
                                 <article class="cosmic-event-card" data-tilt>
                                     <div class="card-shine"></div>
                                     
@@ -278,7 +264,7 @@
                                             Prompting
                                         </div>
                                         
-                                        <h3 class="cosmic-event-title">Vide Code</h3>
+                                        <h3 class="cosmic-event-title">Web Craft</h3>
                                         <p class="cosmic-event-desc">Battle royale in the cosmic arena. Prove your gaming supremacy</p>
                                         
                                         <div class="event-stats">
@@ -288,7 +274,7 @@
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-users"></i>
-                                                <span>Individual</span>
+                                                <span>1-4 Team</span>
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-trophy"></i>
@@ -297,14 +283,13 @@
                                         </div>
                                     </div>
                                     
-                                    <button class="cosmic-event-btn">
+                                    <a href="events.html" class="cosmic-event-btn">
                                         <span>Register</span>
                                         <i class="fas fa-rocket"></i>
                                         <div class="btn-sparkle"></div>
-                                    </button>
+                                    </a>
                                 </article>
 
-                                <!-- Event Card 4 -->
                                 <article class="cosmic-event-card" data-tilt>
                                     <div class="card-shine"></div>
                                     
@@ -319,7 +304,7 @@
                                             Editing
                                         </div>
                                         
-                                        <h3 class="cosmic-event-title">Video Edit </h3>
+                                        <h3 class="cosmic-event-title">Capture & Creative </h3>
                                         <p class="cosmic-event-desc">Capture the essence of cosmic beauty through your lens</p>
                                         
                                         <div class="event-stats">
@@ -329,7 +314,7 @@
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-users"></i>
-                                                <span>Individual</span>
+                                                <span>1-4 Team</span>
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-trophy"></i>
@@ -338,14 +323,13 @@
                                         </div>
                                     </div>
                                     
-                                    <button class="cosmic-event-btn">
+                                    <a href="events.html" class="cosmic-event-btn">
                                         <span>Register</span>
                                         <i class="fas fa-rocket"></i>
                                         <div class="btn-sparkle"></div>
-                                    </button>
+                                    </a>
                                 </article>
 
-                                <!-- Event Card 5 -->
                                 <article class="cosmic-event-card" data-tilt>
                                     <div class="card-shine"></div>
                                     
@@ -379,14 +363,13 @@
                                         </div>
                                     </div>
                                     
-                                    <button class="cosmic-event-btn">
+                                    <a href="events.html" class="cosmic-event-btn">
                                         <span>Register</span>
                                         <i class="fas fa-rocket"></i>
                                         <div class="btn-sparkle"></div>
-                                    </button>
+                                    </a>
                                 </article>
-                                 <!-- Event Card 6 -->
-                                <article class="cosmic-event-card" data-tilt>
+                                 <article class="cosmic-event-card" data-tilt>
                                     <div class="card-shine"></div>
                                     
                                     <div class="cosmic-event-icon">
@@ -418,12 +401,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <button class="cosmic-event-btn">
-                                        <span>Register</span>
-                                        <i class="fas fa-rocket"></i>
-                                        <div class="btn-sparkle"></div>
-                                    </button>
+
+                                    <a href="events.html" class="cosmic-event-btn">
+                                            <span>Register</span>
+                                            <i class="fas fa-rocket"></i>
+                                            <div class="btn-sparkle"></div>
+                                    </a>
                                 </article>
 
                         
@@ -436,14 +419,13 @@
                         </button>
                     </div>
 
-                    <!-- Carousel Progress Bar -->
                     <div class="carousel-progress">
                         <div class="carousel-progress-bar"></div>
                     </div>
                 </div>
 
                 <div class="cosmic-events-footer">
-                    <a href="#all-events" class="view-all-events-btn">
+                    <a href="events.html" class="view-all-events-btn">
                         <span>View All Events</span>
                         <i class="fas fa-arrow-right"></i>
                         <div class="btn-cosmic-trail"></div>
@@ -452,7 +434,14 @@
             </div>
         </section>
 
-    <footer class="enhanced-footer">
+    <div id="mobile-alert-popup" class="mobile-alert">
+        <div class="mobile-alert-content">
+            <p>For the best experience, please enable "Desktop site" mode in your browser settings.</p>
+            <button id="close-mobile-alert" class="mobile-alert-close">&times;</button>
+        </div>
+    </div>
+
+ <footer class="enhanced-footer">
     <div class="container">
         <a href="#main-content" class="back-to-top" aria-label="Back to top">
             <i class="fas fa-arrow-up"></i>
@@ -481,13 +470,9 @@
     </div>
 </footer>
 
-<!-- FIX: ADDED SCRIPT TAG TO LOAD JAVASCRIPT -->
 <script src="script.js" defer></script>
-<!-- GSAP Core -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<!-- GSAP ScrollTrigger Plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<!-- AOS Library (Alternative option) -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="cosmic-animations.js"></script>
 <script>
