@@ -158,12 +158,47 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
+    /* --- STYLES FOR SIDE-BY-SIDE EVENTS --- */
+    .timeline-item-full-width {
+      width: 100%;
+      left: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .timeline-item-full-width .timeline-icon {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .event-row {
+      display: flex;
+      gap: 2rem;
+      align-items: stretch;
+    }
+    .event-row .event-box {
+      flex: 1;
+    }
+    /* --- END STYLES --- */
+
+
     @media screen and (max-width: 992px) {
       .timeline-container::after, .timeline-progress-line { left: 31px; }
       .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
       .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { left: 0; }
       .timeline-icon, .timeline-item:nth-child(even) .timeline-icon { left: 15px; }
       .day-heading { left: 0; transform: none; display: block; text-align: left; margin-left: 15px; background: transparent; }
+      
+      .event-row {
+        flex-direction: column;
+      }
+      .timeline-item-full-width .timeline-icon {
+        left: 15px;
+        transform: none;
+      }
+      .timeline-item-full-width {
+        padding-left: 70px;
+        padding-right: 25px;
+      }
     }
   </style>
 </head>
@@ -235,7 +270,7 @@
                     <div class="event-icon"><i class="fas fa-code"></i></div>
                     <span class="event-level creative">Technical</span>
                   </div>
-                  <h3 class="event-title">Vibe-A-Thon</h3>
+                  <h3 class="event-title">Web Craft</h3>
                   <p class="event-desc">A challenge where technology meets creativity! Participants will use the power of AI to design and build something unique.</p>
                   <div class="event-info-grid">
                     <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
@@ -247,7 +282,10 @@
                     <div class="highlight"><span>1-4</span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Vibe-A-Thon" data-event-fee="60">Register Now</a>
+                  <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Web Craft" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Web Craft" data-event-fee="60">Register Now</a>
+                  </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
             </div>
@@ -260,7 +298,7 @@
                     <span class="event-level beginner">Creative</span>
                   </div>
                   <h3 class="event-title">Art Attack</h3>
-                  <p class="event-desc">A fast-paced coding challenge where teams solve a series of problems in a relay format. Speed, accuracy, and teamwork are key.</p>
+                  <p class="event-desc">Unleash your inner artist! A themed digital and traditional art competition where creativity knows no bounds.</p>
                   <div class="event-info-grid">
                     <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
                     <div class="info-item"><i class="fas fa-clock"></i> 11:00 AM - 12:30 PM</div>
@@ -269,9 +307,12 @@
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
                     <div class="highlight"><span>Solo</span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹50</span><small>Per Entry</small></div>
+                    <div class="highlight"><span>₹1</span><small>Per Entry</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Art Attack" data-event-fee="50">Register Now</a>
+                  <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Art Attack" data-event-fee="1">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Art Attack" data-event-fee="1">Register Now</a>
+                  </div>
                 </article>
             </div>
 
@@ -294,7 +335,10 @@
                     <div class="highlight"><span>1-4</span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Entry Fee</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="TreQueza" data-event-fee="60">Register Now</a>
+                   <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="TreQueza" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="TreQueza" data-event-fee="60">Register Now</a>
+                  </div>
                 </article>
             </div>
 
@@ -305,7 +349,7 @@
                     <div class="event-icon"><i class="fas fa-camera"></i></div>
                     <span class="event-level creative">Creative</span>
                   </div>
-                  <h3 class="event-title">Capture and Creative</h3>
+                  <h3 class="event-title">Capture and Create</h3>
                   <p class="event-desc">Capture, create, and amaze! Film the best moments around campus, edit with your unique touch, and craft a reel that tells a story.</p>
                   <div class="event-info-grid">
                     <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
@@ -314,10 +358,13 @@
                   </div>
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>1-4 Members</span><small>Team Size</small></div>
+                    <div class="highlight"><span>1-4 </span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Capture and Creative" data-event-fee="60">Register Now</a>
+                  <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Capture and Creative" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Capture and Creative" data-event-fee="60">Register Now</a>
+                  </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
             </div>
@@ -337,10 +384,13 @@
                   </div>
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>1-4 Members</span><small>Team Size</small></div>
+                    <div class="highlight"><span>1-4 </span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Mission Impossible" data-event-fee="60">Register Now</a>
+                   <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Mission Impossible" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Mission Impossible" data-event-fee="60">Register Now</a>
+                  </div>
                 </article>
             </div>
 
@@ -354,18 +404,31 @@
                     <span class="event-level advanced">Gaming</span>
                   </div>
                   <h3 class="event-title">Game-On</h3>
-                  <p class="event-desc">Step into the gaming zone where adrenaline meets strategy! Whether it’s BGMI, PUBG, or FACEIT, only the sharpest players will survive.</p>
+                  <p class="event-desc">Choose your battleground! Compete in BGMI or Free Fire and prove your squad's supremacy.</p>
                   <div class="event-info-grid">
                     <div class="info-item"><i class="fas fa-calendar"></i> Sep 16, 2025</div>
                     <div class="info-item"><i class="fas fa-clock"></i> 9:30 AM - 12:40 PM</div>
                     <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Lab</div>
                   </div>
-                  <div class="event-highlights">
-                    <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>1-4 Members</span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹100</span><small>Per Entry</small></div>
+                  
+                  <div class="game-options">
+                    <div class="game-choice">
+                      <h4>Game-On (BGMI)</h4>
+                      <p>Fee: ₹1 per entry</p>
+                      <div class="event-actions">
+                        <button class="event-learn-more" data-event-name="Game-On (BGMI)" data-event-fee="1">Learn More</button>
+                        <a href="#" class="event-register" data-event-name="Game-On (BGMI)" data-event-fee="1">Register</a>
+                      </div>
+                    </div>
+                    <div class="game-choice">
+                      <h4>Game-On (Free Fire)</h4>
+                      <p>Fee: ₹1 per entry</p>
+                      <div class="event-actions">
+                        <button class="event-learn-more" data-event-name="Game-On (Free Fire)" data-event-fee="1">Learn More</button>
+                        <a href="#" class="event-register" data-event-name="Game-On (Free Fire)" data-event-fee="1">Register</a>
+                      </div>
+                    </div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Game-On" data-event-fee="100">Register Now</a>
                   <span class="limited">Limited Seats Available</span>
                 </article>
             </div>
@@ -386,10 +449,13 @@
                   </div>
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>2-4 Members</span><small>Team Size</small></div>
+                    <div class="highlight"><span>2-4 </span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Team</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Glam Jam" data-event-fee="60">Register Now</a>
+                  <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Glam Jam" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Glam Jam" data-event-fee="60">Register Now</a>
+                  </div>
                 </article>
             </div>
 
@@ -411,7 +477,10 @@
                     <div class="highlight"><span>Solo</span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
-                  <a href="#" class="event-register" data-event-name="Cultural Carnival" data-event-fee="60">Register Now</a>
+                  <div class="event-actions">
+                    <button class="event-learn-more" data-event-name="Cultural Carnival" data-event-fee="60">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Cultural Carnival" data-event-fee="60">Register Now</a>
+                  </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
             </div>
@@ -428,21 +497,8 @@
             <div class="modal-header">
                 <h2 class="modal-title">About <span id="event-name-display-desc">Event</span></h2>
             </div>
-            <div class="description-content">
-                <h3>Overview</h3>
-                <p>Welcome to one of the flagship events of COSMOG 2025! This is where your skills will be put to the ultimate test. Get ready for an exciting challenge that combines innovation, teamwork, and a healthy dose of competition.</p>
-                <p>Whether you're a seasoned pro or a curious newcomer, this event offers a platform to showcase your talents, learn from your peers, and have a memorable experience. We can't wait to see what you create!</p>
-                
-                <h3>Rules & Regulations</h3>
-                <ul>
-                    <li>All participants must be current students of St. Martin's Engineering College.</li>
-                    <li>Team size must adhere to the limits specified for this event.</li>
-                    <li>Participants must bring their own laptops and any required software unless stated otherwise.</li>
-                    <li>Any form of plagiarism or misconduct will result in immediate disqualification.</li>
-                    <li>The decision of the judges and event coordinators is final and binding.</li>
-                    <li>Please arrive at the venue at least 15 minutes before the scheduled start time.</li>
-                </ul>
-            </div>
+            <div class="description-content" id="description-content">
+                </div>
             <button id="continue-to-form-btn" class="submit-btn">Continue to Register</button>
         </div>
 
