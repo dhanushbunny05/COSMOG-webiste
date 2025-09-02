@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
+        /* FIXED: Added missing RGB color variables for the modal's glow effect */
+        :root {
+            --cosmic-purple-rgb: 138, 43, 226;
+            --cosmic-cyan-rgb: 0, 191, 255;
+        }
+
         .gallery-section { padding: 4rem 0; background: #0d0d1a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .gallery-header { text-align: center; margin-bottom: var(--space-lg); z-index: 10;}
         .gallery-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: var(--space-sm); animation: glow 3s ease-in-out infinite alternate; }
@@ -35,7 +41,6 @@
             height: 100%;
             background: #fff;
             border-radius: 50%;
-            /* ENHANCED: Brighter default glow */
             box-shadow: 0 0 15px #fff, 0 0 25px var(--cosmic-cyan), 0 0 40px var(--cosmic-purple);
             animation: pulse-star 3s infinite ease-in-out;
             transition: all 0.4s ease;
@@ -45,7 +50,6 @@
         .star-core::before { content: ''; position: absolute; inset: -5px; background: radial-gradient(circle, white, transparent 60%); border-radius: 50%; animation: twinkle 3s infinite ease-in-out; }
         .star-core::before { animation-delay: 1.5s; }
         
-        /* NEW: Anamorphic Lens Flare Effect */
         .star-core::after {
             content: '';
             position: absolute;
@@ -63,7 +67,6 @@
         @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1.2); } 50% { opacity: 0.8; transform: scale(1.5); } }
         @keyframes pulse-star { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1); } }
         
-        /* ENHANCED: Brighter hover glow and lens flare trigger */
         .star-node:hover .star-core {
             transform: scale(1.5);
             box-shadow: 0 0 25px #fff, 0 0 50px var(--cosmic-cyan), 0 0 75px var(--cosmic-purple);
@@ -77,24 +80,48 @@
         .star-node:hover .star-label { opacity: 1; color: #fff; transform: translateX(-50%) scale(1.1); }
         
         .constellation-line { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(0, 191, 255, 0), rgba(0, 191, 255, 0.5), rgba(0, 191, 255, 0)); z-index: 1; transform-origin: left center; transition: all 0.4s ease; }
-        /* ENHANCED: Brighter interactive line glow */
         .constellation-line.is-active { height: 3px; box-shadow: 0 0 15px var(--cosmic-cyan); background: linear-gradient(90deg, rgba(0, 191, 255, 0), var(--cosmic-cyan), rgba(0, 191, 255, 0)); }
 
-        #star1 { top: 15%; left: 40%; } #star2 { top: 35%; left: 20%; } #star3 { top: 55%; left: 20%; } #star4 { top: 75%; left: 40%; } #star5 { top: 45%; left: 65%; }
-        #line1-2 { top: 85px; left: 370px; width: 206px; transform: rotate(151deg); }
-        #line2-3 { top: 185px; left: 190px; width: 100px; transform: rotate(90deg); }
-        #line3-4 { top: 285px; left: 190px; width: 206px; transform: rotate(29deg); }
-        #line5-2 { top: 235px; left: 595px; width: 408px; transform: rotate(173deg); }
-        #line5-3 { top: 235px; left: 595px; width: 408px; transform: rotate(-173deg); }
+        /* --- NEW STAR & LINE POSITIONS --- */
+        #star1  { top: 20%; left: 10%; }
+        #star2  { top: 50%; left: 25%; }
+        #star3  { top: 80%; left: 15%; }
+        #star4  { top: 60%; left: 45%; }
+        #star5  { top: 25%; left: 55%; }
+        #star6  { top: 5%;  left: 80%; }
+        #star7  { top: 40%; left: 90%; }
+        #star8  { top: 75%; left: 85%; }
+        #star9  { top: 90%; left: 55%; }
+        #star10 { top: 50%; left: 70%; }
+
+        #line1-2 { top: 100px; left: 90px; width: 202px; transform: rotate(48.01deg); }
+        #line2-3 { top: 250px; left: 225px; width: 175px; transform: rotate(119.74deg); }
+        #line2-4 { top: 250px; left: 225px; width: 184px; transform: rotate(29.74deg); }
+        #line4-5 { top: 300px; left: 405px; width: 220px; transform: rotate(-51.34deg); }
+        #line4-9 { top: 300px; left: 405px; width: 180px; transform: rotate(63.43deg); }
+        #line5-6 { top: 125px; left: 495px; width: 236px; transform: rotate(-18.92deg); }
+        #line5-10 { top: 125px; left: 495px; width: 202px; transform: rotate(48.01deg); }
+        #line6-7 { top: 25px;  left: 720px; width: 187px; transform: rotate(60.25deg); }
+        #line7-8 { top: 200px; left: 810px; width: 180px; transform: rotate(104.03deg); }
+        #line8-9 { top: 375px; left: 765px; width: 288px; transform: rotate(155.68deg); }
 
         .shooting-stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
-        .shooting-star { position: absolute; height: 2px; background: linear-gradient(-45deg, var(--cosmic-cyan), rgba(0, 0, 0, 0)); filter: drop-shadow(0 0 6px var(--cosmic-cyan)); animation: shooting-star-anim 10s linear infinite; }
-        @keyframes shooting-star-anim { from { transform: translateX(0) translateY(0); opacity: 1; } to { transform: translateX(100vw) translateY(100vh); opacity: 0; } }
-
+        .shooting-star { position: absolute; height: 2px; background: linear-gradient(-45deg, var(--cosmic-cyan), transparent); filter: drop-shadow(0 0 6px var(--cosmic-cyan)); animation: shooting-star-anim linear infinite; }
+        @keyframes shooting-star-anim {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(120vw); opacity: 0; }
+        }
+        
         .modal-overlay { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0s linear 0.5s; overflow: hidden; }
-        .stars { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; display: block; background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAFNJREFUWEft0rENAAAMA6B58P+vORUBhoTCy0s7s6sK8D4IAgSBAkGgQBAoEASKAIEgQCAIEAgCBYJAgSBAEASKAIEgQCAIEAgCBYJAgSBQEAT+TxUATwGgmb21s4AAAAASUVORK5CYII=) repeat top left; z-index: 0; }
+        .modal-overlay.is-visible { opacity: 1; visibility: visible; transition-delay: 0s; }
+        
+        #stars-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; display: block; background: #000; z-index: 0; }
+        .star-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-repeat: repeat; }
+        #stars1 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png'); background-size: auto; animation: move-stars 50s linear infinite; }
+        #stars2 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png'); background-size: 80%; animation: move-stars 100s linear infinite; }
+        #stars3 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/twinkling.png'); background-size: auto; animation: move-stars 150s linear infinite; }
         @keyframes move-stars { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
-        .stars.layer1 { animation: move-stars 150s linear infinite; } .stars.layer2 { animation: move-stars 300s linear infinite; } .modal-overlay.is-visible { opacity: 1; visibility: visible; transition-delay: 0s; }
+
         .modal-content { background: rgba(22, 17, 38, 0.8); backdrop-filter: blur(10px); border: 1px solid var(--cosmic-purple); border-radius: var(--radius-lg); padding: var(--space-xl); width: 100%; max-width: 500px; text-align: center; color: #fff; position: relative; box-shadow: 0 0 20px rgba(var(--cosmic-purple-rgb), 0.5), 0 0 60px rgba(var(--cosmic-cyan-rgb), 0.3); transform: scale(0.8); opacity: 0; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease; }
         .modal-overlay.is-visible .modal-content { transform: scale(1); opacity: 1; }
         .modal-icon { font-size: 4rem; color: var(--cosmic-cyan); margin-bottom: var(--space-md); animation: pulse-icon 2s infinite ease-in-out; }
@@ -133,7 +160,7 @@
                     <i class="fas fa-users"></i>
                     Team
                 </a>
-                <a href="gallery.html" class="nav-link">
+                <a href="gallery.html" class="nav-link active">
                     <i class="fas fa-images"></i>
                     Gallery
                 </a>
@@ -182,21 +209,35 @@
             <div class="starmap-container" id="starmap">
                 <div class="constellation-line" id="line1-2"></div>
                 <div class="constellation-line" id="line2-3"></div>
-                <div class="constellation-line" id="line3-4"></div>
-                <div class="constellation-line" id="line5-2"></div>
-                <div class="constellation-line" id="line5-3"></div>
+                <div class="constellation-line" id="line2-4"></div>
+                <div class="constellation-line" id="line4-5"></div>
+                <div class="constellation-line" id="line4-9"></div>
+                <div class="constellation-line" id="line5-6"></div>
+                <div class="constellation-line" id="line5-10"></div>
+                <div class="constellation-line" id="line6-7"></div>
+                <div class="constellation-line" id="line7-8"></div>
+                <div class="constellation-line" id="line8-9"></div>
 
-                <div class="star-node" id="star1" data-event-name="Opening Ceremony" data-lines="line1-2" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Opening Ceremony</div></div>
-                <div class="star-node" id="star2" data-event-name="Hackathon" data-lines="line1-2,line2-3,line5-2" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Hackathon</div></div>
-                <div class="star-node" id="star3" data-event-name="Workshops" data-lines="line2-3,line3-4,line5-3" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Workshops</div></div>
-                <div class="star-node" id="star4" data-event-name="Cultural Night" data-lines="line3-4" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Cultural Night</div></div>
-                <div class="star-node" id="star5" data-event-name="Award Ceremony" data-lines="line5-2,line5-3" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Award Ceremony</div></div>
+                <div class="star-node" id="star1" data-event-name="Inaugural Ceremony" data-lines="line1-2" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Inaugural Ceremony</div></div>
+                <div class="star-node" id="star2" data-event-name="Web Craft" data-lines="line1-2,line2-3,line2-4" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Web Craft</div></div>
+                <div class="star-node" id="star3" data-event-name="Art Attack" data-lines="line2-3" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Art Attack</div></div>
+                <div class="star-node" id="star4" data-event-name="TreQueza" data-lines="line2-4,line4-5,line4-9" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">TreQueza</div></div>
+                <div class="star-node" id="star5" data-event-name="Capture & Creative" data-lines="line4-5,line5-6,line5-10" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Capture & Creative</div></div>
+                <div class="star-node" id="star6" data-event-name="Mission Impossible" data-lines="line5-6,line6-7" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Mission Impossible</div></div>
+                <div class="star-node" id="star7" data-event-name="Game-On" data-lines="line6-7,line7-8" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Game-On</div></div>
+                <div class="star-node" id="star8" data-event-name="Glam Jam" data-lines="line7-8,line8-9" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Glam Jam</div></div>
+                <div class="star-node" id="star9" data-event-name="Cultural Carnival" data-lines="line4-9,line8-9" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Cultural Carnival</div></div>
+                <div class="star-node" id="star10" data-event-name="Award Ceremony" data-lines="line5-10" data-gdrive-link="YOUR_LINK_HERE"><div class="star-core"></div><div class="star-label">Award Ceremony</div></div>
             </div>
         </section>
     </main>
     
     <div class="modal-overlay" id="gallery-modal">
-        <div class="stars layer1"></div><div class="stars layer2"></div>
+        <div id="stars-container">
+            <div id="stars1" class="star-bg"></div>
+            <div id="stars2" class="star-bg"></div>
+            <div id="stars3" class="star-bg"></div>
+        </div>
         <div class="modal-content" id="modal-content">
             </div>
     </div>
@@ -224,18 +265,24 @@
             star.addEventListener('mouseenter', () => lineIDs.forEach(id => document.getElementById(id)?.classList.add('is-active')));
             star.addEventListener('mouseleave', () => lineIDs.forEach(id => document.getElementById(id)?.classList.remove('is-active')));
         });
+
+        // ENHANCED: Shooting star creation logic
         const shootingStarsContainer = document.querySelector('.shooting-stars');
         if (shootingStarsContainer) {
             const createShootingStar = () => {
                 const star = document.createElement('div');
                 star.classList.add('shooting-star');
-                star.style.top = `${Math.random() * 50 - 25}vh`; star.style.left = `${Math.random() * 100}vw`;
-                star.style.width = `${Math.random() * 100 + 150}px`; star.style.animationDuration = `${Math.random() * 5 + 5}s`;
-                star.style.animationDelay = `${Math.random() * 10}s`;
+                // Start off-screen to the left, at a random height
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.left = '-50px'; 
+                star.style.width = `${Math.random() * 2 + 1}px`; // Thinner stars
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`; // Faster animation
+                star.style.animationDelay = `${Math.random() * 5}s`;
                 shootingStarsContainer.appendChild(star);
-                setTimeout(() => star.remove(), 10000);
+                setTimeout(() => star.remove(), 3000); // Remove after animation
             };
-            Array(10).fill().forEach(createShootingStar);
+            // Create more stars for a denser effect
+            Array(20).fill().forEach(createShootingStar);
         }
         
         // --- Modal Logic ---
