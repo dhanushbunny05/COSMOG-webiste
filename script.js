@@ -1,4 +1,4 @@
-// COSMOG 2025 - Enhanced JavaScript with Mobile Performance Optimizations
+// COSMOG 2025 - Enhanced JavaScript with Navigation Fix and Mobile Popup
 
 (function() {
     'use strict';
@@ -7,14 +7,14 @@
     const CONFIG = {
         eventEndDate: '2025-09-17T09:00:00',
         carousel: {
-            autoPlayDuration: 3000,
+            autoPlayDuration: 3000, // Consistent autoplay duration
             transitionDuration: 500,
             swipeThreshold: 50
         },
         performance: {
             throttleDelay: 250,
             scrollUpdateDelay: 16,
-            debounceDelay: 250
+            debounceDelay: 250 // Centralized debounce delay
         },
         animations: {
             rippleDelay: 600,
@@ -68,9 +68,6 @@
         queryAll: (selector, parent = document) => Array.from(parent.querySelectorAll(selector))
     };
 
-    // --- MOBILE DETECTION ---
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
     // Component registry for cleanup
     const componentRegistry = new Map();
 
@@ -122,37 +119,6 @@
 
     const cosmicCarousel = {
         init: function() {
-            // If it's mobile, use a lightweight IntersectionObserver for the active state
-            // The actual scrolling is handled by CSS scroll-snap for performance.
-            if (isMobile) {
-                return utils.safeExecute(() => {
-                    const trackContainer = utils.query('.carousel-track-container');
-                    const slides = utils.queryAll('.carousel-track > *');
-                    if (!trackContainer || slides.length === 0) return null;
-
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            // Add 'is-active' to the card that is most visible in the center
-                            if (entry.isIntersecting) {
-                                slides.forEach(slide => slide.classList.remove('is-active'));
-                                entry.target.classList.add('is-active');
-                            }
-                        });
-                    }, { 
-                        root: trackContainer, 
-                        threshold: 0.6 // Card is "active" when 60% is visible
-                    });
-
-                    slides.forEach(slide => observer.observe(slide));
-
-                    const cleanup = () => {
-                        slides.forEach(slide => observer.unobserve(slide));
-                    };
-                    return { cleanup };
-                }, 'Mobile Carousel Observer');
-            }
-
-            // --- DESKTOP-ONLY JavaScript Carousel Logic ---
             return utils.safeExecute(() => {
                 const carousel = utils.query('.cosmic-events-carousel');
                 const track = utils.query('.carousel-track');
@@ -267,10 +233,9 @@
 
     const cardEffects = {
         init: function() {
-            // Disable tilt effect on mobile/touch devices for performance
-            if (isMobile || 'ontouchstart' in window) {
-                return null;
-            }
+             // Disable for mobile devices
+            if (window.innerWidth <= 768) return null;
+
             return utils.safeExecute(() => {
                 const cards = utils.queryAll('[data-tilt]');
                 if (cards.length === 0) return null;
@@ -362,11 +327,15 @@
                 if (anchorLinks.length === 0) return null;
 
                 const handleClick = function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const target = utils.query(targetId);
+                    const href = this.getAttribute('href');
+                    if (href === '#') { // Prevent default for empty href
+                        e.preventDefault();
+                        return;
+                    }
 
+                    const target = utils.query(href);
                     if (target) {
+                        e.preventDefault();
                         const navbarHeight = utils.query('.navbar')?.offsetHeight || 64;
                         const targetPosition = target.offsetTop - navbarHeight;
 
@@ -390,10 +359,9 @@
 
     const scrollProgress = {
         init: function() {
-            // Disable scroll progress bar on mobile for performance
-            if (isMobile) {
-                return null;
-            }
+             // Disable for mobile devices
+            if (window.innerWidth <= 768) return null;
+
             return utils.safeExecute(() => {
                 const progressBar = document.createElement('div');
                 progressBar.className = 'scroll-progress';
@@ -445,20 +413,23 @@
         }
     };
 
+    // NEW: Mobile Alert Popup Component
     const mobileAlert = {
         init: function() {
             return utils.safeExecute(() => {
                 const popup = utils.query('#mobile-alert-popup');
                 const closeButton = utils.query('#close-mobile-alert');
+                const isMobile = window.innerWidth <= 768;
                 const alertDismissed = sessionStorage.getItem('mobileAlertDismissed');
 
-                if (!popup || !closeButton || !isMobile) return null;
+                if (!popup || !closeButton) return null;
 
                 const showPopup = () => {
-                    if (!alertDismissed) {
+                    if (isMobile && !alertDismissed) {
+                        // Delay showing the popup slightly
                         setTimeout(() => {
                             popup.classList.add('show');
-                        }, 1500);
+                        }, 1500); // 1.5-second delay
                     }
                 };
 
@@ -469,6 +440,7 @@
                 
                 closeButton.addEventListener('click', closePopup);
 
+                // Initial check to show the popup
                 showPopup();
                 
                 const cleanup = () => {
@@ -487,7 +459,7 @@
         const components = [
             mobileNavigation, cosmicCarousel, cardEffects, buttonEffects,
             smoothScrolling, scrollProgress, loadingAnimation,
-            mobileAlert
+            mobileAlert // ADDED the new component here
         ];
 
         components.forEach(component => {
@@ -515,3 +487,4 @@
     window.addEventListener('beforeunload', cleanupCosmog);
 
 })();
+
