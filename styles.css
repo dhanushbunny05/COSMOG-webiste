@@ -793,6 +793,9 @@ body {
      margin: -30px 0;
     border-radius: var(--radius-lg);
     position: relative;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .carousel-track {
     display: flex;
@@ -800,6 +803,7 @@ body {
     gap: var(--space-lg);
     width: max-content;
     will-change: transform;
+    justify-content: flex-start;
 }
 
 
@@ -819,6 +823,7 @@ body {
   opacity: 0.5;
   transform: scale(1.2);
   backface-visibility: hidden;
+  scroll-snap-align: center;
 }
 
 .cosmic-event-card:focus,
@@ -839,6 +844,10 @@ body {
     z-index: 1;
     pointer-events: none;
 }
+.carousel-track-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
 
 .cosmic-event-card:hover .card-shine,
 .cosmic-event-card:focus .card-shine {
@@ -2870,14 +2879,13 @@ select.form-control {
     format('woff2');
 }
 
-/* END PERPLEXITY DESIGN SYSTEM */
-```css
-/* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
-/* Optimized for mobile devices with smaller fonts and compact layout */
+  /* END PERPLEXITY DESIGN SYSTEM */
+  ```css
+  /* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
+  /* Optimized for mobile devices with smaller fonts and compact layout */
 
-/* Mobile-first approach - screens 480px and below */
+  /* Mobile-first approach - screens 480px and below */
 @media (max-width: 480px) {
-  /* Base typography adjustments for mobile */
   html {
     font-size: var(--font-size-base);
   }
@@ -3193,8 +3201,6 @@ select.form-control {
   .indicator.active {
     background-color: var(--color-primary);
   }
-}
-
 /* Small mobile devices - 400px and below */
 @media (max-width: 400px) {
   html {
@@ -4775,52 +4781,19 @@ select.form-control {
     height: auto;
   }
 }
-/* Add to the end of styles.css */
 
-/* Mobile Performance Optimizations (≤768px) */
-@media (max-width: 768px) {
-  /* Hide heavy orb animations */
-  .bg-orb {
-    display: none;
-    animation: none !important;
-    opacity: 0.1 !important;
-    filter: none !important;
-  }
-
-  /* Simplify event cards */
-  .cosmic-event-card {
-    transform: none !important;
-    transition: transform 0.2s ease, opacity 0.2s ease !important;
-    will-change: transform, opacity;
-    contain: layout style paint;
-  }
-
-  .cosmic-event-card:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  /* Optimize layout containers */
-  .about-section, .cosmic-events-section {
-    contain: layout style;
-  }
-
-  /* Reduce gradient complexity */
-  .hero-title, .cosmic-events-title {
-    background: var(--cosmic-cyan) !important;
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  /* Remove shadows globally */
-  * {
-    box-shadow: none !important;
-  }
-
-  /* Hide custom cursor */
-  .cosmic-cursor {
-    display: none !important;
-  }
+/* Add this inside your mobile media query */
+.navbar.active {
+    position: absolute; /* Or fixed, depending on your desired scroll behavior */
+    top: 100%; /* Positions it right below your header */
+    right: 0;
+    width: 100%;
+    height: 100vh; /* Makes it take the full screen height */
+    background: #111; /* A solid dark background color */
+    z-index: 1000; /* A high number to ensure it's on top of all other content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    transition: all .55s ease;
 }
-
-
