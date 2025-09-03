@@ -22,6 +22,56 @@
             tablet: 1024
         }
     };
+    // In cosmic-animations.js, at top (after COSMIC_CONFIG definition):
+
+const isMobile = window.innerWidth <= 768;
+const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function createIntersectionObserver() {
+  const opts = {
+    threshold: isMobile ? 0.1 : 0.15,
+    rootMargin: isMobile ? '50px' : '100px'
+  };
+  const obs = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      if (el.classList.contains('about-title')) el.classList.add('animate-fade-up');
+      if (el.classList.contains('about-paragraph')) el.classList.add('animate-fade-in');
+      if (el.classList.contains('cosmic-event-card')) {
+        const idx = Array.from(el.parentNode.children).indexOf(el);
+        setTimeout(() => el.classList.add('animate-slide-up'), idx * 100);
+      }
+      observer.unobserve(el);
+    });
+  }, opts);
+  return obs;
+}
+
+function initAboutAnimations() {
+  if (isMobile || isReducedMotion) {
+    const obs = createIntersectionObserver();
+    document.querySelectorAll('.about-title, .about-paragraph').forEach(el => obs.observe(el));
+    return;
+  }
+  // existing GSAP-based logic...
+}
+
+function initCosmicEventsAnimations() {
+  if (isMobile || isReducedMotion) {
+    const obs = createIntersectionObserver();
+    document.querySelectorAll('.cosmic-event-card, .cosmic-events-title').forEach(el => obs.observe(el));
+    if ('ontouchstart' in window) {
+      document.querySelectorAll('.cosmic-event-card').forEach(card => {
+        card.addEventListener('touchstart', () => card.style.transform = 'translateY(-4px) scale(1.02)', { passive: true });
+        card.addEventListener('touchend', () => card.style.transform = '', { passive: true });
+      });
+    }
+    return;
+  }
+  // existing GSAP-based logic...
+}
+
 
     // ===== 1. HERO SECTION ANIMATIONS =====
     const initHeroAnimations = () => {
