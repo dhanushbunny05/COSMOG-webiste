@@ -233,9 +233,6 @@
 
     const cardEffects = {
         init: function() {
-             // Disable for mobile devices
-            if (window.innerWidth <= 768) return null;
-
             return utils.safeExecute(() => {
                 const cards = utils.queryAll('[data-tilt]');
                 if (cards.length === 0) return null;
@@ -327,15 +324,11 @@
                 if (anchorLinks.length === 0) return null;
 
                 const handleClick = function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#') { // Prevent default for empty href
-                        e.preventDefault();
-                        return;
-                    }
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = utils.query(targetId);
 
-                    const target = utils.query(href);
                     if (target) {
-                        e.preventDefault();
                         const navbarHeight = utils.query('.navbar')?.offsetHeight || 64;
                         const targetPosition = target.offsetTop - navbarHeight;
 
@@ -359,9 +352,6 @@
 
     const scrollProgress = {
         init: function() {
-             // Disable for mobile devices
-            if (window.innerWidth <= 768) return null;
-
             return utils.safeExecute(() => {
                 const progressBar = document.createElement('div');
                 progressBar.className = 'scroll-progress';
@@ -487,4 +477,3 @@
     window.addEventListener('beforeunload', cleanupCosmog);
 
 })();
-
