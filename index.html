@@ -10,17 +10,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<link rel="stylesheet" href="cosmic-animations.css">
+    <link rel="stylesheet" href="cosmic-animations.css">
 
+    <style>
+        /* --- NAVBAR BACKGROUND FIX FOR MOBILE --- */
+        @media (max-width: 991px) { /* This targets tablets and phones */
+            .navbar {
+                background-color: rgba(13, 13, 26, 0.9); /* Dark background */
+                backdrop-filter: blur(10px); /* Frosted glass effect for a modern look */
+                -webkit-backdrop-filter: blur(10px);
+            }
+        }
 
+        /* --- MOBILE NAVIGATION MENU FIX --- */
+        .mobile-nav.is-open {
+            background-color: rgba(13, 13, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
 
+        .mobile-nav .nav-link,
+        .mobile-nav .register-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            text-align: left;
+            font-size: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mobile-nav .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .mobile-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .mobile-nav .register-btn {
+            background: linear-gradient(135deg, #8a2be2, #00bfff);
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            justify-content: center;
+        }
+
+        .mobile-nav .register-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+    </style>
 </head>
 <body>
     <div id="preloader">
-  <video autoplay muted playsinline id="loader-video">
-    <source src="loading.mp4" type="video/mp4">
-  </video>
-</div>
+      <video autoplay muted playsinline id="loader-video">
+        <source src="loading.mp4" type="video/mp4">
+      </video>
+    </div>
 
      <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -28,7 +85,7 @@
         <div class="nav-container">
             <div class="nav-content">
                 <a href="#" class="logo">
-                    <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></img></div>
+                    <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></div>
                 </a>
 
                 <div class="desktop-nav">
@@ -59,7 +116,7 @@
             </div>
 
             <div class="mobile-nav">
-                <a href="#home" class="nav-link">
+                <a href="index.html" class="nav-link active">
                     <i class="fas fa-home"></i>
                     Home
                 </a>
@@ -185,7 +242,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Mission Impossible</h3>
-                                        <p class="cosmic-event-desc">Build innovative solutions that can reshape the universe of technology</p>
+                                        <p class="cosmic-event-desc">The ultimate test of skill and endurance in a high-stakes treasure hunt competition."</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -225,7 +282,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Art Attack</h3>
-                                        <p class="cosmic-event-desc">Express your creativity through cosmic movements and stellar choreography</p>
+                                        <p class="cosmic-event-desc">A themed art competition for artists to showcase their skills across various mediums.</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -265,7 +322,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Web Craft</h3>
-                                        <p class="cosmic-event-desc">Battle royale in the cosmic arena. Prove your gaming supremacy</p>
+                                        <p class="cosmic-event-desc">A technical challenge where participants design and build a unique web application by leveraging the power of AI</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -305,7 +362,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Capture & Creative </h3>
-                                        <p class="cosmic-event-desc">Capture the essence of cosmic beauty through your lens</p>
+                                        <p class="cosmic-event-desc">Bring a story to life through the lens and the editing suite in this ultimate filmmaking challenge.</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -345,7 +402,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Glam - Jam </h3>
-                                        <p class="cosmic-event-desc">Test your knowledge across multiple domains in this ultimate quiz</p>
+                                        <p class="cosmic-event-desc">The ultimate girls' party, packed with glamorous fun and witty challenges.</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -384,7 +441,7 @@
                                         </div>
                                         
                                         <h3 class="cosmic-event-title">Game-on </h3>
-                                        <p class="cosmic-event-desc">Capture the essence of cosmic beauty through your lens</p>
+                                        <p class="cosmic-event-desc">An intense esports clash where only the best squads survive.</p>
                                         
                                         <div class="event-stats">
                                             <div class="stat">
@@ -393,7 +450,7 @@
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-users"></i>
-                                                <span>1-4 Team</span>
+                                                <span>Min 4 Team</span>
                                             </div>
                                             <div class="stat">
                                                 <i class="fas fa-trophy"></i>
