@@ -82,9 +82,37 @@
             transform: scale(1.03);
             box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
         }
+        /* ===== HOME PAGE MOBILE ANIMATION OVERRIDE ===== */
+/* This rule targets elements ONLY on the home page AND ONLY on mobile screens (768px or less). */
+
+@media (max-width: 768px) {
+
+  .home-page .scroll-reveal,
+  .home-page .scroll-reveal-left,
+  .home-page .scroll-reveal-right,
+  .home-page .scroll-animate,
+  .home-page .about-title,
+  .home-page .about-paragraph,
+  .home-page .cosmic-events-title,
+  .home-page .cosmic-events-subtitle,
+  .home-page .cosmic-event-card {
+    /* Instantly makes the elements visible on mobile */
+    opacity: 1 !important;
+    /* Resets any starting positions like sliding in */
+    transform: none !important;
+    /* Disables the animation effect */
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .home-page .scroll-progress {
+    display: none !important;
+  }
+  
+}
     </style>
 </head>
-<body>
+<body class="body">
     <div id="preloader">
       <video autoplay muted playsinline id="loader-video">
         <source src="loading.mp4" type="video/mp4">
