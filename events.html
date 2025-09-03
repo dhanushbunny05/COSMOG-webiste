@@ -200,6 +200,15 @@
         padding-right: 25px;
       }
     }
+    
+    /* --- ADDED STYLE FOR FORM HINT --- */
+    .form-hint {
+        font-size: 0.8rem;
+        color: #ccc;
+        margin-top: -8px;
+        margin-bottom: 12px;
+        font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -509,16 +518,18 @@
             
             <div class="form-group">
                 <label for="teamSize">Team Size</label>
-                <input type="number" id="teamSize" name="teamSize" class="form-input" placeholder="e.g., 2" min="1" max="4" required>
+                <p class="form-hint">Please choose your team size based on the event rules. Example: Art Attack– 1, Capture and create - 2, Game On – 4 etc.</p>
+                <input type="number" id="teamSize" name="teamSize" class="form-input" placeholder="E.g., 2" min="1" max="4" required>
             </div>
 
             <div class="form-group">
                 <label for="teamName">Team Name</label>
-                <input type="text" id="teamName" name="teamName" class="form-input" placeholder="e.g., The Cosmic Coders" required>
+                <p class="form-hint">All teammates must enter the exact same team name.</p>
+                <input type="text" id="teamName" name="teamName" class="form-input" placeholder="E.g., The Cosmic Coders - 4 (Mention Your Team Size )" required>
             </div>
 
             <div class="form-group">
-                <label for="fullName">Your Name (Team Lead)</label>
+                <label for="fullName">Your Name </label>
                 <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Enter your full name" required>
             </div>
 
@@ -534,7 +545,7 @@
 
             <div class="form-group">
                 <label for="rollNumber">Roll Number</label>
-                <input type="text" id="rollNumber" name="rollNumber" class="form-input" placeholder="e.g., 22A91AXXXX" required>
+                <input type="text" id="rollNumber" name="rollNumber" class="form-input" placeholder="e.g., 23K8XXXX" pattern="{10}" required>
             </div>
 
             <div class="form-group">
@@ -557,8 +568,8 @@
 
             <div class="form-group" id="section-group">
                 <label for="section">Section</label>
-                <select id="section" name="section" class="form-select">
-                    <option value="">Select Section</option>
+                <select id="section" name="section" class="form-select" required>
+                    <option value="" class="form-hint">Select Section (If only one Section exists Select 'A')</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
