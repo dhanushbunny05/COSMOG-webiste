@@ -345,6 +345,18 @@
             }
         });
     });
+    // Existing close logic in script.js
+modal.addEventListener('click', e => {
+  if (e.target.closest('.modal-close')) {
+    closeModal();
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
+    closeModal();
+  }
+});
+
 </script>
 <footer class="enhanced-footer">
     <div class="container">
