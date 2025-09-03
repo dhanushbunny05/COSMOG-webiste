@@ -4775,4 +4775,52 @@ select.form-control {
     height: auto;
   }
 }
+/* Add to the end of styles.css */
+
+/* Mobile Performance Optimizations (≤768px) */
+@media (max-width: 768px) {
+  /* Hide heavy orb animations */
+  .bg-orb {
+    display: none;
+    animation: none !important;
+    opacity: 0.1 !important;
+    filter: none !important;
+  }
+
+  /* Simplify event cards */
+  .cosmic-event-card {
+    transform: none !important;
+    transition: transform 0.2s ease, opacity 0.2s ease !important;
+    will-change: transform, opacity;
+    contain: layout style paint;
+  }
+
+  .cosmic-event-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Optimize layout containers */
+  .about-section, .cosmic-events-section {
+    contain: layout style;
+  }
+
+  /* Reduce gradient complexity */
+  .hero-title, .cosmic-events-title {
+    background: var(--cosmic-cyan) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* Remove shadows globally */
+  * {
+    box-shadow: none !important;
+  }
+
+  /* Hide custom cursor */
+  .cosmic-cursor {
+    display: none !important;
+  }
+}
+
 
