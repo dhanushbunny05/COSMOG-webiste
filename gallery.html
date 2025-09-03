@@ -9,21 +9,78 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* FIXED: Added missing RGB color variables for the modal's glow effect */
+        /* --- Root Variables --- */
         :root {
             --cosmic-purple-rgb: 138, 43, 226;
             --cosmic-cyan-rgb: 0, 191, 255;
         }
 
-        .gallery-section { padding: 4rem 0; background: #0d0d1a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .gallery-header { text-align: center; margin-bottom: var(--space-lg); z-index: 10;}
-        .gallery-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: var(--space-sm); animation: glow 3s ease-in-out infinite alternate; }
-        .gallery-subtitle { font-size: var(--font-size-lg); color: var(--muted-foreground); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        /* --- Main Gallery Section --- */
+        .gallery-section {
+            padding: 8rem 0 4rem;
+            background: #0d0d1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* This will be changed for mobile */
+            position: relative;
+            overflow-x: hidden;
+        }
 
-        .starmap-guide { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-lg); background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1); padding: var(--space-sm) var(--space-lg); border-radius: var(--radius-lg); margin-top: var(--space-lg); z-index: 10; }
-        .guide-item { display: flex; align-items: center; gap: var(--space-xs); color: var(--muted-foreground); font-size: var(--font-size-sm); }
-        .guide-item i { color: var(--cosmic-cyan); font-size: var(--font-size-lg); }
-        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            z-index: 10;
+        }
+
+        .gallery-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: var(--space-sm);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        .gallery-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--muted-foreground);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .starmap-guide {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-lg);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-lg);
+            z-index: 10;
+        }
+
+        .guide-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--muted-foreground);
+            font-size: var(--font-size-sm);
+        }
+
+        .guide-item i {
+            color: var(--cosmic-cyan);
+            font-size: var(--font-size-lg);
+        }
+
+        /* --- Starmap Constellation --- */
         .starmap-container {
             width: 100%;
             max-width: 900px;
@@ -34,8 +91,15 @@
             transition: transform 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
             perspective: 1500px;
         }
-        
-        .star-node { position: absolute; width: 20px; height: 20px; cursor: pointer; z-index: 5; }
+
+        .star-node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 5;
+        }
+
         .star-core {
             width: 100%;
             height: 100%;
@@ -46,10 +110,17 @@
             transition: all 0.4s ease;
             position: relative;
         }
-        
-        .star-core::before { content: ''; position: absolute; inset: -5px; background: radial-gradient(circle, white, transparent 60%); border-radius: 50%; animation: twinkle 3s infinite ease-in-out; }
-        .star-core::before { animation-delay: 1.5s; }
-        
+
+        .star-core::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: radial-gradient(circle, white, transparent 60%);
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+            animation-delay: 1.5s;
+        }
+
         .star-core::after {
             content: '';
             position: absolute;
@@ -64,37 +135,60 @@
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1.2); } 50% { opacity: 0.8; transform: scale(1.5); } }
-        @keyframes pulse-star { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1); } }
-        
         .star-node:hover .star-core {
             transform: scale(1.5);
             box-shadow: 0 0 25px #fff, 0 0 50px var(--cosmic-cyan), 0 0 75px var(--cosmic-purple);
         }
+
         .star-node:hover .star-core::after {
             transform: translateY(-50%) scaleX(1);
             opacity: 1;
         }
-        nav.navbar {
-            position: relative;      /* or keep existing fixed/absolute */
-                z-index: 10;             /* lower than the modal-overlay */
-                    }
-        .star-label { position: absolute; top: 160%; left: 50%; transform: translateX(-50%); color: var(--muted-foreground); font-family: 'Orbitron', sans-serif; font-size: var(--font-size-sm); white-space: nowrap; opacity: 0.7; transition: all 0.4s ease; }
-        .star-node:hover .star-label { opacity: 1; color: #fff; transform: translateX(-50%) scale(1.1); }
-        
-        .constellation-line { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(0, 191, 255, 0), rgba(0, 191, 255, 0.5), rgba(0, 191, 255, 0)); z-index: 1; transform-origin: left center; transition: all 0.4s ease; }
-        .constellation-line.is-active { height: 3px; box-shadow: 0 0 15px var(--cosmic-cyan); background: linear-gradient(90deg, rgba(0, 191, 255, 0), var(--cosmic-cyan), rgba(0, 191, 255, 0)); }
 
-        /* --- NEW STAR & LINE POSITIONS --- */
-        #star1  { top: 20%; left: 10%; }
-        #star2  { top: 50%; left: 25%; }
-        #star3  { top: 80%; left: 15%; }
-        #star4  { top: 60%; left: 45%; }
-        #star5  { top: 25%; left: 55%; }
-        #star6  { top: 5%;  left: 80%; }
-        #star7  { top: 40%; left: 90%; }
-        #star8  { top: 75%; left: 85%; }
-        #star9  { top: 90%; left: 55%; }
+        .star-label {
+            position: absolute;
+            top: 160%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--muted-foreground);
+            font-family: 'Orbitron', sans-serif;
+            font-size: var(--font-size-sm);
+            white-space: nowrap;
+            opacity: 0.7;
+            transition: all 0.4s ease;
+        }
+
+        .star-node:hover .star-label {
+            opacity: 1;
+            color: #fff;
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .constellation-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 191, 255, 0), rgba(0, 191, 255, 0.5), rgba(0, 191, 255, 0));
+            z-index: 1;
+            transform-origin: left center;
+            transition: all 0.4s ease;
+        }
+
+        .constellation-line.is-active {
+            height: 3px;
+            box-shadow: 0 0 15px var(--cosmic-cyan);
+            background: linear-gradient(90deg, rgba(0, 191, 255, 0), var(--cosmic-cyan), rgba(0, 191, 255, 0));
+        }
+
+        /* --- Star & Line Positions (Desktop) --- */
+        #star1 { top: 20%; left: 10%; }
+        #star2 { top: 50%; left: 25%; }
+        #star3 { top: 80%; left: 15%; }
+        #star4 { top: 60%; left: 45%; }
+        #star5 { top: 25%; left: 55%; }
+        #star6 { top: 5%; left: 80%; }
+        #star7 { top: 40%; left: 90%; }
+        #star8 { top: 75%; left: 85%; }
+        #star9 { top: 90%; left: 55%; }
         #star10 { top: 50%; left: 70%; }
 
         #line1-2 { top: 100px; left: 90px; width: 202px; transform: rotate(48.01deg); }
@@ -104,100 +198,279 @@
         #line4-9 { top: 300px; left: 405px; width: 180px; transform: rotate(63.43deg); }
         #line5-6 { top: 125px; left: 495px; width: 236px; transform: rotate(-18.92deg); }
         #line5-10 { top: 125px; left: 495px; width: 202px; transform: rotate(48.01deg); }
-        #line6-7 { top: 25px;  left: 720px; width: 187px; transform: rotate(60.25deg); }
+        #line6-7 { top: 25px; left: 720px; width: 187px; transform: rotate(60.25deg); }
         #line7-8 { top: 200px; left: 810px; width: 180px; transform: rotate(104.03deg); }
         #line8-9 { top: 375px; left: 765px; width: 288px; transform: rotate(155.68deg); }
 
-        .shooting-stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
-        .shooting-star { position: absolute; height: 2px; background: linear-gradient(-45deg, var(--cosmic-cyan), transparent); filter: drop-shadow(0 0 6px var(--cosmic-cyan)); animation: shooting-star-anim linear infinite; }
+        /* --- Background Animations --- */
+        .shooting-stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, var(--cosmic-cyan), transparent);
+            filter: drop-shadow(0 0 6px var(--cosmic-cyan));
+            animation: shooting-star-anim linear infinite;
+        }
+
         @keyframes shooting-star-anim {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(120vw); opacity: 0; }
+            from { transform: translateX(0); }
+            to { transform: translateX(120vw); }
+        }
+
+        @keyframes pulse-star { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1.2); } 50% { opacity: 0.8; transform: scale(1.5); } }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+            overflow: hidden;
+        }
+
+        .modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .modal-content {
+            background: rgba(22, 17, 38, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--cosmic-purple);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            width: 90vw;
+            max-width: 500px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            box-shadow: 0 0 20px rgba(var(--cosmic-purple-rgb), 0.5), 0 0 60px rgba(var(--cosmic-cyan-rgb), 0.3);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            z-index: 10000;
+        }
+
+        .modal-overlay.is-visible .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+            z-index: 10001;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            color: var(--cosmic-pink);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--cosmic-cyan);
+            margin-bottom: var(--space-md);
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--space-sm);
+        }
+
+        .modal-text {
+            color: var(--muted-foreground);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .time-block {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 15px;
+            border-radius: var(--radius-sm);
+        }
+
+        .time-block span {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--cosmic-cyan);
+        }
+
+        .time-block small {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+            text-transform: uppercase;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-glow);
         }
         
-        .modal-overlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0s linear 0.5s; overflow: hidden; }
-        .modal-overlay.is-visible { opacity: 1; visibility: visible; transition-delay: 0s; }
+        @keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
-        #stars-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; display: block; background: #000; z-index: 0; }
-        .star-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-repeat: repeat; }
+        #stars-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #000;
+            z-index: -1;
+        }
+
+        .star-bg {
+            position: absolute;
+            inset: 0;
+            background-repeat: repeat;
+        }
+
         #stars1 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png'); background-size: auto; animation: move-stars 50s linear infinite; }
         #stars2 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png'); background-size: 80%; animation: move-stars 100s linear infinite; }
         #stars3 { background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/twinkling.png'); background-size: auto; animation: move-stars 150s linear infinite; }
-        @keyframes move-stars { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
+        
+        @keyframes move-stars {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-2000px); }
+        }
 
-        .modal-content { background: rgba(22, 17, 38, 0.8); backdrop-filter: blur(10px); border: 1px solid var(--cosmic-purple); border-radius: var(--radius-lg); padding: var(--space-xl); width: 100%; max-width: 500px; text-align: center; color: #fff; position: relative; box-shadow: 0 0 20px rgba(var(--cosmic-purple-rgb), 0.5), 0 0 60px rgba(var(--cosmic-cyan-rgb), 0.3); transform: scale(0.8); opacity: 0; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease ; z-index: 10000; }
-        .modal-overlay.is-visible .modal-content { transform: scale(1); opacity: 1; }
-        .modal-icon { font-size: 4rem; color: var(--cosmic-cyan); margin-bottom: var(--space-md); animation: pulse-icon 2s infinite ease-in-out; }
-        @keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        .modal-title { font-family: 'Orbitron', sans-serif; font-size: var(--font-size-2xl); margin-bottom: var(--space-sm); }
-        .modal-text { color: var(--muted-foreground); font-size: var(--font-size-lg); margin-bottom: var(--space-xl); }
-        .countdown-timer { display: flex; justify-content: center; gap: 20px; margin-bottom: var(--space-xl); }
-        .time-block { background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: var(--radius-sm); }
-        .time-block span { display: block; font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--cosmic-cyan); }
-        .time-block small { font-size: 0.8rem; color: var(--muted-foreground); text-transform: uppercase; }
-        .modal-close { position: relative; top: 15px; right: 15px; background: transparent; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; transition: transform 0.3s ease, color 0.3s ease; z-index: 10001; pointer-events: auto; }
-        .modal-close:hover { transform: rotate(90deg); color: var(--cosmic-pink); }
-        .download-button { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan)); color: #fff; padding: 12px 24px; border-radius: var(--radius-lg); text-decoration: none; font-family: 'Orbitron', sans-serif; font-weight: 600; transition: all 0.3s ease; }
-        .download-button:hover { transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-glow); }
+        /* --- MOBILE RESPONSIVENESS (IMPROVED SCALE) --- */
+        @media (max-width: 900px) {
+            .gallery-section {
+                justify-content: flex-start;
+                padding-top: 6rem;
+            }
+
+            .starmap-container {
+                transform-origin: top center;
+                perspective: none;
+                
+                transform: scale(0.95); /* Increased base scale for better visibility */
+                height: 475px; /* 500px * 0.95 */
+                margin-top: 1rem; /* Adjust margin to fit better */
+                margin-bottom: -25px; /* (500-475) to offset height reduction */
+            }
+            .star-label { /* Adjust label size for mobile readability */
+                font-size: var(--font-size-base); /* Using base font size for better readability */
+                top: 150%; /* Adjust label position */
+            }
+        }
+        @media (max-width: 768px) {
+            .starmap-container {
+                transform: scale(0.85); /* Further increase scale for smaller tablets */
+                height: 425px; /* 500px * 0.85 */
+                margin-top: 0.5rem;
+                margin-bottom: -75px;
+            }
+        }
+        @media (max-width: 580px) {
+            .starmap-container {
+                transform: scale(0.7); /* Even larger for mid-range phones */
+                height: 350px; /* 500px * 0.7 */
+                margin-top: 0;
+                margin-bottom: -150px;
+            }
+             .star-node {
+                width: 18px; /* Slightly smaller star core */
+                height: 18px;
+            }
+        }
+        @media (max-width: 450px) {
+            .starmap-container {
+                transform: scale(0.6); /* Max scale for small phones */
+                height: 300px; /* 500px * 0.6 */
+                margin-top: -0.5rem;
+                margin-bottom: -200px;
+            }
+             .star-node {
+                width: 16px; /* Adjust core size for smallest screens */
+                height: 16px;
+            }
+            .star-label {
+                font-size: var(--font-size-sm); /* Slightly smaller font for very small screens */
+                top: 140%;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="shooting-stars"></div>
-   <nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-content">
-            <a href="index.html" class="logo">
-                    <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></img></div>
-            </a>
-
-            <div class="desktop-nav">
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-home"></i>
-                    Home
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></div>
                 </a>
-                <a href="events.html" class="nav-link">
-                    <i class="fas fa-calendar-alt"></i>
-                    Events
-                </a>
-                <a href="organizers.html" class="nav-link" >
-                    <i class="fas fa-users"></i>
-                    Team
-                </a>
-                <a href="gallery.html" class="nav-link active">
-                    <i class="fas fa-images"></i>
-                    Gallery
-                </a>
+                <div class="desktop-nav">
+                    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a>
+                    <a href="organizers.html" class="nav-link"><i class="fas fa-users"></i> Team</a>
+                    <a href="gallery.html" class="nav-link active"><i class="fas fa-images"></i> Gallery</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="events.html" class="register-btn">Register Now</a>
+                    <button class="mobile-menu-btn" aria-expanded="false" aria-label="Toggle mobile menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-
-            <div class="nav-actions">
+            <div class="mobile-nav">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a>
+                <a href="organizers.html" class="nav-link"><i class="fas fa-users"></i> Team</a>
+                <a href="gallery.html" class="nav-link"><i class="fas fa-images"></i> Gallery</a>
                 <a href="events.html" class="register-btn">Register Now</a>
-                <button class="mobile-menu-btn" aria-expanded="false" aria-label="Toggle mobile menu">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
         </div>
+    </nav>
 
-        <div class="mobile-nav">
-            <a href="index.html" class="nav-link">
-                <i class="fas fa-home"></i>
-                Home
-            </a>
-            <a href="events.html" class="nav-link">
-                <i class="fas fa-calendar-alt"></i>
-                Events
-            </a>
-            <a href="organizers.html" class="nav-link" >
-                <i class="fas fa-users"></i>
-                Team
-            </a>
-            <a href="gallery.html" class="nav-link">
-                <i class="fas fa-images"></i>
-                Gallery
-            </a>
-            <a href="events.html" class="register-btn">Register Now</a>
-        </div>
-    </div>
-</nav>
     <main id="main-content">
         <section class="gallery-section">
             <div class="gallery-header">
@@ -246,15 +519,15 @@
     </div>
     
     <script src="script.js" defer></script>
-   <script>
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
         const starNodes = document.querySelectorAll('.star-node');
         const modal = document.getElementById('gallery-modal');
         const modalContent = document.getElementById('modal-content');
         
-        // --- Parallax & Shooting Stars (Aesthetic JS) ---
         const starmap = document.getElementById('starmap');
-        if (starmap && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (starmap && !isMobile && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             starmap.addEventListener('mousemove', (e) => {
                 const { width, height, left, top } = starmap.getBoundingClientRect();
                 const x = e.clientX - left; const y = e.clientY - top;
@@ -263,32 +536,29 @@
             });
             starmap.addEventListener('mouseleave', () => { starmap.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)'; });
         }
+        
         starNodes.forEach(star => {
             const lineIDs = star.dataset.lines.split(',');
             star.addEventListener('mouseenter', () => lineIDs.forEach(id => document.getElementById(id)?.classList.add('is-active')));
             star.addEventListener('mouseleave', () => lineIDs.forEach(id => document.getElementById(id)?.classList.remove('is-active')));
         });
 
-        // ENHANCED: Shooting star creation logic
         const shootingStarsContainer = document.querySelector('.shooting-stars');
         if (shootingStarsContainer) {
             const createShootingStar = () => {
                 const star = document.createElement('div');
                 star.classList.add('shooting-star');
-                // Start off-screen to the left, at a random height
                 star.style.top = `${Math.random() * 100}vh`;
                 star.style.left = '-50px'; 
-                star.style.width = `${Math.random() * 2 + 1}px`; // Thinner stars
-                star.style.animationDuration = `${Math.random() * 2 + 1}s`; // Faster animation
+                star.style.width = `${Math.random() * 2 + 1}px`;
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`;
                 star.style.animationDelay = `${Math.random() * 5}s`;
                 shootingStarsContainer.appendChild(star);
-                setTimeout(() => star.remove(), 3000); // Remove after animation
+                setTimeout(() => star.remove(), 4000);
             };
-            // Create more stars for a denser effect
             Array(20).fill().forEach(createShootingStar);
         }
         
-        // --- Modal Logic ---
         const eventDate = new Date('Sep 15, 2025 09:00:00').getTime();
         let countdownInterval = null;
 
@@ -300,9 +570,24 @@
             let modalHTML = '';
 
             if (eventHasPassed) {
-                modalHTML = `<button class="modal-close"><i class="fas fa-times"></i></button><div class="modal-icon"><i class="fas fa-unlock-alt"></i></div><h2 class="modal-title">${eventName} - Photos Unlocked!</h2><p class="modal-text">The photos for this event are now available for download.</p><a href="${gdriveLink}" target="_blank" class="download-button"><i class="fas fa-download"></i><span>Download Photos</span></a>`;
+                modalHTML = `
+                    <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+                    <div class="modal-icon"><i class="fas fa-unlock-alt"></i></div>
+                    <h2 class="modal-title">${eventName} - Photos Unlocked!</h2>
+                    <p class="modal-text">The photos for this event are now available for download.</p>
+                    <a href="${gdriveLink}" target="_blank" class="download-button"><i class="fas fa-download"></i><span>Download Photos</span></a>`;
             } else {
-                modalHTML = `<button class="modal-close"><i class="fas fa-times"></i></button><div class="modal-icon"><i class="fas fa-lock"></i></div><h2 class="modal-title">${eventName} - Time Capsule</h2><p class="modal-text">Photos will be revealed after the event concludes. The countdown begins!</p><div class="countdown-timer"><div class="time-block"><span id="days">00</span><small>Days</small></div><div class="time-block"><span id="hours">00</span><small>Hours</small></div><div class="time-block"><span id="minutes">00</span><small>Minutes</small></div><div class="time-block"><span id="seconds">00</span><small>Seconds</small></div></div>`;
+                modalHTML = `
+                    <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+                    <div class="modal-icon"><i class="fas fa-lock"></i></div>
+                    <h2 class="modal-title">${eventName} - Time Capsule</h2>
+                    <p class="modal-text">Photos will be revealed after the event concludes. The countdown begins!</p>
+                    <div class="countdown-timer">
+                        <div class="time-block"><span id="days">00</span><small>Days</small></div>
+                        <div class="time-block"><span id="hours">00</span><small>Hours</small></div>
+                        <div class="time-block"><span id="minutes">00</span><small>Minutes</small></div>
+                        <div class="time-block"><span id="seconds">00</span><small>Seconds</small></div>
+                    </div>`;
             }
             
             modalContent.innerHTML = modalHTML;
@@ -315,28 +600,41 @@
 
         const closeModal = () => {
             modal.classList.remove('is-visible');
-            if (countdownInterval) clearInterval(countdownInterval);
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
         };
 
         const startCountdown = () => {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
-                const now = new Date().getTime(); const distance = eventDate - now;
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+
                 if (distance < 0) {
                     clearInterval(countdownInterval);
-                    if(document.querySelector('.countdown-timer')) document.querySelector('.countdown-timer').innerHTML = "<p>The Event is Live!</p>";
+                    const timerEl = document.querySelector('.countdown-timer');
+                    if(timerEl) timerEl.innerHTML = "<p>The Event is Live!</p>";
                     return;
                 }
-                const days = Math.floor(distance / (1000*60*60*24)); const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-                const minutes = Math.floor((distance % (1000*60*60)) / (1000*60)); const seconds = Math.floor((distance % (1000*60)) / 1000);
-                if(document.getElementById('days')) document.getElementById('days').innerText = String(days).padStart(2, '0');
-                if(document.getElementById('hours')) document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                if(document.getElementById('minutes')) document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                if(document.getElementById('seconds')) document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                const days = Math.floor(distance / (1000*60*60*24));
+                const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+                const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+                const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minutesEl = document.getElementById('minutes');
+                const secondsEl = document.getElementById('seconds');
+
+                if(daysEl) daysEl.innerText = String(days).padStart(2, '0');
+                if(hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+                if(minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
+                if(secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
             }, 1000);
         };
 
-        // --- Event Listeners ---
         starNodes.forEach(star => star.addEventListener('click', () => openModal(star)));
         
         modal.addEventListener('click', (e) => {
@@ -344,47 +642,34 @@
                 closeModal();
             }
         });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
+                closeModal();
+            }
+        });
     });
-    // Existing close logic in script.js
-modal.addEventListener('click', e => {
-  if (e.target.closest('.modal-close')) {
-    closeModal();
-  }
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
-    closeModal();
-  }
-});
+    </script>
 
-</script>
-<footer class="enhanced-footer">
-    <div class="container">
-        <a href="#main-content" class="back-to-top" aria-label="Back to top">
-            <i class="fas fa-arrow-up"></i>
-        </a>
-
-        <div class="footer-main">
-            <div class="footer-column">
-                <h3>Contact Us</h3>
-                <ul class="contact-list">
-                    <li>
-                        <a href="https://www.instagram.com/cosmog_2k25?utm_source=qr&igsh=MnF4MDlrMWg1OTNy" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-                    </li>
-                    <li>
-                        <a href="tel:+919553728635"><i class="fas fa-phone"></i> Phone</a>
-                    </li>
-                    <li>
-                        <a href="mailto:cosmogcsg@gmail.com"><i class="fas fa-envelope"></i> cosmogcsg@gmail.com</a>
-                    </li>
-                </ul>
+    <footer class="enhanced-footer">
+        <div class="container">
+            <a href="#main-content" class="back-to-top" aria-label="Back to top">
+                <i class="fas fa-arrow-up"></i>
+            </a>
+            <div class="footer-main">
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-list">
+                        <li><a href="https://www.instagram.com/cosmog_2k25?utm_source=qr&igsh=MnF4MDlrMWg1OTNy" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="tel:+919553728635"><i class="fas fa-phone"></i> Phone</a></li>
+                        <li><a href="mailto:cosmogcsg@gmail.com"><i class="fas fa-envelope"></i> cosmogcsg@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 COSMOG - Computer Science & Design. All rights reserved.</p>
             </div>
         </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 COSMOG - Computer Science & Design. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
