@@ -13,30 +13,28 @@
     <link rel="stylesheet" href="cosmic-animations.css">
 
     <style>
-        /* --- NAVBAR BACKGROUND FIX FOR MOBILE (FINAL) --- */
-        @media (max-width: 991px) { /* This targets tablets and phones */
-            nav.navbar { /* Using a more specific selector to override styles.css */
-                /* Solid background color for all mobile devices */
-                background-color: #0d0d1a !important; 
+        /* --- NAVBAR BACKGROUND FIX FOR MOBILE (IMPROVED) --- */
+        @media (max-width: 991px) { /* Targets tablets and phones */
+            /* Using a more specific selector (body nav.navbar) to avoid using !important */
+            body nav.navbar {
+                background-color: #0d0d1a; 
             }
             /* Applies blur effect ONLY if the browser supports it */
             @supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
-                nav.navbar {
-                    background-color: rgba(13, 13, 26, 0.85) !important;
+                body nav.navbar {
+                    background-color: rgba(13, 13, 26, 0.85);
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);
                 }
             }
         }
 
-        /* --- MOBILE NAVIGATION MENU FIX (MORE COMPATIBLE) --- */
+        /* --- MOBILE NAVIGATION MENU STYLES --- */
         .mobile-nav.is-open {
-             /* Solid background color for all mobile devices */
             background-color: #0d0d1a;
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
-        /* Applies blur effect ONLY if the browser supports it */
         @supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
             .mobile-nav.is-open {
                 background-color: rgba(13, 13, 26, 0.85);
@@ -44,7 +42,6 @@
             }
         }
 
-        /* General style for all links and buttons in the mobile menu */
         .mobile-nav .nav-link,
         .mobile-nav .register-btn {
             background-color: rgba(255, 255, 255, 0.1); 
@@ -61,21 +58,18 @@
             gap: 15px;
         }
 
-        /* Hover effect for navigation links */
         .mobile-nav .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.2);
             color: #fff;
             transform: translateX(5px);
         }
 
-        /* Style for the currently active link */
         .mobile-nav .nav-link.active {
             background-color: rgba(255, 255, 255, 0.25);
             color: #fff;
             font-weight: bold;
         }
 
-        /* Special styling for the 'Register Now' button */
         .mobile-nav .register-btn {
             background: linear-gradient(135deg, #8a2be2, #00bfff);
             color: #fff;
@@ -188,10 +182,12 @@
                         <span>Amazing Cash Prizes & Gifts</span>
                     </div>
                 </div>
-                    <a href="#cosmic-events" class="btn-secondary">
-                        <i class="fas fa-info-circle"></i>
-                        Learn More
-                    </a>
+                   <div class="hero-buttons">
+    <a href="#cosmic-events" class="btn-secondary">
+        <i class="fas fa-info-circle"></i>
+        Learn More
+    </a>
+</div>
                 </div>
             </div>
 
@@ -554,12 +550,7 @@
   const preloader = document.getElementById("preloader");
   const video = document.getElementById("loader-video");
 
-  // Option 1: Hide after 1s (fixed time)
-  setTimeout(() => {
-    preloader.classList.add("hidden");
-  }, 2000); // 2000ms = 2 sec
-
-  // Option 2: Hide after video ends (safer if video length > 1s)
+  // Hide preloader after video ends for optimal performance
   video.addEventListener("ended", () => {
     preloader.classList.add("hidden");
   });
