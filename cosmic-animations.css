@@ -1978,3 +1978,11 @@ background: var(--color-text);
 border-color: var(--color-text);
 }
 }
+/* ===== PERFORMANCE OPTIMIZATION ===== */
+/* Tells the browser to prepare for changes to transform and opacity on these elements */
+.cosmic-event-card,
+.about-title,
+.about-paragraph,
+.parallax-bg {
+  will-change: transform, opacity;
+}
