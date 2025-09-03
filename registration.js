@@ -163,15 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Department Data ---
     const departments = [
-        "Computer Science & Design (CSD)",
-        "Artificial Intelligence & Machine Learning (AIML)",
-        "Computer Science & Engineering (CSE)",
-        "Information Technology (IT)",
-        "Electronics & Communication Engineering (ECE)",
-        "Electrical & Electronics Engineering (EEE)",
-        "Mechanical Engineering (MECH)",
-        "Civil Engineering (CIVIL)",
-        "Humanities & Sciences (H&S)"
+        "CSG",
+        "AIML",
+        "CSE",
+        "IT",
+        "ECE",
+        "EEE",
+        "AIDS",
+        "CSM",
     ];
 
     let currentEventData = { name: '', fee: 0, registrationId: '' }; // Added registrationId here
@@ -371,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        setTimeout(closeModal, 15000); // Increased timeout to 15 seconds
+        setTimeout(closeModal, 300000); // Increased timeout to 5 minutes
     }
 
 
