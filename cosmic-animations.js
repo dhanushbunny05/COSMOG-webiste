@@ -162,18 +162,18 @@
     };
 
     // ===== 7. MAIN INITIALIZATION FUNCTION =====
-    const initCosmicAnimations = () => {
-        // Check if the GSAP library is loaded
+   const initCosmicAnimations = () => {
+        // ...
         if (typeof gsap !== 'undefined') {
             // --- Animations that run on ALL screen sizes ---
             initHeroAnimations();
-            initAboutAnimations();
-            initCosmicEventsAnimations();
-            initSectionTransitions();
-    
+            // initSectionTransitions(); // This one is lightweight, can stay if you like
+
             // --- Animations that ONLY run on DESKTOP ---
-            // We check the window width to avoid running these on mobile.
             if (window.innerWidth > 768) {
+                initAboutAnimations(); // MOVED HERE
+                initCosmicEventsAnimations(); // MOVED HERE
+                initSectionTransitions(); // MOVED HERE for consistency
                 initScrollProgress();
                 initMagneticCursor();
             }
