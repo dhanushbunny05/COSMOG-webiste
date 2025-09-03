@@ -13,32 +13,47 @@
     <link rel="stylesheet" href="cosmic-animations.css">
 
     <style>
-        /* --- NAVBAR BACKGROUND FIX FOR MOBILE --- */
+        /* --- NAVBAR BACKGROUND FIX FOR MOBILE (FINAL) --- */
         @media (max-width: 991px) { /* This targets tablets and phones */
-            .navbar {
-                background-color: rgba(13, 13, 26, 0.9); /* Dark background */
-                backdrop-filter: blur(10px); /* Frosted glass effect for a modern look */
-                -webkit-backdrop-filter: blur(10px);
+            nav.navbar { /* Using a more specific selector to override styles.css */
+                /* Solid background color for all mobile devices */
+                background-color: #0d0d1a !important; 
+            }
+            /* Applies blur effect ONLY if the browser supports it */
+            @supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+                nav.navbar {
+                    background-color: rgba(13, 13, 26, 0.85) !important;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                }
             }
         }
 
-        /* --- MOBILE NAVIGATION MENU FIX --- */
+        /* --- MOBILE NAVIGATION MENU FIX (MORE COMPATIBLE) --- */
         .mobile-nav.is-open {
-            background-color: rgba(13, 13, 26, 0.9);
-            backdrop-filter: blur(10px);
+             /* Solid background color for all mobile devices */
+            background-color: #0d0d1a;
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
+        /* Applies blur effect ONLY if the browser supports it */
+        @supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+            .mobile-nav.is-open {
+                background-color: rgba(13, 13, 26, 0.85);
+                backdrop-filter: blur(10px);
+            }
+        }
 
+        /* General style for all links and buttons in the mobile menu */
         .mobile-nav .nav-link,
         .mobile-nav .register-btn {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.1); 
             color: #e0e0e0;
             border-radius: 8px;
             margin-bottom: 0.75rem;
             text-align: left;
             font-size: 1.1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
             padding: 14px 20px;
             display: flex;
@@ -46,18 +61,21 @@
             gap: 15px;
         }
 
+        /* Hover effect for navigation links */
         .mobile-nav .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.2);
             color: #fff;
             transform: translateX(5px);
         }
 
+        /* Style for the currently active link */
         .mobile-nav .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.25);
             color: #fff;
             font-weight: bold;
         }
 
+        /* Special styling for the 'Register Now' button */
         .mobile-nav .register-btn {
             background: linear-gradient(135deg, #8a2be2, #00bfff);
             color: #fff;
