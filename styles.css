@@ -782,15 +782,15 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--space-2xl);
+    gap: var(--space-lg);
 }
 
 .carousel-track-container {
     overflow: hidden;
     flex: 1;
-     perspective: 1000px;
+    perspective: 1000px;
     padding: 30px 0;
-     margin: -30px 0;
+    margin: -30px 0;
     border-radius: var(--radius-lg);
     position: relative;
 }
@@ -807,17 +807,14 @@ body {
 .cosmic-event-card {
   overflow: hidden;
   flex: 0 0 380px;
-  width: 400px;
+  width: 380px; /* Adjusted from 400px to better fit common layouts */
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(138, 43, 226, 0.2);
   border-radius: 1rem;
-  padding: 3rem;
+  padding: 2.5rem; /* Slightly reduced padding */
   text-align: center;
   transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
   cursor: pointer;
-  filter: blur(2px);
-  opacity: 0.5;
-  transform: scale(1.2);
   backface-visibility: hidden;
   will-change: transform, opacity; /* Performance hint */
 }
@@ -858,7 +855,6 @@ body {
 .cosmic-event-card.featured {
     background: rgba(255, 215, 0, 0.08);
     border-color: rgba(255, 215, 0, 0.4);
-    transform: scale(1.02);
 }
 
 .cosmic-event-card.featured:hover,
@@ -1155,7 +1151,6 @@ body {
     overflow: hidden;
 }
 
-
 .btn-glow {
     position: absolute;
     inset: 0;
@@ -1164,11 +1159,6 @@ body {
     opacity: 0;
     transition: opacity var(--anim-duration-smooth) ease;
     transform: scale(0);
-}
-.cosmic-event-card.is-next {
-  transform: scale(0.9) translateX(-20%) rotateY(-25deg);
-  opacity: 0.7;
-  filter: blur(2px);
 }
 
 .carousel-btn:hover,
@@ -1189,24 +1179,12 @@ body {
     cursor: not-allowed;
     transform: scale(1);
 }
-.cosmic-event-card.is-prev {
-  transform: scale(0.9) translateX(20%) rotateY(25deg);
-  opacity: 0.7;
-  filter: blur(2px);
-}
 
 .carousel-btn:disabled:hover {
     color: var(--cosmic-purple);
     border-color: rgba(138, 43, 226, 0.4);
 }
-.cosmic-event-card.is-active {
-  opacity: 1;
-  filter: blur(0);
-  transform: scale(1.05);
-  border-color: var(--cosmic-cyan);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px var(--cosmic-cyan);
-  z-index: 10;
-}
+
 /* Indicators */
 .carousel-indicators {
     display: flex;
@@ -1358,133 +1336,118 @@ body {
     100% { left: 100%; }
 }
 
+/* Default Desktop Carousel States */
+#cosmic-events .cosmic-event-card {
+    transform: scale(0.9);
+    opacity: 0.5;
+    filter: blur(2px);
+    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+}
+#cosmic-events .cosmic-event-card.is-active {
+    transform: scale(1.05); 
+    opacity: 1;
+    filter: blur(0);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 40px var(--cosmic-cyan);
+    z-index: 10;
+}
+#cosmic-events .cosmic-event-card.is-prev {
+    transform: scale(0.9) translateX(20%) rotateY(25deg);
+    opacity: 0.7;
+    filter: blur(2px);
+}
+#cosmic-events .cosmic-event-card.is-next {
+    transform: scale(0.9) translateX(-20%) rotateY(-25deg);
+    opacity: 0.7;
+    filter: blur(2px);
+}
+
 /* --- MOBILE RESPONSIVENESS AND PERFORMANCE OPTIMIZATIONS --- */
 @media (max-width: 768px) {
     :root {
-        --space-xs: 0.25rem;
         --space-sm: 0.75rem;
         --space-md: 1rem;
         --space-lg: 1.5rem;
         --space-xl: 2rem;
-        --space-2xl: 3rem;
-    }
-
-    .desktop-nav {
-        display: none;
-    }
-
-    .mobile-menu-btn {
-        display: block;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hero-buttons .btn-primary,
-    .hero-buttons .btn-secondary {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .event-details {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-sm);
-    }
-
-    .about-section {
-        padding: 4rem 0 6rem 0;
-    }
-
-    .about-title {
-        font-size: 2.5rem;
     }
 
     .about-paragraph {
-        font-size: var(--font-size-base);
-        text-align: center;
-    }
-
-    .about-text {
         text-align: center;
     }
 
     .cosmic-events-section {
-        padding: var(--space-xl) 0 0 0;
+        padding: var(--space-xl) 0;
     }
 
-    /* Native-like swipe scrolling for mobile */
-    .carousel-track-container {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch; /* Momentum scrolling for iOS */
-        scrollbar-width: none; /* Hide scrollbar on Firefox */
+    .carousel-container {
+        gap: var(--space-xs); /* Reduced gap for smaller buttons */
     }
 
-    .carousel-track-container::-webkit-scrollbar {
-        display: none; /* Hide scrollbar on Chrome/Safari */
+    /* --- PERFORMANCE: Key mobile optimizations for carousel cards --- */
+    .cosmic-event-card,
+    #cosmic-events .cosmic-event-card {
+        flex: 0 0 80vw; /* Responsive width */
+        width: 80vw;
+        padding: var(--space-lg);
+        
+        /* --- CRITICAL PERFORMANCE FIX: Remove blur and complex 3D transforms --- */
+        filter: none !important; 
+        transform: scale(0.9) !important;
+        opacity: 0.7;
+        transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
-    .carousel-track {
-        gap: var(--space-md);
-        padding: 0 var(--space-md);
-    }
-    
-    .cosmic-event-card {
-        /* Responsive card size, takes up most of the screen */
-        flex: 0 0 85vw;
-        width: 85vw;
-        padding: var(--space-md);
-        scroll-snap-align: center; /* Snap cards to the center */
-
-        /* PERFORMANCE: Remove filter and simplify transforms for mobile */
-        transform: scale(0.95);
-        opacity: 0.8;
-        filter: none !important; /* CRITICAL: Remove blur for performance */
-    }
-    
-    /* Make the active card slightly bigger and fully opaque */
-    .cosmic-event-card.is-active {
-        transform: scale(1);
+    /* Simplified states for mobile */
+    #cosmic-events .cosmic-event-card.is-active {
+        transform: scale(1) !important;
         opacity: 1;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Simplified shadow */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Simplified shadow */
+        z-index: 10;
     }
 
-    /* Hide JS-controlled buttons and progress bar on mobile */
-    .carousel-btn, .carousel-progress {
-        display: none;
+    #cosmic-events .cosmic-event-card.is-prev,
+    #cosmic-events .cosmic-event-card.is-next {
+        transform: scale(0.9) !important;
+        opacity: 0.7;
+        box-shadow: none;
     }
-    
+
+    /* Restore and resize carousel buttons */
+    .carousel-btn {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-size-base);
+        flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+
+    /* Resize card content for mobile */
     .cosmic-event-icon {
         width: 60px;
         height: 60px;
         font-size: var(--font-size-2xl);
     }
-
-    .cosmic-events-title {
-        font-size: 2.5rem;
+    
+    .cosmic-event-title {
+        font-size: var(--font-size-xl);
     }
 
+    .cosmic-event-desc {
+        font-size: var(--font-size-sm);
+        min-height: auto;
+        margin-bottom: var(--space-sm);
+    }
+    
     .event-stats {
-        flex-direction: column;
-        gap: var(--space-xs);
-        padding: var(--space-xs);
-    }
-
-    .stat {
         flex-direction: row;
+        gap: var(--space-sm);
+        padding: var(--space-xs);
         justify-content: center;
     }
 
-    .featured-badge {
-        top: -5px;
-        right: -5px;
-        padding: 0.3rem 0.6rem;
-        font-size: var(--font-size-xs);
+    .stat {
+        flex-direction: column;
     }
-
+    
     /* Smaller buttons on mobile */
     .cosmic-event-btn, .featured-btn {
         padding: 0.6rem 1.2rem;
@@ -1494,75 +1457,6 @@ body {
     .view-all-events-btn {
         padding: 0.8rem 1.5rem;
         font-size: var(--font-size-base);
-    }
-}
-
-
-@media (max-width: 480px) {
-    .cosmic-event-card {
-        flex: 0 0 85vw; /* Keep it consistent */
-        width: 85vw;
-    }
-
-    .carousel-track {
-        gap: var(--space-sm);
-    }
-
-    .container {
-        padding: 0 var(--space-xs);
-    }
-}
-
-@media (min-width: 640px) {
-    .hero-buttons {
-        flex-direction: row;
-        justify-content: center;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    :root {
-        --background: hsl(220, 27%, 0%);
-        --foreground: hsl(0, 0%, 100%);
-        --muted-foreground: hsl(0, 0%, 85%);
-    }
-
-    .cosmic-event-card {
-        border: 2px solid var(--cosmic-purple);
-    }
-
-    .btn-primary,
-    .cosmic-event-btn {
-        border: 2px solid rgba(255, 255, 255, 0.5);
-    }
-}
-
-/* Print styles */
-@media print {
-    .navbar,
-    .carousel-btn,
-    .carousel-indicators,
-    .scroll-indicator,
-    .mobile-menu-btn {
-        display: none;
-    }
-
-    .hero,
-    .about-section,
-    .cosmic-events-section {
-        page-break-inside: avoid;
-    }
-
-    body {
-        background: white;
-        color: black;
-    }
-
-    .cosmic-event-card {
-        border: 1px solid #ccc;
-        background: white;
-        break-inside: avoid;
     }
 }
 
@@ -1579,55 +1473,7 @@ body {
 .footer p {
     font-size: var(--font-size-sm);
 }
-/* --- START: NEW CENTER-FOCUSED CAROUSEL STYLES --- */
 
-#cosmic-events .cosmic-events-section {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
-    overflow: hidden; 
-}
-#cosmic-events .carousel-track-container {
-    overflow: hidden;
-    padding: 30px 0;   
-    margin: -30px 0; 
-}
-
-#cosmic-events .carousel-track {
-    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-#cosmic-events .carousel-track-container {
-    perspective: 1000px;
-}
-
-#cosmic-events .cosmic-events-carousel {
-    transition: background 0.8s ease;
-    padding-bottom: 40px; /* Space for the progress bar */
-}
-
-/* Default state for all cards */
-#cosmic-events .cosmic-event-card {
-    transform: scale(0.9);
-    opacity: 0.5;
-    filter: blur(2px);
-    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
-}
-#cosmic-events .cosmic-event-card.is-active {
-    transform: scale(1.05); 
-    opacity: 1;
-    filter: blur(0);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 40px var(--cosmic-cyan);
-}
-#cosmic-events .cosmic-event-card.is-prev {
-    transform: scale(0.9) translateX(20%) rotateY(25deg);
-    opacity: 0.7;
-    filter: blur(2px);
-}
-
-#cosmic-events .cosmic-event-card.is-next {
-    transform: scale(0.9) translateX(-20%) rotateY(-25deg);
-    opacity: 0.7;
-    filter: blur(2px);
-}
 .carousel-progress {
     position: absolute;
     bottom: 1px;
@@ -1637,7 +1483,7 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     overflow: hidden;
-      z-index: 20;
+    z-index: 20;
 }
 .carousel-progress-bar {
     width: 0%;
@@ -2157,3 +2003,4 @@ body {
         display: block;
     }
 }
+
