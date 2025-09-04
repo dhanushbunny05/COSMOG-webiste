@@ -8,225 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="registration-styles.css">
-
-  <style>
-    
-.registration-modal-overlay.is-visible {
-    overflow-y: auto; 
-        padding: 2rem 1rem; 
-}
-
-.registration-modal {
-    margin: auto; 
-}
-    /* --- OPTIONAL: IMPROVE FORM SPACING ON MOBILE --- */
-.form-hint {
-    font-size: 0.75rem; /* Makes hint text a bit smaller */
-    margin-top: -10px;  /* Reduces space above the hint */
-    margin-bottom: 15px;/* Adds a bit more space below the hint */
-}
-
-/* --- END OF FIX --- */
-    /* NOTE: Your existing CSS from the <style> block goes here. */
-    .events-section { 
-      padding: 8rem 0 4rem; 
-      background: linear-gradient(135deg, var(--cosmic-dark), var(--background)); 
-      position: relative;
-      overflow-x: hidden;
-    }
-    .events-header { text-align: center; margin-bottom: 4rem; }
-    .events-title { 
-      font-size: 3rem; 
-      font-weight: 800; 
-      background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
-      -webkit-background-clip: text; 
-      background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      margin-bottom: 1rem; 
-    }
-    .events-subtitle { 
-      color: var(--muted-foreground); 
-      font-size: 1.1rem; 
-      max-width: 700px; 
-      margin: 0 auto; 
-    }
-    .timeline-container {
-      position: relative;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .timeline-container::after {
-      content: '';
-      position: absolute;
-      width: 3px;
-      background: rgba(138, 43, 226, 0.2);
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      margin-left: -1.5px;
-      z-index: 1;
-    }
-    .timeline-progress-line {
-        position: absolute;
-        width: 3px;
-        background: linear-gradient(to bottom, var(--cosmic-cyan), var(--cosmic-purple));
-        box-shadow: 0 0 10px var(--cosmic-purple);
-        top: 0;
-        left: 50%;
-        margin-left: -1.5px;
-        height: 0;
-        z-index: 2;
-    }
-    .timeline-item {
-      padding: 10px 40px;
-      position: relative;
-      width: 50%;
-      z-index: 3;
-      opacity: 0;
-      transform: translateY(100px);
-    }
-    .timeline-item:nth-child(odd) {
-      left: 0;
-      padding-right: 70px;
-    }
-    .timeline-item:nth-child(even) {
-      left: 50%;
-      padding-left: 70px;
-    }
-    .timeline-icon {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      right: -10px;
-      top: 32px;
-      background-color: var(--cosmic-cyan);
-      border: 4px solid var(--cosmic-purple);
-      border-radius: 50%;
-      z-index: 4;
-      box-shadow: 0 0 15px var(--cosmic-cyan);
-    }
-    .timeline-item:nth-child(even) .timeline-icon {
-      left: -10px;
-    }
-    .event-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(138,43,226,0.3);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      position: relative;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-    .event-box:hover { 
-      transform: translateY(-8px) scale(1.02); 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 25px rgba(138,43,226, 0.4);
-      border-color: var(--cosmic-cyan);
-    }
-    .event-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-    .event-icon { 
-      width: 60px; height: 60px; 
-      border-radius: 50%; 
-      background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
-      display: flex; align-items: center; justify-content: center; 
-      font-size: 1.5rem; color: white; flex-shrink: 0;
-    }
-    .event-level { 
-      font-size: 0.8rem; 
-      padding: 0.3rem 0.7rem; 
-      border-radius: 0.5rem; 
-      font-weight: 600; 
-      color: white; 
-    }
-    .advanced { background: #e639af; } 
-    .beginner { background: #2d9cdb; } 
-    .fun { background: #f39c12; } 
-    .creative { background: #9b59b6; }
-    .event-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .event-desc { color: var(--muted-foreground); margin-bottom: 1.2rem; line-height: 1.6; }
-    .event-info-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: #ccc; }
-    .info-item i { margin-right: 0.5rem; color: var(--cosmic-purple); }
-    .event-highlights { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .highlight { flex: 1; min-width: 90px; background: rgba(255,255,255,0.06); border: 1px solid rgba(138,43,226,0.4); padding: 1rem; border-radius: 0.75rem; text-align: center; }
-    .highlight span { display: block; font-size: 1.2rem; font-weight: 700; color: #ffd700; }
-    .highlight small { display: block; font-size: 0.75rem; margin-top: 0.3rem; color: #aaa; }
-    .event-register { 
-      display: inline-block; 
-      background: linear-gradient(135deg, #ff9900, #ffcc00); 
-      color: #000; 
-      font-weight: 700;
-      padding: 0.7rem 1.5rem; 
-      border-radius: 0.75rem; 
-      text-decoration: none; 
-      transition: 0.3s; 
-    }
-    .event-register:hover { opacity: 0.85; }
-    .limited { display: block; margin-top: 0.8rem; font-size: 0.85rem; font-weight: 600; color: #ffd700; }
-    .day-heading {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--cosmic-cyan);
-      text-align: center;
-      margin: 4rem 0 1rem;
-      position: relative;
-      z-index: 3;
-      background: var(--background);
-      display: inline-block;
-      padding: 0 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    /* --- STYLES FOR SIDE-BY-SIDE EVENTS --- */
-    .timeline-item-full-width {
-      width: 100%;
-      left: 0;
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .timeline-item-full-width .timeline-icon {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .event-row {
-      display: flex;
-      gap: 2rem;
-      align-items: stretch;
-    }
-    .event-row .event-box {
-      flex: 1;
-    }
-    /* --- END STYLES --- */
-
-
-    @media screen and (max-width: 992px) {
-      .timeline-container::after, .timeline-progress-line { left: 31px; }
-      .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
-      .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { left: 0; }
-      .timeline-icon, .timeline-item:nth-child(even) .timeline-icon { left: 15px; }
-      .day-heading { left: 0; transform: none; display: block; text-align: left; margin-left: 15px; background: transparent; }
-      
-      .event-row {
-        flex-direction: column;
-      }
-      .timeline-item-full-width .timeline-icon {
-        left: 15px;
-        transform: none;
-      }
-      .timeline-item-full-width {
-        padding-left: 70px;
-        padding-right: 25px;
-      }
-    }
-    
-    /* --- ADDED STYLE FOR FORM HINT --- */
-    .form-hint {
-        font-size: 0.8rem;
-        color: #ccc;
-        margin-top: -8px;
-        margin-bottom: 12px;
-        font-style: italic;
-    }
-  </style>
+  
 </head>
 <body>
   <nav class="navbar">
@@ -308,8 +90,8 @@
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
                   <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Web Craft" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Web Craft" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Web Craft">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Web Craft">Register Now</a>
                   </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
@@ -332,11 +114,11 @@
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
                     <div class="highlight"><span>Solo</span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹1</span><small>Per Entry</small></div>
+                    <div class="highlight"><span><h3>₹50</h3></span><small>Per Entry</small></div>
                   </div>
                   <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Art Attack" data-event-fee="1">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Art Attack" data-event-fee="1">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Art Attack">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Art Attack">Register Now</a>
                   </div>
                 </article>
             </div>
@@ -358,11 +140,11 @@
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
                     <div class="highlight"><span>Solo</span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
+                    <div class="highlight"><span>₹60</span><small>Entry Fee</small></div>
                   </div>
                    <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="TreQueza" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="TreQueza" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="TreQueza">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="TreQueza">Register Now</a>
                   </div>
                 </article>
             </div>
@@ -383,12 +165,12 @@
                   </div>
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>1-4 </span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
+                    <div class="highlight"><span>2</span><small>Team Size</small></div>
+                    <div class="highlight"><span>₹120</span><small>Per Team</small></div>
                   </div>
                   <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Capture and Creative" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Capture and Creative" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Capture and Creative">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Capture and Creative">Register Now</a>
                   </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
@@ -409,12 +191,12 @@
                   </div>
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
-                    <div class="highlight"><span>1-4 </span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
+                    <div class="highlight"><span>4</span><small>Team Size</small></div>
+                    <div class="highlight"><span>₹240</span><small>Per Team</small></div>
                   </div>
                    <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Mission Impossible" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Mission Impossible" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Mission Impossible">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Mission Impossible">Register Now</a>
                   </div>
                 </article>
             </div>
@@ -439,18 +221,18 @@
                   <div class="game-options">
                     <div class="game-choice">
                       <h4>Game-On (BGMI)</h4>
-                      <p>Fee: ₹1 per entry</p>
+                      <p>Fee: ₹240 per Team</p>
                       <div class="event-actions">
-                        <button class="event-learn-more" data-event-name="Game-On (BGMI)" data-event-fee="1">Learn More</button>
-                        <a href="#" class="event-register" data-event-name="Game-On (BGMI)" data-event-fee="1">Register</a>
+                        <button class="event-learn-more" data-event-name="Game-On (BGMI)">Learn More</button>
+                        <a href="#" class="event-register" data-event-name="Game-On (BGMI)">Register</a>
                       </div>
                     </div>
                     <div class="game-choice">
                       <h4>Game-On (Free Fire)</h4>
-                      <p>Fee: ₹1 per entry</p>
+                      <p>Fee: ₹200 per entry</p>
                       <div class="event-actions">
-                        <button class="event-learn-more" data-event-name="Game-On (Free Fire)" data-event-fee="1">Learn More</button>
-                        <a href="#" class="event-register" data-event-name="Game-On (Free Fire)" data-event-fee="1">Register</a>
+                        <button class="event-learn-more" data-event-name="Game-On (Free Fire)">Learn More</button>
+                        <a href="#" class="event-register" data-event-name="Game-On (Free Fire)">Register</a>
                       </div>
                     </div>
                   </div>
@@ -475,11 +257,11 @@
                   <div class="event-highlights">
                     <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
                     <div class="highlight"><span>2-4 </span><small>Team Size</small></div>
-                    <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
+                    <div class="highlight"><span>₹60</span><small>Per Head</small></div>
                   </div>
                   <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Glam Jam" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Glam Jam" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Glam Jam">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Glam Jam">Register Now</a>
                   </div>
                 </article>
             </div>
@@ -499,12 +281,12 @@
                     <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Auditorium</div>
                   </div>
                   <div class="event-highlights">
-                    <div class="highlight"><span>Solo(Audience)</span><small>Team Size</small></div>
+                    <div class="highlight"><span>Solo (Audience) </span><small>Team Size</small></div>
                     <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
                   </div>
                   <div class="event-actions">
-                    <button class="event-learn-more" data-event-name="Cultural Carnival" data-event-fee="60">Learn More</button>
-                    <a href="#" class="event-register" data-event-name="Cultural Carnival" data-event-fee="60">Register Now</a>
+                    <button class="event-learn-more" data-event-name="Cultural Carnival">Learn More</button>
+                    <a href="#" class="event-register" data-event-name="Cultural Carnival">Register Now</a>
                   </div>
                   <span class="limited">Limited Seats Available</span>
                 </article>
@@ -527,77 +309,6 @@
             <button id="continue-to-form-btn" class="submit-btn">Continue to Register</button>
         </div>
 
-        <form id="registration-form" style="display: none;">
-            <div class="modal-header">
-                <h2 class="modal-title">Register for <span id="event-name-display">Event</span></h2>
-            </div>
-            
-            <div class="form-group">
-                <label for="teamSize">Team Size</label>
-                <p class="form-hint">Please choose your team size based on the event rules. Example: Art Attack– 1, Capture and create - 2, Game On – 4 etc.</p>
-                <input type="number" id="teamSize" name="teamSize" class="form-input" placeholder="E.g., 2" min="1" max="4" required>
-            </div>
-
-            <div class="form-group">
-                <label for="teamName">Team Name</label>
-                <p class="form-hint">All teammates must enter the exact same team name.</p>
-                <input type="text" id="teamName" name="teamName" class="form-input" placeholder="E.g., The Cosmic Coders - 4 (Mention Your Team Size )" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fullName">Your Name </label>
-                <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Enter your full name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" class="form-input" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email ID</label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="rollNumber">Roll Number</label>
-                <input type="text" id="rollNumber" name="rollNumber" class="form-input" placeholder="e.g., 23K8XXXX" pattern=".{10,}" title="Please enter a valid 10-character (or more) roll number" required>
-            </div>
-
-            <div class="form-group">
-                <label for="year">Year</label>
-                <select id="year" name="year" class="form-select" required>
-                    <option value="">Select Year</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="department">Department</label>
-                <select id="department" name="department" class="form-select" required>
-                    <option value="">Select Department</option>
-                    </select>
-            </div>
-
-            <div class="form-group" id="section-group">
-                <label for="section">Section</label>
-                <select id="section" name="section" class="form-select" required>
-                    <option value="" class="form-hint">Select Section (If only one Section exists Select 'A')</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                </select>
-            </div>
-
-            <button type="submit" class="submit-btn">Proceed to Payment</button>
-        </form>
-
-        <div id="confirmation-view" style="display: none;">
-            </div>
     </div>
   </div>
 
@@ -620,14 +331,9 @@
     </div>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="script.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  
   <script src="registration.js" defer></script>
 
   <script>
