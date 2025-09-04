@@ -63,15 +63,15 @@
     const initAboutAnimations = () => {
         gsap.registerPlugin(ScrollTrigger);
         gsap.fromTo('.about-title', { y: 80, opacity: 0, scale: 0.8 }, {
-            y: 0, opacity: 1, scale: 1, duration: 1.0, ease: 'power3.out',
+            y: 0, opacity: 1, scale: 1, duration: 0.9, ease: 'power3.out', // CHANGED: duration from 1.0 to 0.5
             scrollTrigger: { trigger: '.about-section', start: 'top 80%', end: 'top 20%', toggleActions: 'play none none reverse' }
         });
         gsap.fromTo('.about-paragraph', { y: 60, opacity: 0 }, {
-            y: 0, opacity: 1, duration: 1, stagger: 0.3, ease: 'power2.out',
+            y: 0, opacity: 1, duration: 0.5, stagger: 0.15, ease: 'power2.out', // CHANGED: duration and stagger
             scrollTrigger: { trigger: '.about-content', start: 'top 70%', end: 'bottom 30%', toggleActions: 'play none none reverse' }
         });
         gsap.fromTo('.title-underline', { scaleX: 0 }, {
-            scaleX: 1, duration: 1.2, ease: 'power2.inOut',
+            scaleX: 1, duration: 0.6, ease: 'power2.inOut', // CHANGED: duration from 1.2 to 0.6
             scrollTrigger: { trigger: '.about-title', start: 'top 70%', toggleActions: 'play none none reverse' }
         });
     };
@@ -79,15 +79,15 @@
     // ===== 3. COSMIC EVENTS CAROUSEL ANIMATIONS =====
     const initCosmicEventsAnimations = () => {
         gsap.fromTo('.cosmic-events-title', { y: 100, opacity: 0, scale: 0.8 }, {
-            y: 0, opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out',
+            y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out', // CHANGED: duration from 1.5 to 0.7
             scrollTrigger: { trigger: '.cosmic-events-section', start: 'top 80%', toggleActions: 'play none none reverse' }
         });
         gsap.fromTo('.cosmic-events-subtitle', { y: 50, opacity: 0 }, {
-            y: 0, opacity: 1, duration: 1, delay: 0.3,
+            y: 0, opacity: 1, duration: 0.5, delay: 0.1, // CHANGED: duration from 1 to 0.5, delay from 0.3 to 0.1
             scrollTrigger: { trigger: '.cosmic-events-section', start: 'top 75%', toggleActions: 'play none none reverse' }
         });
         gsap.fromTo('.cosmic-event-card', { y: 100, opacity: 0, scale: 0.8, rotationY: 25 }, {
-            y: 0, opacity: 1, scale: 1, rotationY: 0, duration: 0.5, stagger: 0.2, ease: 'power2.out',
+            y: 0, opacity: 1, scale: 1, rotationY: 0, duration: 0.1, stagger: 0, ease: 'power2.out', // CHANGED: duration from 0.5 to 0.3, stagger from 0.2 to 0.1
             scrollTrigger: { trigger: '.cosmic-events-carousel', start: 'top 70%', toggleActions: 'play none none reverse' }
         });
         document.querySelectorAll('.cosmic-event-card').forEach(card => {
@@ -162,7 +162,7 @@
     };
 
     // ===== 7. MAIN INITIALIZATION FUNCTION =====
-   const initCosmicAnimations = () => {
+    const initCosmicAnimations = () => {
         // ...
         if (typeof gsap !== 'undefined') {
             // --- Animations that run on ALL screen sizes ---
@@ -177,7 +177,6 @@
                 initScrollProgress();
                 initMagneticCursor();
             }
-    
         } else {
             // Fallback to load GSAP if it's not present
             const gsapScript = document.createElement('script');
