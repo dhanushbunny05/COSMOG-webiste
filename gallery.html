@@ -431,12 +431,20 @@
              .star-node {
                 width: 16px; /* Adjust core size for smallest screens */
                 height: 16px;
+                padding: 5px;
             }
             .star-label {
                 font-size: var(--font-size-sm); /* Slightly smaller font for very small screens */
                 top: 140%;
             }
         }
+        /* Add this to your mobile styles in gallery.html */
+@media (max-width: 580px) {
+    .star-node {
+        /* This adds 15px of invisible, tappable space around each star */
+        padding: 15px;
+    }
+}
 
     </style>
 </head>
@@ -507,8 +515,7 @@
             </div>
         </section>
     </main>
-    
-    <div class="modal-overlay" id="gallery-modal">
+     <div class="modal-overlay" id="gallery-modal">
         <div id="stars-container">
             <div id="stars1" class="star-bg"></div>
             <div id="stars2" class="star-bg"></div>
