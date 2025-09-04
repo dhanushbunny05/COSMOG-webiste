@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
+    // These are your project's connection details for Firebase.
     const firebaseConfig = {
         apiKey: "AIzaSyAah84lK5EK5MrMU4ZyADkifGZvewXIWYA",
         authDomain: "cosmogtest.firebaseapp.com",
-        databaseURL: "https://cosmogtest-default-rtdb.asia-southeast1.firebasedatabase.app",
+        databaseURL: "https://cosmogtest-default-rtdb.asia-southeast1.firebasedabase.app",
         projectId: "cosmogtest",
         storageBucket: "cosmogtest.firebasestorage.app",
         messagingSenderId: "893484280877",
@@ -11,8 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         measurementId: "G-1BZTRNPX3X"
     };
 
+    // Your public key for Razorpay.
     const RAZORPAY_KEY_ID = 'rzp_live_R9r2qnsNEVDi7p';
 
+    // Descriptions for the "Learn More" section of each event.
     const eventDetails = {
         "Web Craft": {
             overview: "Web Craft is a creative and technical event designed to test participants’ ability to effectively leverage AI platforms for web development. The focus is on prompting skills, creativity, and efficiency in using AI tools to build a frontend website within the given time frame.<br><br>On the day of the event, a surprise theme will be announced. Participants must then use AI platforms to design and develop a website that reflects the theme. Collaboration among team members is encouraged to brainstorm ideas and finalize the design.",
@@ -115,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const details = eventDetails[eventName] || eventDetails.default;
         const rulesHtml = details.rules.map(rule => `<li>${rule}</li>`).join('');
         descriptionContent.innerHTML = `<h3>Overview</h3><p>${details.overview}</p><h3>Rules & Regulations</h3><ul>${rulesHtml}</ul>`;
-        continueToFormBtn.style.display = isLearnMore ? 'none' : 'block';
+        continueToFormBtn.style.display = 'block'; // Always show the continue button now
         descriptionView.style.display = 'block';
         registrationFormView.style.display = 'none';
         confirmationView.style.display = 'none';
@@ -147,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
             registrationData.eventName = currentEventData.name;
             registrationData.amountPaid = currentEventData.fee;
             registrationData.timestamp = new Date().toISOString();
-            registrationData.paymentStatus = 'pending';
-            registrationData.paymentId = null;
+            registrationData.paymentStatus = 'pending'; // Default status
+            registrationData.paymentId = null; // Default status
             const docRef = await db.collection('registrations').add(registrationData);
             await initiatePayment(docRef.id, registrationData);
         } catch (error) {
@@ -158,11 +161,31 @@ document.addEventListener('DOMContentLoaded', () => {
             isProcessing = false;
         }
     }
+    
+    // This is the insecure function that updates the database from the client.
+    async function updateFirestoreOnSuccess(firestoreDocId, razorpayResponse) {
+        if (!firestoreDocId || !razorpayResponse.razorpay_payment_id) {
+            console.error('Missing Firestore ID or Payment ID for update.');
+            return;
+        }
+        const registrationRef = db.collection('registrations').doc(firestoreDocId);
+        try {
+            await registrationRef.update({
+                paymentStatus: 'completed', // Updates status to completed
+                paymentId: razorpayResponse.razorpay_payment_id, // This is the Transaction ID
+                paymentTimestamp: new Date().toISOString()
+            });
+            console.log('✅ Firestore updated successfully (Client-side)');
+        } catch (error) {
+            console.error('❌ Error updating Firestore (Client-side):', error);
+            alert('Your payment was successful, but there was an error updating our records. Please contact the event organizers with your payment details.');
+        }
+    }
 
     function initiatePayment(firestoreDocId, registrationData) {
         return new Promise((resolve, reject) => {
             const razorpayKey = RAZORPAY_KEY_ID.trim();
-            if (!razorpayKey || razorpayKey === 'YOUR_RAZORPAY_KEY_ID') {
+            if (!razorpayKey) {
                 alert('Payment gateway is not configured correctly.');
                 reject(new Error('Payment gateway not configured.'));
                 return;
@@ -175,9 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: `Registration for ${currentEventData.name}`,
                 image: "logo.png",
                 handler: (response) => {
-                    // **SECURITY FIX APPLIED**
-                    // The client NO LONGER updates the database to "completed".
-                    // It only shows the success message. The secure Cloud Function will update the database.
+                    // **INSECURE UPDATE**
+                    // This now calls the function to update your database directly.
+                    updateFirestoreOnSuccess(firestoreDocId, response);
                     showRegistrationSuccess(currentEventData.registrationId);
                     resolve(response);
                 },
@@ -193,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 theme: { color: "#8A2BE2" },
                 modal: {
                     ondismiss: () => {
-                        // We don't need to update the status here, it will remain 'pending'.
                         closeModal();
                         reject(new Error('Payment dismissed'));
                     }
@@ -202,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const rzp = new Razorpay(options);
             rzp.on('payment.failed', (response) => {
                 alert(`Payment Failed: ${response.error.description}. Please try again.`);
-                // We also don't need to update the status to 'failed'. It will just remain 'pending'.
                 closeModal();
                 reject(response.error);
             });
@@ -227,32 +248,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="submit-btn" id="close-success-btn">Close</button>
             </div>
         `;
-        // Add event listener to the new button to close modal without reloading
         document.getElementById('close-success-btn').addEventListener('click', closeModal);
-        setTimeout(closeModal, 300000);
     }
 
+    // --- Event Listeners ---
     registerButtons.forEach(button => button.addEventListener('click', (e) => {
         e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee, false);
+        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee);
     }));
+
     learnMoreButtons.forEach(button => button.addEventListener('click', (e) => {
         e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee, true);
+        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee);
     }));
+
     continueToFormBtn.addEventListener('click', () => {
         descriptionView.style.display = 'none';
         registrationFormView.style.display = 'block';
         populateDepartments();
     });
+
     yearSelect.addEventListener('change', () => {
         sectionGroup.style.display = ['1', '2', '3', '4'].includes(yearSelect.value) ? 'block' : 'none';
     });
+
     registrationFormView.addEventListener('submit', handleRegistrationSubmit);
     closeBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay.classList.contains('is-visible')) closeModal();
     });
