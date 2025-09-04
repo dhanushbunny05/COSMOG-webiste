@@ -1,19 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
-    // These are your project's connection details for Firebase.
-    const firebaseConfig = {
-        apiKey: "AIzaSyAah84lK5EK5MrMU4ZyADkifGZvewXIWYA",
-        authDomain: "cosmogtest.firebaseapp.com",
-        databaseURL: "https://cosmogtest-default-rtdb.asia-southeast1.firebasedabase.app",
-        projectId: "cosmogtest",
-        storageBucket: "cosmogtest.firebasestorage.app",
-        messagingSenderId: "893484280877",
-        appId: "1:893484280877:web:37cfb26cc2fa8ea3155ca4",
-        measurementId: "G-1BZTRNPX3X"
-    };
 
-    // Your public key for Razorpay.
-    const RAZORPAY_KEY_ID = 'rzp_live_R9r2qnsNEVDi7p';
+    // IMPORTANT: Replace these placeholder URLs with your actual Google Form links.
+    // Create a unique Google Form for each event.
+    const googleFormLinks = {
+        "Web Craft": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Art Attack": "https://docs.google.com/forms/d/e/1FAIpQLSfIga4Vvk6xd9cPbpI0Nm2CDi4HyAOM2l4n5D88YXWU865Yqw/viewform?usp=header",
+        "TreQueza": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Capture and Creative": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Mission Impossible": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Game-On (BGMI)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Game-On (Free Fire)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Glam Jam": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Cultural Carnival": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "default": "https://docs.google.com/forms/d/e/YOUR_DEFAULT_FORM_ID_HERE/viewform?usp=sf_link"
+    };
 
     // Descriptions for the "Learn More" section of each event.
     const eventDetails = {
@@ -59,71 +60,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    let db;
-    try {
-        if (firebase.apps.length === 0) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        db = firebase.firestore();
-        console.log('✅ Firebase initialized successfully');
-    } catch (e) {
-        console.error('❌ Firebase initialization error:', e.message);
-        document.querySelectorAll('.event-register, .register-btn, .event-learn-more').forEach(btn => btn.style.display = 'none');
-        alert('Could not connect to the registration service. Please try again later.');
-        return;
-    }
-
+    // --- Modal Elements ---
     const modalOverlay = document.getElementById('registration-modal-overlay');
     const closeBtn = document.querySelector('.modal-close-btn');
     const registerButtons = document.querySelectorAll('.event-register');
     const learnMoreButtons = document.querySelectorAll('.event-learn-more');
     const descriptionView = document.getElementById('description-view');
-    const registrationFormView = document.getElementById('registration-form');
-    const confirmationView = document.getElementById('confirmation-view');
     const continueToFormBtn = document.getElementById('continue-to-form-btn');
-    const eventNameDisplay = document.getElementById('event-name-display');
     const eventNameDisplayDesc = document.getElementById('event-name-display-desc');
-    const departmentSelect = document.getElementById('department');
-    const yearSelect = document.getElementById('year');
-    const sectionGroup = document.getElementById('section-group');
     const descriptionContent = document.querySelector('#description-view .description-content');
 
-    const departments = ["CSG", "AIML", "CSE", "IT", "ECE", "EEE", "AIDS", "CSM"];
-    let currentEventData = { name: '', fee: 0, registrationId: '' };
-    let isProcessing = false;
+    let currentEventName = '';
 
-    function generateRegistrationId() {
-        const timestamp = Date.now().toString().slice(-6);
-        const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-        return `COSMOG-${timestamp}-${random}`;
-    }
-
-    function populateDepartments() {
-        if (!departmentSelect) return;
-        departmentSelect.innerHTML = '<option value="">Select your department</option>';
-        departments.forEach(dept => {
-            departmentSelect.appendChild(new Option(dept, dept));
-        });
-    }
-
-    function openModal(eventName, fee, isLearnMore = false) {
-        if (!eventName || !fee) {
-            console.error("Event name or fee is missing.");
+    function openModal(eventName) {
+        if (!eventName) {
+            console.error("Event name is missing.");
             return;
         }
-        currentEventData.name = eventName;
-        currentEventData.fee = parseInt(fee, 10);
-        eventNameDisplay.textContent = eventName;
+        currentEventName = eventName;
+        
         eventNameDisplayDesc.textContent = eventName;
         const details = eventDetails[eventName] || eventDetails.default;
         const rulesHtml = details.rules.map(rule => `<li>${rule}</li>`).join('');
         descriptionContent.innerHTML = `<h3>Overview</h3><p>${details.overview}</p><h3>Rules & Regulations</h3><ul>${rulesHtml}</ul>`;
-        continueToFormBtn.style.display = 'block'; // Always show the continue button now
+        
         descriptionView.style.display = 'block';
-        registrationFormView.style.display = 'none';
-        confirmationView.style.display = 'none';
-        registrationFormView.reset();
-        sectionGroup.style.display = 'none';
         modalOverlay.classList.add('is-visible');
         document.body.style.overflow = 'hidden';
     }
@@ -131,148 +92,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModal() {
         modalOverlay.classList.remove('is-visible');
         document.body.style.overflow = '';
-        isProcessing = false;
     }
 
-    async function handleRegistrationSubmit(event) {
-        event.preventDefault();
-        if (isProcessing) return;
-        isProcessing = true;
-        const submitBtn = registrationFormView.querySelector('button[type="submit"]');
-        const originalButtonText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Processing...';
-        try {
-            const formData = new FormData(registrationFormView);
-            const registrationData = Object.fromEntries(formData.entries());
-            currentEventData.registrationId = generateRegistrationId();
-            registrationData.registrationId = currentEventData.registrationId;
-            registrationData.eventName = currentEventData.name;
-            registrationData.amountPaid = currentEventData.fee;
-            registrationData.timestamp = new Date().toISOString();
-            registrationData.paymentStatus = 'pending'; // Default status
-            registrationData.paymentId = null; // Default status
-            const docRef = await db.collection('registrations').add(registrationData);
-            await initiatePayment(docRef.id, registrationData);
-        } catch (error) {
-            alert(`Could not save registration: ${error.message}`);
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalButtonText;
-            isProcessing = false;
+    function redirectToGoogleForm() {
+        const formLink = googleFormLinks[currentEventName] || googleFormLinks.default;
+        if (formLink && !formLink.includes("YOUR_FORM_ID_HERE")) {
+            window.open(formLink, '_blank');
+            closeModal();
+        } else {
+            alert('Registration link for this event is not available yet. Please check back later.');
         }
-    }
-    
-    // This is the insecure function that updates the database from the client.
-    async function updateFirestoreOnSuccess(firestoreDocId, razorpayResponse) {
-        if (!firestoreDocId || !razorpayResponse.razorpay_payment_id) {
-            console.error('Missing Firestore ID or Payment ID for update.');
-            return;
-        }
-        const registrationRef = db.collection('registrations').doc(firestoreDocId);
-        try {
-            await registrationRef.update({
-                paymentStatus: 'completed', // Updates status to completed
-                paymentId: razorpayResponse.razorpay_payment_id, // This is the Transaction ID
-                paymentTimestamp: new Date().toISOString()
-            });
-            console.log('✅ Firestore updated successfully (Client-side)');
-        } catch (error) {
-            console.error('❌ Error updating Firestore (Client-side):', error);
-            alert('Your payment was successful, but there was an error updating our records. Please contact the event organizers with your payment details.');
-        }
-    }
-
-    function initiatePayment(firestoreDocId, registrationData) {
-        return new Promise((resolve, reject) => {
-            const razorpayKey = RAZORPAY_KEY_ID.trim();
-            if (!razorpayKey) {
-                alert('Payment gateway is not configured correctly.');
-                reject(new Error('Payment gateway not configured.'));
-                return;
-            }
-            const options = {
-                key: razorpayKey,
-                amount: currentEventData.fee * 100,
-                currency: "INR",
-                name: "COSMOG 2025",
-                description: `Registration for ${currentEventData.name}`,
-                image: "logo.png",
-                handler: (response) => {
-                    // **INSECURE UPDATE**
-                    // This now calls the function to update your database directly.
-                    updateFirestoreOnSuccess(firestoreDocId, response);
-                    showRegistrationSuccess(currentEventData.registrationId);
-                    resolve(response);
-                },
-                prefill: {
-                    name: registrationData.fullName,
-                    email: registrationData.email,
-                    contact: registrationData.phone
-                },
-                notes: {
-                    registrationId: registrationData.registrationId,
-                    firestoreDocId: firestoreDocId
-                },
-                theme: { color: "#8A2BE2" },
-                modal: {
-                    ondismiss: () => {
-                        closeModal();
-                        reject(new Error('Payment dismissed'));
-                    }
-                }
-            };
-            const rzp = new Razorpay(options);
-            rzp.on('payment.failed', (response) => {
-                alert(`Payment Failed: ${response.error.description}. Please try again.`);
-                closeModal();
-                reject(response.error);
-            });
-            const submitBtn = registrationFormView.querySelector('button[type="submit"]');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Proceed to Payment';
-            rzp.open();
-        });
-    }
-
-    function showRegistrationSuccess(registrationId) {
-        descriptionView.style.display = 'none';
-        registrationFormView.style.display = 'none';
-        confirmationView.style.display = 'block';
-        confirmationView.innerHTML = `
-            <div class="confirmation-content">
-                <div class="confirmation-icon" style="font-size: 4rem;">✅</div>
-                <h2>Registration Successful!</h2>
-                <p>Thank you for registering for <strong>${currentEventData.name}</strong>. Your payment was successful.</p>
-                <p>Your Registration ID is:<br><strong>${registrationId}</strong></p>
-                <p style="font-size: 0.9rem; color: #ffc107;">Please take a screenshot of this confirmation for your records.</p>
-                <button class="submit-btn" id="close-success-btn">Close</button>
-            </div>
-        `;
-        document.getElementById('close-success-btn').addEventListener('click', closeModal);
     }
 
     // --- Event Listeners ---
     registerButtons.forEach(button => button.addEventListener('click', (e) => {
         e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee);
+        openModal(e.currentTarget.dataset.eventName);
     }));
 
     learnMoreButtons.forEach(button => button.addEventListener('click', (e) => {
         e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName, e.currentTarget.dataset.eventFee);
+        openModal(e.currentTarget.dataset.eventName);
     }));
 
-    continueToFormBtn.addEventListener('click', () => {
-        descriptionView.style.display = 'none';
-        registrationFormView.style.display = 'block';
-        populateDepartments();
-    });
+    continueToFormBtn.addEventListener('click', redirectToGoogleForm);
 
-    yearSelect.addEventListener('change', () => {
-        sectionGroup.style.display = ['1', '2', '3', '4'].includes(yearSelect.value) ? 'block' : 'none';
-    });
-
-    registrationFormView.addEventListener('submit', handleRegistrationSubmit);
     closeBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
