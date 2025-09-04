@@ -1,4 +1,4 @@
-/* COSMOG 2025 - Registration Modal & Form Styles (UPDATED) */
+/* COSMOG 2025 - Registration Modal & Form Styles (Simplified for Google Forms) */
 
 :root {
     --cosmic-purple-rgb: 138, 43, 226;
@@ -52,7 +52,6 @@
 .modal-header {
     text-align: center;
     margin-bottom: 2rem;
-    grid-column: 1 / -1;
 }
 
 .modal-title {
@@ -66,7 +65,7 @@
     margin-bottom: 0.5rem;
 }
 
-#event-name-display, #event-name-display-desc {
+#event-name-display-desc {
     color: var(--cosmic-cyan);
     font-weight: 700;
 }
@@ -153,59 +152,8 @@
     line-height: 1.6;
 }
 
-#continue-to-form-btn {
-    margin-top: 1rem;
-    width: 100%;
-}
-
-
-/* --- Form Styles --- */
-#registration-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
-
-.form-group label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--muted-foreground);
-    margin-bottom: 0.5rem;
-}
-
-.form-input, .form-select {
-    background: rgba(var(--cosmic-purple-rgb), 0.1);
-    border: 1px solid rgba(var(--cosmic-purple-rgb), 0.3);
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
-    color: var(--foreground);
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-}
-
-.form-input::placeholder {
-    color: var(--muted-foreground);
-    opacity: 0.7;
-}
-
-.form-input:focus, .form-select:focus {
-    outline: none;
-    border-color: var(--cosmic-cyan);
-    box-shadow: 0 0 15px rgba(var(--cosmic-cyan-rgb), 0.4);
-}
-
-/* Submit Button */
-.submit-btn {
+/* --- Continue Button --- */
+#continue-to-form-btn, .submit-btn {
     background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
     color: white;
     font-weight: 700;
@@ -215,54 +163,13 @@
     cursor: pointer;
     font-family: 'Orbitron', sans-serif;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    grid-column: 1 / -1;
+    width: 100%;
     margin-top: 1rem;
 }
 
-.submit-btn:hover {
+#continue-to-form-btn:hover, .submit-btn:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: var(--shadow-glow);
-}
-
-/* --- Confirmation/Receipt View --- */
-#confirmation-view .confirmation-content {
-    text-align: center;
-    animation: icon-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-#confirmation-view .confirmation-icon {
-    font-size: 4rem;
-    color: var(--cosmic-cyan);
-    margin-bottom: 1rem;
-}
-
-#confirmation-view h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: #fff;
-}
-
-#confirmation-view p {
-    color: var(--muted-foreground);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-}
-
-#confirmation-view p strong {
-    color: var(--cosmic-cyan);
-    font-family: monospace;
-}
-
-@keyframes icon-pop {
-    from { transform: scale(0.5); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-/* Initially hide the section dropdown */
-.form-group#section-group {
-    display: none;
 }
 
 /* --- NEW STYLES FOR BUTTONS --- */
