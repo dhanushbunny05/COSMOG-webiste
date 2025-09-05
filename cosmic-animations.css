@@ -1978,4 +1978,13 @@ background: var(--color-text);
 .cursor-ring {
 border-color: var(--color-text);
 }
+
+/* --- FORCE VISIBILITY FOR MOBILE 'ABOUT' TITLE --- */
+@media (max-width: 768px) {
+  .about-section .about-title {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
 }
