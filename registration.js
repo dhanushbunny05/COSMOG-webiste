@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         "TreQueza": {
             overview: "Trequeza is a fun-filled and intellectually stimulating quiz designed to entertain, challenge, and engage participants. It combines general knowledge, logical reasoning, and lateral thinking with a dose of excitement.This year, Trequeza is powered by Kahoot!, making the quiz more interactive and engaging with live questions, instant responses, and leaderboard tracking.",
-            Format:["The quiz consists of multiple rounds covering topics like Movies, Sports, Mythology, Current Affairs, Puzzles, and Logical Reasoning.","All rounds will be conducted through Kahoot, ensuring a fair, fast, and fun experience.","Participants compete in real-time, with points awarded for both accuracy and speed."],
             rules: ["no negative marks for wrong answers", "question in each round, will cover multiple categories", "Difficulty increases with each round", "Mobile phones and electronic devices or Using AI during the event are strictly prohibited.", "Cheating is not allowed to ensure a fair and healthy competition, any violation will result in instant elimination."]
         },
         "Capture and Creative": {
