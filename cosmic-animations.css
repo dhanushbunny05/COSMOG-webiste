@@ -749,17 +749,18 @@ box-shadow: var(--focus-ring);
 }
 
 .btn--primary {
-
-background: var(--color-primary);
-
-color: var(--color-btn-primary-text);
-
+    background: var(--primary); /* Uses your --cosmic-purple variable */
+    color: var(--primary-foreground);
+    transition: var(--transition-smooth);
+    /* Add transform to the base class for a smoother transition */
+    transform: translateY(0); 
 }
 
 .btn--primary:hover {
-
-background: var(--color-primary-hover);
-
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+    /* ADD THIS LINE 👇 */
+    filter: brightness(1.15); /* Makes the button slightly brighter on hover */
 }
 
 .btn--primary:active {
