@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANT: Replace these placeholder URLs with your actual Google Form links.
     // Create a unique Google Form for each event.
     const googleFormLinks = {
-        "Web Craft": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Web Craft": "https://docs.google.com/forms/d/e/1FAIpQLSdOYAhwmRebHTxUeda_X8iLnZGL5BpCIsHxxJQTVomWQECFDg/viewform?usp=header",
         "Art Attack": "https://docs.google.com/forms/d/e/1FAIpQLSfIga4Vvk6xd9cPbpI0Nm2CDi4HyAOM2l4n5D88YXWU865Yqw/viewform?usp=header",
         "TreQueza": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
         "Capture and Creative": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
