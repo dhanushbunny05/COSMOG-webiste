@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const googleFormLinks = {
         "Web Craft": "https://docs.google.com/forms/d/e/1FAIpQLSdOYAhwmRebHTxUeda_X8iLnZGL5BpCIsHxxJQTVomWQECFDg/viewform?usp=header",
         "Art Attack": "https://docs.google.com/forms/d/e/1FAIpQLSfIga4Vvk6xd9cPbpI0Nm2CDi4HyAOM2l4n5D88YXWU865Yqw/viewform?usp=header",
-        "TreQueza": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
-        "Capture and Creative": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
-        "Mission Impossible": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "TreQueza": "https://docs.google.com/forms/d/e/1FAIpQLSf0xrFQ-FnnQLmoWuALB9O0JoAcQq-0nqJIRRCK7oVxCRlehg/viewform?usp=header",
+        "Capture and Creative": "https://docs.google.com/forms/d/e/1FAIpQLSdUteJOr3ZJcGRPsO9Nw6dk6RtyZMNjGYZOcc-RXu4tXTReLg/viewform?usp=header",
+        "Mission Impossible": https://docs.google.com/forms/d/e/1FAIpQLSdchhd1Bt1BRpH6Bz5JD6cpxrw0X-vbRMeB1T5sVV5APEGROg/viewform?usp=header",
         "Game-On (BGMI)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
         "Game-On (Free Fire)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
-        "Glam Jam": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Glam Jam": "https://docs.google.com/forms/d/e/1FAIpQLSdPoD7TCzkODtkeAfvkGvjuaYVLHUbubTVjtP6eO33Tl0vljw/viewform?usp=header",
         "Cultural Carnival": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
         "default": "https://docs.google.com/forms/d/e/YOUR_DEFAULT_FORM_ID_HERE/viewform?usp=sf_link"
     };
