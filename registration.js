@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "Game-On (BGMI)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
         "Game-On (Free Fire)": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
         "Glam Jam": "https://docs.google.com/forms/d/e/1FAIpQLSdPoD7TCzkODtkeAfvkGvjuaYVLHUbubTVjtP6eO33Tl0vljw/viewform?usp=header",
-        "Cultural Carnival": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?usp=sf_link",
+        "Cultural Carnival Participants": "https://docs.google.com/forms/d/e/1FAIpQLSd5PJMQsQZFNon2aNl7539loH_sytEY0bc6C8c09C2lru85-A/viewform",
+        "Cultural Carnival Audience": "https://docs.google.com/forms/d/e/1FAIpQLSfcvmE6No5lbDdABCEFs68JA8L-T-_VHXdj69ti_eMURWoYxg/viewform",
         "default": "https://docs.google.com/forms/d/e/YOUR_DEFAULT_FORM_ID_HERE/viewform?usp=sf_link"
     };
 
