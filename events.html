@@ -624,7 +624,7 @@
         
             const modalOverlay = document.getElementById('registration-modal-overlay');
             const closeBtn = document.querySelector('.modal-close-btn');
-            const registerButtons = document.querySelectorAll('.event-register, .register-btn'); // Select both buttons
+            const registerButtons = document.querySelectorAll('.event-register, .register-btn');
             const learnMoreButtons = document.querySelectorAll('.event-learn-more');
             const descriptionView = document.getElementById('description-view');
             const closedRegistrationView = document.getElementById('closed-registration-view');
@@ -633,12 +633,11 @@
             const descriptionContent = document.querySelector('#description-view .description-content');
             const closedModalCloseBtn = document.getElementById('closed-modal-close-btn');
         
-            let currentEventName = '';
-        
             function openModal(eventName) {
                 if (isRegistrationOpen) {
-                    descriptionView.classList.add('is-visible');
-                    closedRegistrationView.classList.remove('is-visible');
+                    // Show the normal event details view
+                    descriptionView.style.display = 'block';
+                    closedRegistrationView.style.display = 'none';
         
                     if (!eventName) {
                         console.error("Event name is missing.");
@@ -651,10 +650,12 @@
                     const rulesHtml = details.rules.map(rule => `<li>${rule}</li>`).join('');
                     descriptionContent.innerHTML = `<h3>Overview</h3><p>${details.overview}</p><h3>Rules & Regulations</h3><ul>${rulesHtml}</ul>`;
                 } else {
-                    descriptionView.classList.remove('is-visible');
-                    closedRegistrationView.classList.add('is-visible');
+                    // Show the "Registration Closed" view
+                    descriptionView.style.display = 'none';
+                    closedRegistrationView.style.display = 'block';
                 }
         
+                // Always show the modal overlay, regardless of which view is active
                 modalOverlay.classList.add('is-visible');
                 document.body.style.overflow = 'hidden';
             }
@@ -690,7 +691,6 @@
             });
             
             function redirectToGoogleForm() {
-                // This function is now disabled since registration is closed.
                 alert('Registration is closed. Please refer to the notice for details.');
             }
             
