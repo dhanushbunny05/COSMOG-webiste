@@ -217,3 +217,43 @@
     right: 15px;
     /* other styles... */
 }
+.announcement-banner {
+    background: linear-gradient(135deg, rgba(var(--cosmic-purple-rgb), 0.2), rgba(var(--cosmic-cyan-rgb), 0.1));
+    border: 1px solid rgba(var(--cosmic-purple-rgb), 0.5);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    color: var(--foreground);
+    text-align: center;
+    box-shadow: 0 0 15px rgba(var(--cosmic-purple-rgb), 0.2);
+}
+
+.announcement-banner h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--cosmic-cyan);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.announcement-banner p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.announcement-banner ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    text-align: left;
+    display: inline-block; /* Center the list */
+}
+
+.announcement-banner li {
+    background: rgba(var(--cosmic-purple-rgb), 0.1);
+    border-left: 3px solid var(--cosmic-purple);
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--muted-foreground);
+}
