@@ -1,128 +1,724 @@
-document.addEventListener('DOMContentLoaded', () => {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Schedule - COSMOG 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* COSMOG 2025 - Registration Modal & Form Styles (Simplified for Google Forms) */
 
-    // --- Configuration ---
-    // Setting this to 'false' will display the "Registration Closed" message for all events.
-    const isRegistrationOpen = false;
+        :root {
+            --cosmic-purple-rgb: 138, 43, 226;
+            --cosmic-cyan-rgb: 0, 191, 255;
+            --cosmic-purple: rgb(var(--cosmic-purple-rgb));
+            --cosmic-cyan: rgb(var(--cosmic-cyan-rgb));
+            --foreground: #f3f4f6;
+            --muted-foreground: #d1d5db;
+            --shadow-glow: 0 0 10px rgba(var(--cosmic-cyan-rgb), 0.5), 0 0 20px rgba(var(--cosmic-purple-rgb), 0.5);
+            --cosmic-pink: #ff69b4;
+        }
 
-    // IMPORTANT: THESE LINKS ARE DISABLED BECAUSE REGISTRATIONS ARE CLOSED.
-    const googleFormLinks = {};
+        /* Your original styles.css would go here */
+        /* Since I don't have that file, I'll only include the registration-styles.css */
+        
+        /* --- Modal Overlay & Container --- */
+        .registration-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px) saturate(120%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+            padding: 1rem;
+        }
 
-    // Descriptions for the "Learn More" section of each event.
-    const eventDetails = {
-        "Web Craft": {
-            overview: "Web Craft is a creative and technical event designed to test participants’ ability to effectively leverage AI platforms for web development. The focus is on prompting skills, creativity, and efficiency in using AI tools to build a frontend website within the given time frame.<br><br>On the day of the event, a surprise theme will be announced. Participants must then use AI platforms to design and develop a website that reflects the theme. Collaboration among team members is encouraged to brainstorm ideas and finalize the design.",
-            rules: ["Participants must bring their own laptops, mobile devices, internet connections (hotspot/dongle), and required cables or chargers.", "The organizing team will not provide technical equipment.", "The website must be created using only two AI platforms/tools. One of these will be mandatorily suggested by the Event Head.", "The suggested AI platform will have a limited number of prompts; participants must use them wisely.", "A team may consist of 1 to 4 members.", "Only registered participants are allowed to work on the project; no external help is permitted.", "Evaluation is based on Creativity, Effective Use of AI, Design & UX, and Team Collaboration."]
-        },
-        "Art Attack": {
-            overview: "Get ready for Art Attack, a 45-minute on-the-spot art competition where your creativity and speed will be put to the test!<br><br> At the start of the event, all participants will be given an A4 sheet and a secret theme. Using your own supplies, you'll have just 45 minutes to bring your most creative ideas to life.<br><br>Our judges will be looking for originality, creativity, theme interpretation, and technical skill. Two winners will be chosen to receive an exciting cash prize!",
-            rules: ["Bring Your Supplies: Artists must bring their own drawing and painting materials. Only the A4 paper will be provided.", "Time Limit: The competition is strictly 45 minutes. Late submissions will not be accepted.", "Original Work Only: All artwork must be created on the spot. Any form of copying or using pre-made work will lead to immediate disqualification.", "No Electronic Devices: The use of mobile phones or any other electronic devices is strictly prohibited during the competition.", "Fair Play: All participants are expected to maintain discipline and respect their fellow contestants to ensure a fair and fun competition for everyone."]
-        },
-        "TreQueza": {
-            overview: "Trequeza is a fun-filled and intellectually stimulating quiz designed to entertain, challenge, and engage participants. It combines general knowledge, logical reasoning, and lateral thinking with a dose of excitement.This year, Trequeza is powered by Kahoot!, making the quiz more interactive and engaging with live questions, instant responses, and leaderboard tracking.<br><br> The quiz consists of multiple rounds covering topics like Movies, Sports, Mythology, Current Affairs, Puzzles, and Logical Reasoning. All rounds will be conducted through Kahoot, ensuring a fair, fast, and fun experience. Participants compete in real-time, with points awarded for both accuracy and speed.",
-            rules: ["Participants must bring their own smartphone/tablet with internet access.","Cheating or multiple logins are strictly prohibited.","The top scorers after all rounds will be declared winners."]
-        },
-        "Capture and Creative": {
-            overview: "capture and create is an exciting team based event where creativity meets storytelling. Participants will be given 45 minutes to explore the campus and capture the fresh photos or video clips. After that, they will get one hour to edit their recorded content into a college promotional video. The final video should be minimum of 20 seconds to 60 seconds duration the event is designed to test participants, vision, editing skills, and ability to craft a compelling story within a short span of time",
-            rules: ["Fresh footage captured during the event is allowed previously recorded clips or stock footage will lead to disqualification", "Participant must use your phone device(mobile/ camera/ laptop) and editing tools.", "The content should be appropriate, respectful and align with the theme of promoting the college", "Creativity, storytelling, technical editing, and overall presentation will be the key judging criteria", "All final submissions must be made within the given time limit late entries will not be acceptable."]
-        },
-        "Mission Impossible": {
-            overview: "An exciting event where teams face thrilling challenges inspired by action movies. This event tests thinking, problem-solving, speed, and teamwork.<br><br><b>Round 1 – Memory Testing:</b> Teams have 1 minute to find all the differences between two nearly identical images.<br><br><b>Round 2 – Physical Challenge:</b> Each of the 4 team members performs a different task simultaneously: Bottle Flip, Balance & Build, Ball Drop, and Ball Tap Challenge.<br><br><b>Round 3 – Diffuse the Bomb:</b> Teams use clues and objects from multiple locations to find and defuse a 'bomb' at the final destination.",
-            rules: ["Team Size: 4 members.", "No mobile phones or AI may be used; violation will lead to immediate disqualification.", "Misusing permissions given by the crew during tasks will result in elimination.", "Cheating in any round leads to direct elimination.", "Only registered participants are allowed to take part in the event."]
-        },
-        "Game-On (BGMI)": {
-            overview: "Game-On brings the thrill of competitive gaming to campus! Gear up for intense battles in BGMI, where reflexes, strategy, and survival skills will decide the champions.<br><br><b>Event Format:</b> The event consists of a Qualification Round held in two slots, with the top 5 teams from each slot advancing. The 10 qualified teams will then compete in the Final Round for the Winner and Runner-up titles.<br><br><b>Participation:</b> Players can compete solo or in squads of up to 4 members.",
-            rules: ["This competition is for BGMI (Battlegrounds Mobile India) only.", "Participants must use their own mobile devices; no external devices will be provided.", "Both solo and squad formats have separate prize categories.", "A squad can have a maximum of 4 members.", "No substitutes are allowed once a match begins.", "Players must join the game lobby on time; late entries will not be allowed.", "Any form of cheating, hacking, or unfair play will result in disqualification."]
-        },
-        "Game-On (Free Fire)": {
-            overview: "Game-On brings the thrill of competitive gaming to campus! Gear up for intense battles in Free Fire, where reflexes, strategy, and survival skills will decide the champions.<br><br><b>Event Format:</b> The event consists of a Qualification Round held in two slots, with the top 5 teams from each slot advancing. The 10 qualified teams will then compete in the Final Round for the Winner and Runner-up titles.<br><br><b>Participation:</b> Players can compete solo or in squads of up to 4 members.",
-            rules: ["This competition is for Free Fire only.", "Participants must use their own mobile devices; no external devices will be provided.", "Both solo and squad formats have separate prize categories.", "A squad can have a maximum of 4 members.", "No substitutes are allowed once a match begins.", "Players must join the game lobby on time; late entries will not be allowed.", "Any form of cheating, hacking, or unfair play will result in disqualification."]
-        },
-        "Glam Jam": {
-            overview: "A day to shine! Glam Jam is a fun event exclusively for girls, designed to turn an ordinary college day into a memorable one.<br><br><b>Round 1 – Blindfolded Senses:</b> Blindfolded participants must find and identify various objects and food items using only their senses and instincts.<br><br><b>Round 2 – Whisper Challenge:</b> One teammate wears headphones with loud music while the other whispers a phrase. The teammate must guess the phrase by lip-reading.",
-            rules: ["Team Size: 2-4 members (Fee is per person).", "Fair Play: No peeking during the blindfolded game and no shouting answers during the Whisper Challenge.", "Team Spirit: Support your team and cheer for others.", "Follow Instructions: Listen carefully to the coordinators.", "Have Fun: Enjoy every moment!", "Eligibility: This event is strictly for girls only."]
-        },
-        "Cultural Carnival": {
-            overview: "Cultural Carnival is the perfect platform to showcase your talent and creativity! Participants can perform in multiple categories, and all students are welcome to enjoy the show and cheer for the performers.<br><br><b>Performance Categories:</b><br>&bull; Dance (Solo, Duo, or Group)<br>&bull; Singing (Solo or Duo)<br>&bull; Special Talents (Stand-up Comedy, Beatboxing, etc.)",
-            rules: ["This event is open to all students to perform and watch.", "Performers can participate in multiple categories.", "Creativity, originality, and stage presence will be appreciated and rewarded.", "The main goal is to celebrate talent, have fun, and create unforgettable memories!"]
-        },
-        "default": {
-            overview: "Welcome to one of the flagship events of COSMOG 2025! This is where your skills will be put to the ultimate test. Get ready for an exciting challenge that combines innovation, teamwork, and a healthy dose of competition.",
-            rules: ["All participants must be current students of St. Martin's Engineering College.", "Team size must adhere to the limits specified for this event.", "Participants must bring their own laptops and any required software unless stated otherwise.", "Any form of plagiarism or misconduct will result in immediate disqualification.", "The decision of the judges and event coordinators is final and binding.", "Please arrive at the venue at least 15 minutes before the scheduled start time."]
-        }
-    };
+        .registration-modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
 
-    // --- Modal Elements ---
-    const modalOverlay = document.getElementById('registration-modal-overlay');
-    const closeBtn = document.querySelector('.modal-close-btn');
-    const registerButtons = document.querySelectorAll('.event-register');
-    const learnMoreButtons = document.querySelectorAll('.event-learn-more');
-    const descriptionView = document.getElementById('description-view');
-    const closedRegistrationView = document.getElementById('closed-registration-view'); 
-    const continueToFormBtn = document.getElementById('continue-to-form-btn');
-    const eventNameDisplayDesc = document.getElementById('event-name-display-desc');
-    const descriptionContent = document.querySelector('#description-view .description-content');
+        .registration-modal {
+            background: linear-gradient(160deg, #100a1c, #0d0d1a);
+            border: 1px solid rgba(var(--cosmic-purple-rgb), 0.5);
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 25px rgba(var(--cosmic-purple-rgb), 0.3), 0 0 50px rgba(var(--cosmic-cyan-rgb), 0.2);
+            position: relative;
+            padding: 2.5rem;
+            color: var(--foreground);
+            transform: scale(0.8) translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
 
-    const closedModalCloseBtn = document.getElementById('closed-modal-close-btn'); 
+        .registration-modal-overlay.is-visible .registration-modal {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
 
-    let currentEventName = '';
+        /* --- Modal Header & Close Button --- */
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    function openModal(eventName) {
-        if (isRegistrationOpen) {
-            descriptionView.classList.add('is-visible');
-            closedRegistrationView.classList.remove('is-visible');
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
 
-            if (!eventName) {
-                console.error("Event name is missing.");
-                return;
-            }
-            currentEventName = eventName;
-            
-            eventNameDisplayDesc.textContent = eventName;
-            const details = eventDetails[eventName] || eventDetails.default;
-            const rulesHtml = details.rules.map(rule => `<li>${rule}</li>`).join('');
-            descriptionContent.innerHTML = `<h3>Overview</h3><p>${details.overview}</p><h3>Rules & Regulations</h3><ul>${rulesHtml}</ul>`;
-        } else {
-            descriptionView.classList.remove('is-visible');
-            closedRegistrationView.classList.add('is-visible');
-        }
+        #event-name-display-desc {
+            color: var(--cosmic-cyan);
+            font-weight: 700;
+        }
 
-        modalOverlay.classList.add('is-visible');
-        document.body.style.overflow = 'hidden';
-    }
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--muted-foreground);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
 
-    function closeModal() {
-        modalOverlay.classList.remove('is-visible');
-        document.body.style.overflow = '';
-    }
+        .modal-close-btn:hover {
+            color: var(--cosmic-pink);
+            transform: rotate(90deg);
+        }
 
-    // --- Event Listeners ---
-    registerButtons.forEach(button => button.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName);
-    }));
+        /* --- Modal Views --- */
+        .modal-view {
+            display: none;
+        }
 
-    learnMoreButtons.forEach(button => button.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal(e.currentTarget.dataset.eventName);
-    }));
+        .modal-view.is-visible {
+            display: block;
+        }
 
-    continueToFormBtn.addEventListener('click', redirectToGoogleForm);
+        /* --- Description View Styles --- */
+        #description-view {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
 
-    closeBtn.addEventListener('click', closeModal);
-    if(closedModalCloseBtn) {
-        closedModalCloseBtn.addEventListener('click', closeModal);
-    }
+        .description-content {
+            margin-bottom: 2rem;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+            color: var(--muted-foreground);
+        }
 
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-    });
+        .description-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .description-content::-webkit-scrollbar-track {
+            background: rgba(var(--cosmic-purple-rgb), 0.1);
+            border-radius: 10px;
+        }
+        .description-content::-webkit-scrollbar-thumb {
+            background: rgba(var(--cosmic-cyan-rgb), 0.5);
+            border-radius: 10px;
+        }
+        .description-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(var(--cosmic-cyan-rgb), 0.8);
+        }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalOverlay.classList.contains('is-visible')) closeModal();
-    });
-    
-    function redirectToGoogleForm() {
-        // This function is now disabled since registration is closed.
-        alert('Registration is closed. Please refer to the notice for details.');
-    }
-});
+        .description-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cosmic-cyan);
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(var(--cosmic-cyan-rgb), 0.3);
+        }
+
+        .description-content p {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .description-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .description-content ul li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+
+        .description-content ul li::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: var(--cosmic-purple);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Continue Button --- */
+        #continue-to-form-btn, .submit-btn {
+            background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+            color: white;
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        #continue-to-form-btn:hover, .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* --- NEW STYLES FOR BUTTONS --- */
+        .event-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+
+        .event-learn-more {
+            flex-grow: 1;
+            background: transparent;
+            border: 1px solid var(--cosmic-purple);
+            color: var(--cosmic-purple);
+            font-weight: 700;
+            padding: 0.7rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .event-learn-more:hover {
+            background-color: rgba(138, 43, 226, 0.2);
+            color: var(--cosmic-cyan);
+            border-color: var(--cosmic-cyan);
+        }
+
+        .event-register {
+            flex-grow: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-spy"><img src="logo.png" alt="COSMOG 2025 Logo"></div>
+                </a>
+                <div class="desktop-nav">
+                    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="events.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> Events</a>
+                    <a href="organizers.html" class="nav-link"><i class="fas fa-users"></i> Team</a>
+                    <a href="gallery.html" class="nav-link"><i class="fas fa-images"></i> Gallery</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="#" class="register-btn">Register Now</a>
+                    <button class="mobile-menu-btn" aria-expanded="false" aria-label="Toggle mobile menu"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+            <div class="mobile-nav">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a>
+                <a href="organizers.html" class="nav-link"><i class="fas fa-users"></i> Team</a>
+                <a href="gallery.html" class="nav-link"><i class="fas fa-images"></i> Gallery</a>
+                <a href="#" class="register-btn">Register Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="events-section">
+            <div class="container">
+                <div class="events-header">
+                    <h1 class="events-title">COSMOG 2025 - Event Schedule</h1>
+                    <p class="events-subtitle">Journey through two cosmic days packed with exciting technical & non-technical events. Choose your challenge and register now!</p>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-progress-line"></div>
+                    <h2 class="day-heading" id="day1">Day 1 - Sept 15</h2>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-ribbon"></i></div>
+                                <span class="event-level advanced">Official</span>
+                            </div>
+                            <h3 class="event-title">Inauguration Ceremony</h3>
+                            <p class="event-desc">All the dignitaries will be present to inaugurate the event.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 10:00 AM - 11:00 AM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> Vivekananda Seminar Hall</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Lamp Lighting</span><small>Auspicious Start</small></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-code"></i></div>
+                                <span class="event-level creative">Technical</span>
+                            </div>
+                            <h3 class="event-title">Web Craft</h3>
+                            <p class="event-desc">A challenge where technology meets creativity! Participants will use the power of AI to design and build something unique.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 11:00 AM - 12:30 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Block</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>1-4</span><small>Team Size</small></div>
+                                <div class="highlight"><span>₹60</span><small>Per Entry</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="Web Craft">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="Web Craft">Register Now</a>
+                            </div>
+                            <span class="limited">Limited Seats Available</span>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-paint-brush"></i></div>
+                                <span class="event-level beginner">Creative</span>
+                            </div>
+                            <h3 class="event-title">Art Attack</h3>
+                            <p class="event-desc">Unleash your inner artist! A themed digital and traditional art competition where creativity knows no bounds.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 11:00 AM - 12:30 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i>SCB Block</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>Solo</span><small>Team Size</small></div>
+                                <div class="highlight"><span><h3>₹50</h3></span><small>Per Entry</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="Art Attack">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="Art Attack">Register Now</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-laugh-beam"></i></div>
+                                <span class="event-level fun">Fun</span>
+                            </div>
+                            <h3 class="event-title">TreQueza</h3>
+                            <p class="event-desc">Put your knowledge to the test! From movies to quiz questions, every round will challenge your mind and keep you on your toes.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 1:30 PM - 3:50 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> Vivekananda Seminar Hall</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>Solo</span><small>Team Size</small></div>
+                                <div class="highlight"><span>₹60</span><small>Entry Fee</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="TreQueza">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="TreQueza">Register Now</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-camera"></i></div>
+                                <span class="event-level creative">Creative</span>
+                            </div>
+                            <h3 class="event-title">Capture and Create</h3>
+                            <p class="event-desc">Capture, create, and amaze! Film the best moments around campus, edit with your unique touch, and craft a reel that tells a story.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 1:30 PM - 3:30 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Block</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>2</span><small>Team Size</small></div>
+                                <div class="highlight"><span>₹120</span><small>Per Team</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="Capture and Creative">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="Capture and Creative">Register Now</a>
+                            </div>
+                            <span class="limited">Limited Seats Available</span>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-gamepad"></i></div>
+                                <span class="event-level beginner">Beginner</span>
+                            </div>
+                            <h3 class="event-title">Mission Impossible</h3>
+                            <p class="event-desc">The ultimate test of wit, strength, and endurance! With thrilling treasure-hunt style rounds, this main event will push participants to their limits.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 15, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 2:00 PM - 3:50 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> Gaming Zone</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>4</span><small>Team Size</small></div>
+                                <div class="highlight"><span>₹240</span><small>Per Team</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="Mission Impossible">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="Mission Impossible">Register Now</a>
+                            </div>
+                        </article>
+                    </div>
+                    <h2 class="day-heading">Day 2 - Sept 16</h2>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-headset"></i></div>
+                                <span class="event-level advanced">Gaming</span>
+                            </div>
+                            <h3 class="event-title">Game-On</h3>
+                            <p class="event-desc">Choose your battleground! Compete in BGMI or Free Fire and prove your squad's supremacy.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 16, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 9:30 AM - 12:40 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Lab</div>
+                            </div>
+                            <div class="game-options">
+                                <div class="game-choice">
+                                    <h4>Game-On (BGMI)</h4>
+                                    <p>Fee: ₹240 per Team</p>
+                                    <div class="event-actions">
+                                        <button class="event-learn-more" data-event-name="Game-On (BGMI)">Learn More</button>
+                                        <a href="#" class="event-register" data-event-name="Game-On (BGMI)">Register</a>
+                                    </div>
+                                </div>
+                                <div class="game-choice">
+                                    <h4>Game-On (Free Fire)</h4>
+                                    <p>Fee: ₹200 per entry</p>
+                                    <div class="event-actions">
+                                        <button class="event-learn-more" data-event-name="Game-On (Free Fire)">Learn More</button>
+                                        <a href="#" class="event-register" data-event-name="Game-On (Free Fire)">Register</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="limited">Limited Seats Available</span>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-map-signs"></i></div>
+                                <span class="event-level fun">Fun</span>
+                            </div>
+                            <h3 class="event-title">Glam Jam</h3>
+                            <p class="event-desc">Embark on a cryptic journey across the campus. Solve mind-bending puzzles and follow clues to find the hidden cosmic treasure.</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 16, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 9:30 AM - 12:40 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Lab</div>
+                            </div>
+                            <div class="event-highlights">
+                                <div class="highlight"><span>Up to 10x</span><small>Prize Pool</small></div>
+                                <div class="highlight"><span>2-4 </span><small>Team Size</small></div>
+                                <div class="highlight"><span>₹60</span><small>Per Head</small></div>
+                            </div>
+                            <div class="event-actions">
+                                <button class="event-learn-more" data-event-name="Glam Jam">Learn More</button>
+                                <a href="#" class="event-register" data-event-name="Glam Jam">Register Now</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"></div>
+                        <article class="event-box">
+                            <div class="event-header">
+                                <div class="event-icon"><i class="fas fa-headset"></i></div>
+                                <span class="event-level advanced">Fun</span>
+                            </div>
+                            <h3 class="event-title">Cultural Carnival</h3>
+                            <p class="event-desc">A stage for every hidden talent singing, dancing, instruments, or skits. Light up the floor with your performance!</p>
+                            <div class="event-info-grid">
+                                <div class="info-item"><i class="fas fa-calendar"></i> Sep 16, 2025</div>
+                                <div class="info-item"><i class="fas fa-clock"></i> 1:30 PM - 3:50 PM</div>
+                                <div class="info-item"><i class="fas fa-map-marker-alt"></i> SCB Auditorium</div>
+                            </div>
+                            <div class="game-options">
+                                <div class="game-choice">
+                                    <h4>Particpants</h4>
+                                    <p>Fee: ₹60 per Performance</p>
+                                    <div class="event-actions">
+                                        <button class="event-learn-more" data-event-name="Cultural Carnival">Learn More</button>
+                                        <a href="#" class="event-register" data-event-name="Cultural Carnival Participants">Register</a>
+                                    </div>
+                                </div>
+                                <div class="game-choice">
+                                    <h4>Audience</h4>
+                                    <p>Fee: ₹60 per entry</p>
+                                    <div class="event-actions">
+                                        <button class="event-learn-more" data-event-name="Cultural Carnival">Learn More</button>
+                                        <a href="#" class="event-register" data-event-name="Cultural Carnival Audience">Register</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="limited">Limited Seats Available</span>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div class="registration-modal-overlay" id="registration-modal-overlay">
+        <div class="registration-modal" id="registration-modal">
+            <button class="modal-close-btn" aria-label="Close registration form">&times;</button>
+            
+            <div id="description-view" class="modal-view">
+                <div class="modal-header">
+                    <h2 class="modal-title">About <span id="event-name-display-desc">Event</span></h2>
+                </div>
+                <div class="description-content" id="description-content">
+                </div>
+                <button id="continue-to-form-btn" class="submit-btn">Continue to Register</button>
+            </div>
+
+            <div id="closed-registration-view" class="modal-view">
+                <div class="modal-header">
+                    <h2 class="modal-title">Registration Closed</h2>
+                </div>
+                <div class="description-content">
+                    <p>Thank you for your interest in participating in our events. We sincerely appreciate the enthusiastic response. At this time, <strong>registrations have officially closed</strong>. We regret any inconvenience this may cause. In case of any exceptional consideration, you may contact our team directly through our official Instagram account, <a href="https://www.instagram.com/cosmog_2k25" target="_blank">@Cosmog_2k25</a>.</p>
+                    <br>
+                    <h3>⚠️ Important Notice</h3>
+                    <p>Due to the college bandh on September 15th, the entire event schedule has been pushed back by one day. Please take note of the following changes:</p>
+                    <ul>
+                        <li>Events originally scheduled for <strong>September 15th</strong> will now take place on <strong>September 16th</strong>.</li>
+                        <li>Events originally scheduled for <strong>September 16th</strong> will now take place on <strong>September 17th</strong>.</li>
+                    </ul>
+                    <p>We kindly request all participants to note these updated dates. The venues and times for all events remain the same.</p>
+                </div>
+                <button id="closed-modal-close-btn" class="submit-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="enhanced-footer">
+        <div class="container">
+            <a href="#main-content" class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+            <div class="footer-main">
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-list">
+                        <li><a href="https://www.instagram.com/cosmog_2k25?utm_source=qr&igsh=MnF4MDlrMWg1OTNy" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="tel:+919553728635"><i class="fas fa-phone"></i> Phone</a></li>
+                        <li><a href="mailto:cosmogcsg@gmail.com"><i class="fas fa-envelope"></i>cosmogcsg@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 COSMOG - Computer Science & Design. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const isRegistrationOpen = false;
+
+            const googleFormLinks = {};
+
+            const eventDetails = {
+                "Web Craft": {
+                    overview: "Web Craft is a creative and technical event designed to test participants’ ability to effectively leverage AI platforms for web development. The focus is on prompting skills, creativity, and efficiency in using AI tools to build a frontend website within the given time frame.<br><br>On the day of the event, a surprise theme will be announced. Participants must then use AI platforms to design and develop a website that reflects the theme. Collaboration among team members is encouraged to brainstorm ideas and finalize the design.",
+                    rules: ["Participants must bring their own laptops, mobile devices, internet connections (hotspot/dongle), and required cables or chargers.", "The organizing team will not provide technical equipment.", "The website must be created using only two AI platforms/tools. One of these will be mandatorily suggested by the Event Head.", "The suggested AI platform will have a limited number of prompts; participants must use them wisely.", "A team may consist of 1 to 4 members.", "Only registered participants are allowed to work on the project; no external help is permitted.", "Evaluation is based on Creativity, Effective Use of AI, Design & UX, and Team Collaboration."]
+                },
+                "Art Attack": {
+                    overview: "Get ready for Art Attack, a 45-minute on-the-spot art competition where your creativity and speed will be put to the test!<br><br> At the start of the event, all participants will be given an A4 sheet and a secret theme. Using your own supplies, you'll have just 45 minutes to bring your most creative ideas to life.<br><br>Our judges will be looking for originality, creativity, theme interpretation, and technical skill. Two winners will be chosen to receive an exciting cash prize!",
+                    rules: ["Bring Your Supplies: Artists must bring their own drawing and painting materials. Only the A4 paper will be provided.", "Time Limit: The competition is strictly 45 minutes. Late submissions will not be accepted.", "Original Work Only: All artwork must be created on the spot. Any form of copying or using pre-made work will lead to immediate disqualification.", "No Electronic Devices: The use of mobile phones or any other electronic devices is strictly prohibited during the competition.", "Fair Play: All participants are expected to maintain discipline and respect their fellow contestants to ensure a fair and fun competition for everyone."]
+                },
+                "TreQueza": {
+                    overview: "Trequeza is a fun-filled and intellectually stimulating quiz designed to entertain, challenge, and engage participants. It combines general knowledge, logical reasoning, and lateral thinking with a dose of excitement.This year, Trequeza is powered by Kahoot!, making the quiz more interactive and engaging with live questions, instant responses, and leaderboard tracking.<br><br> The quiz consists of multiple rounds covering topics like Movies, Sports, Mythology, Current Affairs, Puzzles, and Logical Reasoning. All rounds will be conducted through Kahoot, ensuring a fair, fast, and fun experience. Participants compete in real-time, with points awarded for both accuracy and speed.",
+                    rules: ["Participants must bring their own smartphone/tablet with internet access.","Cheating or multiple logins are strictly prohibited.","The top scorers after all rounds will be declared winners."]
+                },
+                "Capture and Creative": {
+                    overview: "capture and create is an exciting team based event where creativity meets storytelling. Participants will be given 45 minutes to explore the campus and capture the fresh photos or video clips. After that, they will get one hour to edit their recorded content into a college promotional video. The final video should be minimum of 20 seconds to 60 seconds duration the event is designed to test participants, vision, editing skills, and ability to craft a compelling story within a short span of time",
+                    rules: ["Fresh footage captured during the event is allowed previously recorded clips or stock footage will lead to disqualification", "Participant must use your phone device(mobile/ camera/ laptop) and editing tools.", "The content should be appropriate, respectful and align with the theme of promoting the college", "Creativity, storytelling, technical editing, and overall presentation will be the key judging criteria", "All final submissions must be made within the given time limit late entries will not be acceptable."]
+                },
+                "Mission Impossible": {
+                    overview: "An exciting event where teams face thrilling challenges inspired by action movies. This event tests thinking, problem-solving, speed, and teamwork.<br><br><b>Round 1 – Memory Testing:</b> Teams have 1 minute to find all the differences between two nearly identical images.<br><br><b>Round 2 – Physical Challenge:</b> Each of the 4 team members performs a different task simultaneously: Bottle Flip, Balance & Build, Ball Drop, and Ball Tap Challenge.<br><br><b>Round 3 – Diffuse the Bomb:</b> Teams use clues and objects from multiple locations to find and defuse a 'bomb' at the final destination.",
+                    rules: ["Team Size: 4 members.", "No mobile phones or AI may be used; violation will lead to immediate disqualification.", "Misusing permissions given by the crew during tasks will result in elimination.", "Cheating in any round leads to direct elimination.", "Only registered participants are allowed to take part in the event."]
+                },
+                "Game-On (BGMI)": {
+                    overview: "Game-On brings the thrill of competitive gaming to campus! Gear up for intense battles in BGMI, where reflexes, strategy, and survival skills will decide the champions.<br><br><b>Event Format:</b> The event consists of a Qualification Round held in two slots, with the top 5 teams from each slot advancing. The 10 qualified teams will then compete in the Final Round for the Winner and Runner-up titles.<br><br><b>Participation:</b> Players can compete solo or in squads of up to 4 members.",
+                    rules: ["This competition is for BGMI (Battlegrounds Mobile India) only.", "Participants must use their own mobile devices; no external devices will be provided.", "Both solo and squad formats have separate prize categories.", "A squad can have a maximum of 4 members.", "No substitutes are allowed once a match begins.", "Players must join the game lobby on time; late entries will not be allowed.", "Any form of cheating, hacking, or unfair play will result in disqualification."]
+                },
+                "Game-On (Free Fire)": {
+                    overview: "Game-On brings the thrill of competitive gaming to campus! Gear up for intense battles in Free Fire, where reflexes, strategy, and survival skills will decide the champions.<br><br><b>Event Format:</b> The event consists of a Qualification Round held in two slots, with the top 5 teams from each slot advancing. The 10 qualified teams will then compete in the Final Round for the Winner and Runner-up titles.<br><br><b>Participation:</b> Players can compete solo or in squads of up to 4 members.",
+                    rules: ["This competition is for Free Fire only.", "Participants must use their own mobile devices; no external devices will be provided.", "Both solo and squad formats have separate prize categories.", "A squad can have a maximum of 4 members.", "No substitutes are allowed once a match begins.", "Players must join the game lobby on time; late entries will not be allowed.", "Any form of cheating, hacking, or unfair play will result in disqualification."]
+                },
+                "Glam Jam": {
+                    overview: "A day to shine! Glam Jam is a fun event exclusively for girls, designed to turn an ordinary college day into a memorable one.<br><br><b>Round 1 – Blindfolded Senses:</b> Blindfolded participants must find and identify various objects and food items using only their senses and instincts.<br><br><b>Round 2 – Whisper Challenge:</b> One teammate wears headphones with loud music while the other whispers a phrase. The teammate must guess the phrase by lip-reading.",
+                    rules: ["Team Size: 2-4 members (Fee is per person).", "Fair Play: No peeking during the blindfolded game and no shouting answers during the Whisper Challenge.", "Team Spirit: Support your team and cheer for others.", "Follow Instructions: Listen carefully to the coordinators.", "Have Fun: Enjoy every moment!", "Eligibility: This event is strictly for girls only."]
+                },
+                "Cultural Carnival": {
+                    overview: "Cultural Carnival is the perfect platform to showcase your talent and creativity! Participants can perform in multiple categories, and all students are welcome to enjoy the show and cheer for the performers.<br><br><b>Performance Categories:</b><br>&bull; Dance (Solo, Duo, or Group)<br>&bull; Singing (Solo or Duo)<br>&bull; Special Talents (Stand-up Comedy, Beatboxing, etc.)",
+                    rules: ["This event is open to all students to perform and watch.", "Performers can participate in multiple categories.", "Creativity, originality, and stage presence will be appreciated and rewarded.", "The main goal is to celebrate talent, have fun, and create unforgettable memories!"]
+                },
+                "default": {
+                    overview: "Welcome to one of the flagship events of COSMOG 2025! This is where your skills will be put to the ultimate test. Get ready for an exciting challenge that combines innovation, teamwork, and a healthy dose of competition.",
+                    rules: ["All participants must be current students of St. Martin's Engineering College.", "Team size must adhere to the limits specified for this event.", "Participants must bring their own laptops and any required software unless stated otherwise.", "Any form of plagiarism or misconduct will result in immediate disqualification.", "The decision of the judges and event coordinators is final and binding.", "Please arrive at the venue at least 15 minutes before the scheduled start time."]
+                }
+            };
+        
+            const modalOverlay = document.getElementById('registration-modal-overlay');
+            const closeBtn = document.querySelector('.modal-close-btn');
+            const registerButtons = document.querySelectorAll('.event-register, .register-btn'); // Select both buttons
+            const learnMoreButtons = document.querySelectorAll('.event-learn-more');
+            const descriptionView = document.getElementById('description-view');
+            const closedRegistrationView = document.getElementById('closed-registration-view');
+            const continueToFormBtn = document.getElementById('continue-to-form-btn');
+            const eventNameDisplayDesc = document.getElementById('event-name-display-desc');
+            const descriptionContent = document.querySelector('#description-view .description-content');
+            const closedModalCloseBtn = document.getElementById('closed-modal-close-btn');
+        
+            let currentEventName = '';
+        
+            function openModal(eventName) {
+                if (isRegistrationOpen) {
+                    descriptionView.classList.add('is-visible');
+                    closedRegistrationView.classList.remove('is-visible');
+        
+                    if (!eventName) {
+                        console.error("Event name is missing.");
+                        return;
+                    }
+                    currentEventName = eventName;
+                    
+                    eventNameDisplayDesc.textContent = eventName;
+                    const details = eventDetails[eventName] || eventDetails.default;
+                    const rulesHtml = details.rules.map(rule => `<li>${rule}</li>`).join('');
+                    descriptionContent.innerHTML = `<h3>Overview</h3><p>${details.overview}</p><h3>Rules & Regulations</h3><ul>${rulesHtml}</ul>`;
+                } else {
+                    descriptionView.classList.remove('is-visible');
+                    closedRegistrationView.classList.add('is-visible');
+                }
+        
+                modalOverlay.classList.add('is-visible');
+                document.body.style.overflow = 'hidden';
+            }
+        
+            function closeModal() {
+                modalOverlay.classList.remove('is-visible');
+                document.body.style.overflow = '';
+            }
+        
+            registerButtons.forEach(button => button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(e.currentTarget.dataset.eventName || 'Registration');
+            }));
+        
+            learnMoreButtons.forEach(button => button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(e.currentTarget.dataset.eventName);
+            }));
+        
+            continueToFormBtn.addEventListener('click', redirectToGoogleForm);
+        
+            closeBtn.addEventListener('click', closeModal);
+            if(closedModalCloseBtn) {
+                closedModalCloseBtn.addEventListener('click', closeModal);
+            }
+        
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+        
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('is-visible')) closeModal();
+            });
+            
+            function redirectToGoogleForm() {
+                // This function is now disabled since registration is closed.
+                alert('Registration is closed. Please refer to the notice for details.');
+            }
+            
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to(".timeline-progress-line", {
+                height: "100%",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".timeline-container",
+                    start: "top center",
+                    end: "bottom bottom",
+                    scrub: true,
+                },
+            });
+            const timelineItems = gsap.utils.toArray(".timeline-item");
+            timelineItems.forEach((item) => {
+                gsap.to(item, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            });
+        });
+    </script>
+</body>
+</html>
