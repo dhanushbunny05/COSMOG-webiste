@@ -1,82 +1,90 @@
+/* COSMOG 2025 - Registration Modal & Form Styles (Simplified for Google Forms) */
+
+:root {
+    --cosmic-purple-rgb: 138, 43, 226;
+    --cosmic-cyan-rgb: 0, 191, 255;
+}
+
 /* --- Modal Overlay & Container --- */
 .registration-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px) saturate(120%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
-    padding: 1rem;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px) saturate(120%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+    padding: 1rem;
 }
 
 .registration-modal-overlay.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
 }
 
 .registration-modal {
-    background: linear-gradient(160deg, #100a1c, #0d0d1a);
-    border: 1px solid rgba(var(--cosmic-purple-rgb), 0.5);
-    border-radius: 1rem;
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 0 25px rgba(var(--cosmic-purple-rgb), 0.3), 0 0 50px rgba(var(--cosmic-cyan-rgb), 0.2);
-    position: relative;
-    padding: 2.5rem;
-    color: var(--foreground);
-    transform: scale(0.8) translateY(20px);
-    opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    background: linear-gradient(160deg, #100a1c, #0d0d1a);
+    border: 1px solid rgba(var(--cosmic-purple-rgb), 0.5);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 0 25px rgba(var(--cosmic-purple-rgb), 0.3), 0 0 50px rgba(var(--cosmic-cyan-rgb), 0.2);
+    position: relative;
+    padding: 2.5rem;
+    color: var(--foreground);
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
 }
 
 .registration-modal-overlay.is-visible .registration-modal {
-    transform: scale(1) translateY(0);
-    opacity: 1;
+    transform: scale(1) translateY(0);
+    opacity: 1;
 }
+
 
 /* --- Modal Header & Close Button --- */
 .modal-header {
-    text-align: center;
-    margin-bottom: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .modal-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
 }
 
 #event-name-display-desc {
-    color: var(--cosmic-cyan);
-    font-weight: 700;
+    color: var(--cosmic-cyan);
+    font-weight: 700;
 }
 
 .modal-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: var(--muted-foreground);
-    font-size: 1.8rem;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: var(--muted-foreground);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .modal-close-btn:hover {
-    color: var(--cosmic-pink);
-    transform: rotate(90deg);
+    color: var(--cosmic-pink);
+    transform: rotate(90deg);
 }
 
 /* --- Modal Views --- */
@@ -90,116 +98,116 @@
 
 /* --- Description View Styles --- */
 #description-view {
-    display: flex;  
-    flex-direction: column;
-    text-align: left;
+    display: flex; 
+    flex-direction: column;
+    text-align: left;
 }
 
 .description-content {
-    margin-bottom: 2rem;
-    max-height: 50vh;  
-    overflow-y: auto;
-    padding-right: 1rem;  
-    color: var(--muted-foreground);
+    margin-bottom: 2rem;
+    max-height: 50vh; 
+    overflow-y: auto;
+    padding-right: 1rem; 
+    color: var(--muted-foreground);
 }
 
 .description-content::-webkit-scrollbar {
-    width: 8px;
+    width: 8px;
 }
 .description-content::-webkit-scrollbar-track {
-    background: rgba(var(--cosmic-purple-rgb), 0.1);
-    border-radius: 10px;
+    background: rgba(var(--cosmic-purple-rgb), 0.1);
+    border-radius: 10px;
 }
 .description-content::-webkit-scrollbar-thumb {
-    background: rgba(var(--cosmic-cyan-rgb), 0.5);
-    border-radius: 10px;
+    background: rgba(var(--cosmic-cyan-rgb), 0.5);
+    border-radius: 10px;
 }
 .description-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(var(--cosmic-cyan-rgb), 0.8);
+    background: rgba(var(--cosmic-cyan-rgb), 0.8);
 }
 
 .description-content h3 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--cosmic-cyan);
-    font-size: 1.2rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(var(--cosmic-cyan-rgb), 0.3);
+    font-family: 'Orbitron', sans-serif;
+    color: var(--cosmic-cyan);
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(var(--cosmic-cyan-rgb), 0.3);
 }
 
 .description-content p {
-    line-height: 1.7;
-    margin-bottom: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
 }
 
 .description-content ul {
-    list-style: none;
-    padding-left: 0;
+    list-style: none;
+    padding-left: 0;
 }
 
 .description-content ul li {
-    padding-left: 1.5rem;
-    position: relative;
-    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.75rem;
 }
 
 .description-content ul li::before {
-    content: '★'; /* Cosmic-themed bullet */
-    position: absolute;
-    left: 0;
-    color: var(--cosmic-purple);
-    font-size: 1rem;
-    line-height: 1.6;
+    content: '★'; /* Cosmic-themed bullet */
+    position: absolute;
+    left: 0;
+    color: var(--cosmic-purple);
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 /* --- Continue Button --- */
 #continue-to-form-btn, .submit-btn {
-    background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
-    color: white;
-    font-weight: 700;
-    padding: 0.8rem 1.5rem;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-    margin-top: 1rem;
+    background: linear-gradient(135deg, var(--cosmic-purple), var(--cosmic-cyan));
+    color: white;
+    font-weight: 700;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 #continue-to-form-btn:hover, .submit-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: var(--shadow-glow);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-glow);
 }
 
 /* --- NEW STYLES FOR BUTTONS --- */
 .event-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
-    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    align-items: center;
 }
 
 .event-learn-more {
-    flex-grow: 1;
-    background: transparent;
-    border: 1px solid var(--cosmic-purple);
-    color: var(--cosmic-purple);
-    font-weight: 700;
-    padding: 0.7rem 1.5rem;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    flex-grow: 1;
+    background: transparent;
+    border: 1px solid var(--cosmic-purple);
+    color: var(--cosmic-purple);
+    font-weight: 700;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .event-learn-more:hover {
-    background-color: rgba(138, 43, 226, 0.2);
-    color: var(--cosmic-cyan);
-    border-color: var(--cosmic-cyan);
+    background-color: rgba(138, 43, 226, 0.2);
+    color: var(--cosmic-cyan);
+    border-color: var(--cosmic-cyan);
 }
 
 .event-register {
-    flex-grow: 1;
-    text-align: center;
+    flex-grow: 1;
+    text-align: center;
 }
