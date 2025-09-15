@@ -314,22 +314,33 @@
       </div>
     </section>
   </main>
-  
-  <div class="registration-modal-overlay" id="registration-modal-overlay">
-    <div class="registration-modal" id="registration-modal">
-        <button class="modal-close-btn" aria-label="Close registration form">&times;</button>
-        
-        <div id="description-view">
-            <div class="modal-header">
-                <h2 class="modal-title">About <span id="event-name-display-desc">Event</span></h2>
-            </div>
-            <div class="description-content" id="description-content">
-                </div>
-            <button id="continue-to-form-btn" class="submit-btn">Continue to Register</button>
-        </div>
 
+  <div class="registration-modal-overlay" id="registration-modal-overlay">
+  <div class="registration-modal" id="registration-modal">
+    <button class="modal-close-btn" aria-label="Close registration form">&times;</button>
+    
+    <div id="description-view">
+        <div class="modal-header">
+            <h2 class="modal-title">About <span id="event-name-display-desc">Event</span></h2>
+        </div>
+        <div class="description-content" id="description-content">
+        </div>
+        <button id="continue-to-form-btn" class="submit-btn">Continue to Register</button>
+    </div>
+
+    <div id="closed-registration-view" class="modal-view">
+        <div class="modal-header">
+            <h2 class="modal-title">Registration Closed</h2>
+        </div>
+        <div class="description-content">
+            <p>We're sorry, but registration for all COSMOG 2025 events is now closed. Thank you for your interest!</p>
+            <p>Stay tuned to our social media for updates on future events.</p>
+        </div>
+        <button id="closed-modal-close-btn" class="submit-btn">Close</button>
     </div>
   </div>
+</div>
+  
 
   <footer class="enhanced-footer">
     <div class="container">
