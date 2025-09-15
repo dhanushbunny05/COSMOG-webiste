@@ -1,10 +1,3 @@
-/* COSMOG 2025 - Registration Modal & Form Styles (Simplified for Google Forms) */
-
-:root {
-    --cosmic-purple-rgb: 138, 43, 226;
-    --cosmic-cyan-rgb: 0, 191, 255;
-}
-
 /* --- Modal Overlay & Container --- */
 .registration-modal-overlay {
     position: fixed;
@@ -47,7 +40,6 @@
     opacity: 1;
 }
 
-
 /* --- Modal Header & Close Button --- */
 .modal-header {
     text-align: center;
@@ -87,18 +79,27 @@
     transform: rotate(90deg);
 }
 
+/* --- Modal Views --- */
+.modal-view {
+    display: none; /* Hide all views by default */
+}
+
+.modal-view.is-visible {
+    display: block; /* Show the active view */
+}
+
 /* --- Description View Styles --- */
 #description-view {
-    display: flex; 
+    display: flex;  
     flex-direction: column;
     text-align: left;
 }
 
 .description-content {
     margin-bottom: 2rem;
-    max-height: 50vh; 
+    max-height: 50vh;  
     overflow-y: auto;
-    padding-right: 1rem; 
+    padding-right: 1rem;  
     color: var(--muted-foreground);
 }
 
@@ -201,59 +202,4 @@
 .event-register {
     flex-grow: 1;
     text-align: center;
-}
-/* --- NEW STYLES for Modal Views --- */
-.modal-view {
-    display: none; /* Hide all views by default */
-}
-
-.modal-view.is-visible {
-    display: block; /* Show the active view */
-}
-
-/* Also, add a small margin to your close button to avoid overlap with the title */
-.modal-close-btn {
-    top: 15px;
-    right: 15px;
-    /* other styles... */
-}
-.announcement-banner {
-    background: linear-gradient(135deg, rgba(var(--cosmic-purple-rgb), 0.2), rgba(var(--cosmic-cyan-rgb), 0.1));
-    border: 1px solid rgba(var(--cosmic-purple-rgb), 0.5);
-    border-radius: 1rem;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 900px;
-    color: var(--foreground);
-    text-align: center;
-    box-shadow: 0 0 15px rgba(var(--cosmic-purple-rgb), 0.2);
-}
-
-.announcement-banner h3 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--cosmic-cyan);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-.announcement-banner p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.announcement-banner ul {
-    list-style: none;
-    padding: 0;
-    margin: 1.5rem 0;
-    text-align: left;
-    display: inline-block; /* Center the list */
-}
-
-.announcement-banner li {
-    background: rgba(var(--cosmic-purple-rgb), 0.1);
-    border-left: 3px solid var(--cosmic-purple);
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: 0.5rem;
-    color: var(--muted-foreground);
 }
